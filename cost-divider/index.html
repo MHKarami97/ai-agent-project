@@ -1,0 +1,28 @@
+﻿<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>تقسیم‌کننده هزینه گروهی</title>
+  <!-- Vazirmatn font (optional CDN) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div id="app" class="app-root"><div id="app-loading">درحال بارگذاری...</div></div>
+  <div id="app-error" role="alert"></div>
+
+  <script>
+    // Show runtime errors in the page (helpful when opening via file://)
+    function showError(message){
+      var el = document.getElementById('app-error');
+      el.style.display = 'block';
+      el.innerText = 'خطا: ' + message + '\n\nاگر خطا ادامه پیدا کند، لطفاً متن خطا را اینجا قرار دهید.';
+    }
+    window.addEventListener('error', function(ev){ showError(ev.message || String(ev.error)); });
+    window.addEventListener('unhandledrejection', function(ev){ showError('Promise rejection: ' + (ev.reason && ev.reason.message ? ev.reason.message : String(ev.reason))); });
+  </script>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>
