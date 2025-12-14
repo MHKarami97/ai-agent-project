@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیستم سوال و جواب داخلی</title>
+    <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+    <div id="app">
+        <nav class="navbar" role="navigation" aria-label="منوی اصلی">
+            <div class="container">
+                <a href="#/questions" class="logo" aria-label="صفحه اصلی">Q&A</a>
+                <div class="nav-links">
+                    <a href="#/questions" class="nav-link">سوالات</a>
+                    <a href="#/questions/new" class="nav-link">سوال جدید</a>
+                    <span id="user-info" class="user-info"></span>
+                    <button id="logout-btn" class="btn btn-secondary" style="display: none;">خروج</button>
+                </div>
+            </div>
+        </nav>
+        <main id="main-content" role="main"></main>
+        <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+    </div>
+    <script type="module" src="src/main.js"></script>
+</body>
+</html>
+

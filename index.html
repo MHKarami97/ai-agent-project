@@ -1,0 +1,228 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1"/>
+    <title>Links</title>
+
+    <style>
+        :root {
+            --bg0: #0b1020;
+            --bg1: #0f1730;
+            --card: rgba(255, 255, 255, .08);
+            --border: rgba(255, 255, 255, .14);
+            --text: rgba(255, 255, 255, .92);
+            --muted: rgba(255, 255, 255, .72);
+            --accent: #7c5cff;
+            --accent2: #2ee9a6;
+            --shadow: 0 20px 60px rgba(0, 0, 0, .45);
+            --radius: 18px;
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg0: #f6f7fb;
+                --bg1: #ffffff;
+                --card: rgba(0, 0, 0, .04);
+                --border: rgba(0, 0, 0, .10);
+                --text: rgba(0, 0, 0, .88);
+                --muted: rgba(0, 0, 0, .62);
+                --shadow: 0 16px 50px rgba(18, 24, 40, .14);
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100dvh;
+            color: var(--text);
+            font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            background: radial-gradient(900px 500px at 20% 10%, rgba(124, 92, 255, .35), transparent 60%),
+            radial-gradient(700px 450px at 85% 25%, rgba(46, 233, 166, .22), transparent 55%),
+            linear-gradient(180deg, var(--bg0), var(--bg1));
+            display: grid;
+            place-items: center;
+            padding: 28px 16px;
+        }
+
+        .wrap {
+            width: min(920px, 100%);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(20px, 2.5vw, 28px);
+            letter-spacing: .2px;
+        }
+
+        .hint {
+            margin: 0;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        nav {
+            padding: 8px;
+        }
+
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 10px;
+        }
+
+        a.link {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 14px;
+            border-radius: 14px;
+            text-decoration: none;
+            color: var(--text);
+            border: 1px solid transparent;
+            background: rgba(255, 255, 255, .06);
+            transition: transform .12s ease, background .12s ease, border-color .12s ease;
+        }
+
+        a.link:hover {
+            transform: translateY(-1px);
+            border-color: rgba(124, 92, 255, .35);
+            background: rgba(124, 92, 255, .12);
+        }
+
+        a.link:active {
+            transform: translateY(0);
+        }
+
+        a.link:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+        }
+
+        .title {
+            display: grid;
+            gap: 2px;
+        }
+
+        .name {
+            font-weight: 650;
+            letter-spacing: .15px;
+        }
+
+        .desc {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .chip {
+            font-size: 12px;
+            color: var(--text);
+            padding: 6px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, .16);
+            background: linear-gradient(90deg, rgba(124, 92, 255, .18), rgba(46, 233, 166, .14));
+            white-space: nowrap;
+        }
+
+        footer {
+            margin-top: 12px;
+            color: var(--muted);
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .kbd {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            padding: 2px 8px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, .05);
+            color: var(--text);
+        }
+    </style>
+</head>
+
+<body>
+<div class="wrap">
+    <header>
+        <h1>
+            Project
+            links</h1>
+        <p class="hint">
+            Projects
+            created
+            by
+            ai
+            agents</p>
+    </header>
+
+    <section
+            class="card"
+            aria-label="Links card">
+        <nav aria-label="Useful links">
+            <ul>
+                <li>
+                    <a class="link"
+                       href="/weather/index.html"
+                       target="_blank"
+                       rel="noopener noreferrer">
+              <span class="title">
+                <span class="name">Weather</span>
+                <span class="desc">weather of today</span>
+              </span>
+                        <span class="chip">Open</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a class="link"
+                       href="/question-answer/index.html"
+                       target="_blank"
+                       rel="noopener noreferrer">
+              <span class="title">
+                <span class="name">Question Answer</span>
+                <span class="desc">question and answer</span>
+              </span>
+                        <span class="chip">Open</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </section>
+
+    <footer>
+        <span>Tip: Use <span
+                class="kbd">Tab</span> to move focus and <span
+                class="kbd">Enter</span> to open</span>
+        <span>mhkarami97.ir</span>
+    </footer>
+</div>
+</body>
+</html>
