@@ -1,0 +1,1 @@
+﻿# Project created by ai agent like cursor

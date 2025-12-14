@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>وضعیت آب و هوا</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="weather-card">
+            <div class="search-section">
+                <input type="text" id="cityInput" placeholder="نام شهر را وارد کنید..." />
+                <button id="searchBtn">جستجو</button>
+            </div>
+            
+            <div class="weather-info" id="weatherInfo">
+                <div class="weather-icon">
+                    <img id="weatherIcon" src="" alt="آیکون آب و هوا" />
+                </div>
+                <h1 class="temperature" id="temperature">--</h1>
+                <h2 class="city-name" id="cityName">نام شهر</h2>
+                <p class="description" id="description">--</p>
+                
+                <div class="details">
+                    <div class="detail-item">
+                        <span class="detail-label">رطوبت</span>
+                        <span class="detail-value" id="humidity">--%</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">سرعت باد</span>
+                        <span class="detail-value" id="windSpeed">-- km/h</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="error-message" id="errorMessage" style="display: none;">
+                <p>خطا در دریافت اطلاعات آب و هوا. لطفاً دوباره تلاش کنید.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
+
