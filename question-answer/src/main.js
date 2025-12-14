@@ -1,236 +1,203 @@
+/**
+ * Main Application Entry Point
+ */
 import { Router } from './core/router.js';
 import { eventBus } from './core/eventBus.js';
-import { Toast } from './core/toast.js';
-import { IndexedDBClient } from './data/indexeddb.js';
-import { UserRepository } from './data/repositories/userRepository.js';
-import { QuestionRepository } from './data/repositories/questionRepository.js';
-import { AnswerRepository } from './data/repositories/answerRepository.js';
-import { VoteRepository } from './data/repositories/voteRepository.js';
-import { UserService } from './domain/services/userService.js';
-import { QuestionService } from './domain/services/questionService.js';
-import { AnswerService } from './domain/services/answerService.js';
-import { ExportImportService } from './data/exportImport.js';
+import { dbClient } from './data/indexeddb.js';
+import { seedDatabase } from './seed/seed.js';
 import { LoginView } from './ui/views/loginView.js';
 import { QuestionsListView } from './ui/views/questionsListView.js';
-import { QuestionDetailView } from './ui/views/questionDetailView.js';
 import { NewQuestionView } from './ui/views/newQuestionView.js';
+import { QuestionDetailView } from './ui/views/questionDetailView.js';
 import { AdminView } from './ui/views/adminView.js';
-import { DOM } from './core/dom.js';
-import { seedDatabase } from './seed/seed.js';
+import { UserService } from './domain/services/userService.js';
+import { toast } from './core/toast.js';
+import { $, hideElement, showElement, setTextContent } from './core/dom.js';
+import { logger } from './core/logger.js';
 
 class App {
     constructor() {
-        this.db = null;
-        this.router = null;
+        this.router = new Router();
         this.currentUser = null;
-        this.userService = null;
-        this.questionService = null;
-        this.answerService = null;
-        this.exportImportService = null;
+        this.userService = new UserService();
+        this.mainContent = $('#mainContent');
+        
+        // Initialize views
+        this.loginView = new LoginView(this.mainContent);
+        this.questionsListView = new QuestionsListView(this.mainContent);
+        this.newQuestionView = new NewQuestionView(this.mainContent);
+        this.questionDetailView = new QuestionDetailView(this.mainContent);
+        this.adminView = new AdminView(this.mainContent);
     }
 
     async init() {
         try {
-            // Initialize IndexedDB
-            this.db = new IndexedDBClient('QASystemDB', 1);
-            await this.db.open();
-
-            // Initialize repositories
-            const userRepo = new UserRepository(this.db);
-            const questionRepo = new QuestionRepository(this.db);
-            const answerRepo = new AnswerRepository(this.db);
-            const voteRepo = new VoteRepository(this.db);
-
-            // Initialize services
-            this.userService = new UserService(userRepo);
-            this.questionService = new QuestionService(questionRepo, answerRepo, voteRepo);
-            this.answerService = new AnswerService(answerRepo, voteRepo, questionRepo);
-            this.exportImportService = new ExportImportService(userRepo, questionRepo, answerRepo, voteRepo);
+            // Initialize database
+            await dbClient.init();
+            logger.info('Database initialized');
 
             // Seed database if empty
-            await seedDatabase(this.db);
+            await seedDatabase();
 
-            // Initialize router
-            this.router = new Router();
+            // Load current user from sessionStorage
+            this.loadUserFromSession();
+
+            // Setup router
             this.setupRoutes();
 
             // Setup event listeners
             this.setupEventListeners();
 
-            // Check for existing session
-            const savedUser = localStorage.getItem('currentUser');
-            if (savedUser) {
-                try {
-                    const userData = JSON.parse(savedUser);
-                    const result = await this.userService.getById(userData.id);
-                    if (result.isOk() && result.data) {
-                        this.setCurrentUser(result.data);
-                    }
-                } catch (error) {
-                    localStorage.removeItem('currentUser');
-                }
-            }
+            // Setup navigation
+            this.updateNavigation();
 
             // Handle initial route
             this.router.handleRoute();
         } catch (error) {
-            console.error('Error initializing app:', error);
-            Toast.error('خطا در راه‌اندازی برنامه');
+            logger.error('App initialization error:', error);
+            toast.error('خطا در راه‌اندازی برنامه');
         }
     }
 
     setupRoutes() {
-        this.router.register('/login', () => this.showLogin());
-        this.router.register('/questions', () => this.showQuestionsList());
-        this.router.register('/questions/new', () => this.showNewQuestion());
-        this.router.register('/questions/:id', (params) => this.showQuestionDetail(params));
-        this.router.register('/admin', () => this.showAdmin());
+        // Before route hook - check authentication
+        this.router.beforeEach(async (hash) => {
+            // Allow login page without authentication
+            if (hash === '/login' || hash.startsWith('/login')) {
+                return true;
+            }
+
+            // Check if user is logged in
+            if (!this.currentUser) {
+                this.router.navigate('/login');
+                return false;
+            }
+
+            return true;
+        });
+
+        // Routes
+        this.router.on('/login', () => {
+            this.loginView.render();
+        });
+
+        this.router.on('/questions', () => {
+            this.questionsListView.setCurrentUser(this.currentUser);
+            this.questionsListView.render();
+        });
+
+        this.router.on('/questions/new', () => {
+            this.newQuestionView.setCurrentUser(this.currentUser);
+            this.newQuestionView.render();
+        });
+
+        this.router.on('/questions/:id', (params) => {
+            this.questionDetailView.setCurrentUser(this.currentUser);
+            this.questionDetailView.render(parseInt(params.id));
+        });
+
+        this.router.on('/admin', () => {
+            this.adminView.setCurrentUser(this.currentUser);
+            this.adminView.render();
+        });
     }
 
     setupEventListeners() {
-        eventBus.on('user:logged-in', (user) => {
+        // User login event
+        eventBus.on('user:loggedIn', (user) => {
             this.setCurrentUser(user);
-            this.router.navigate('/questions');
         });
 
-        eventBus.on('user:logged-out', () => {
+        // User logout event
+        eventBus.on('user:loggedOut', () => {
             this.setCurrentUser(null);
             this.router.navigate('/login');
         });
 
-        eventBus.on('question:created', () => {
-            this.router.navigate('/questions');
-        });
-
-        eventBus.on('question:deleted', () => {
-            this.router.navigate('/questions');
-        });
-
-        eventBus.on('data:imported', () => {
-            this.router.navigate('/questions');
-        });
-
         // Logout button
-        const logoutBtn = DOM.$('#logout-btn');
+        const logoutBtn = $('#logoutBtn');
         if (logoutBtn) {
             logoutBtn.addEventListener('click', () => {
-                this.setCurrentUser(null);
+                this.logout();
             });
         }
+
+        // Data imported event
+        eventBus.on('data:imported', () => {
+            this.setCurrentUser(null);
+        });
     }
 
     setCurrentUser(user) {
         this.currentUser = user;
         if (user) {
-            localStorage.setItem('currentUser', JSON.stringify(user.toJSON()));
-            const userInfo = DOM.$('#user-info');
-            if (userInfo) {
-                userInfo.textContent = `${user.displayName} (${user.role})`;
-            }
-            const logoutBtn = DOM.$('#logout-btn');
-            if (logoutBtn) {
-                logoutBtn.style.display = 'block';
-            }
-            // Show admin link for admins
-            let adminLink = DOM.$('#admin-link');
-            if (user.isAdmin()) {
-                if (!adminLink) {
-                    const navLinks = DOM.$('.nav-links');
-                    if (navLinks) {
-                        adminLink = DOM.create('a', {
-                            href: '#/admin',
-                            className: 'nav-link',
-                            id: 'admin-link'
-                        }, 'مدیریت');
-                        navLinks.insertBefore(adminLink, navLinks.firstChild);
+            sessionStorage.setItem('currentUser', JSON.stringify({
+                id: user.id,
+                username: user.username
+            }));
+        } else {
+            sessionStorage.removeItem('currentUser');
+        }
+        this.updateNavigation();
+    }
+
+    loadUserFromSession() {
+        try {
+            const userData = sessionStorage.getItem('currentUser');
+            if (userData) {
+                const { id, username } = JSON.parse(userData);
+                // Load full user data
+                this.userService.getUserById(id).then(user => {
+                    if (user) {
+                        this.setCurrentUser(user);
                     }
+                }).catch(() => {
+                    // User not found, clear session
+                    sessionStorage.removeItem('currentUser');
+                });
+            }
+        } catch (error) {
+            logger.warn('Error loading user from session:', error);
+            sessionStorage.removeItem('currentUser');
+        }
+    }
+
+    updateNavigation() {
+        const userInfo = $('#userInfo');
+        const logoutBtn = $('#logoutBtn');
+        const adminLink = $('#adminLink');
+
+        if (this.currentUser) {
+            if (userInfo) {
+                setTextContent(userInfo, `کاربر: ${this.currentUser.displayName} (${this.currentUser.role})`);
+            }
+            if (logoutBtn) {
+                showElement(logoutBtn);
+            }
+            if (adminLink) {
+                if (this.currentUser.isAdmin()) {
+                    showElement(adminLink);
+                } else {
+                    hideElement(adminLink);
                 }
-                if (adminLink) adminLink.style.display = 'block';
-            } else {
-                if (adminLink) adminLink.style.display = 'none';
             }
         } else {
-            localStorage.removeItem('currentUser');
-            const userInfo = DOM.$('#user-info');
             if (userInfo) {
-                userInfo.textContent = '';
+                setTextContent(userInfo, '');
             }
-            const logoutBtn = DOM.$('#logout-btn');
             if (logoutBtn) {
-                logoutBtn.style.display = 'none';
+                hideElement(logoutBtn);
             }
-            const adminLink = DOM.$('#admin-link');
             if (adminLink) {
-                adminLink.style.display = 'none';
+                hideElement(adminLink);
             }
         }
     }
 
-    requireAuth() {
-        if (!this.currentUser) {
-            this.router.navigate('/login');
-            return false;
-        }
-        return true;
-    }
-
-    requireAdmin() {
-        if (!this.requireAuth()) return false;
-        if (!this.currentUser.isAdmin()) {
-            Toast.error('شما دسترسی به این بخش را ندارید');
-            this.router.navigate('/questions');
-            return false;
-        }
-        return true;
-    }
-
-    async showLogin() {
-        const mainContent = DOM.$('#main-content');
-        if (!mainContent) return;
-
-        const view = new LoginView(this.userService);
-        DOM.render(mainContent, view.render());
-    }
-
-    async showQuestionsList() {
-        const mainContent = DOM.$('#main-content');
-        if (!mainContent) return;
-
-        const view = new QuestionsListView(this.questionService, this.userService);
-        DOM.render(mainContent, await view.render());
-    }
-
-    async showNewQuestion() {
-        if (!this.requireAuth()) return;
-
-        const mainContent = DOM.$('#main-content');
-        if (!mainContent) return;
-
-        const view = new NewQuestionView(this.questionService, this.currentUser);
-        DOM.render(mainContent, view.render());
-    }
-
-    async showQuestionDetail(params) {
-        const mainContent = DOM.$('#main-content');
-        if (!mainContent) return;
-
-        const view = new QuestionDetailView(
-            this.questionService,
-            this.answerService,
-            this.userService,
-            this.currentUser
-        );
-        DOM.render(mainContent, await view.render(params));
-    }
-
-    async showAdmin() {
-        if (!this.requireAdmin()) return;
-
-        const mainContent = DOM.$('#main-content');
-        if (!mainContent) return;
-
-        const view = new AdminView(this.userService, this.db, this.exportImportService);
-        DOM.render(mainContent, await view.render());
+    logout() {
+        this.setCurrentUser(null);
+        toast.info('با موفقیت خارج شدید');
+        this.router.navigate('/login');
     }
 }
 
@@ -244,4 +211,3 @@ if (document.readyState === 'loading') {
     const app = new App();
     app.init();
 }
-

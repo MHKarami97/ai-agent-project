@@ -1,69 +1,73 @@
-import { DOM } from '../../core/dom.js';
+/**
+ * Login View
+ */
+import { createElement, clearElement, $ } from '../../core/dom.js';
+import { UserService } from '../../domain/services/userService.js';
+import { toast } from '../../core/toast.js';
+import { handleAsync, getErrorMessage } from '../../core/error.js';
 import { eventBus } from '../../core/eventBus.js';
-import { Toast } from '../../core/toast.js';
 
 export class LoginView {
-    constructor(userService) {
-        this.userService = userService;
+    constructor(container) {
+        this.container = container;
+        this.userService = new UserService();
     }
 
-    render() {
-        const container = DOM.create('div', { className: 'login-container' });
-        const card = DOM.create('div', { className: 'card' });
+    async render() {
+        clearElement(this.container);
 
-        const title = DOM.create('h1', { className: 'card-title' }, 'ورود به سیستم');
-        card.appendChild(title);
+        const form = createElement('div', { className: 'card', style: { maxWidth: '400px', margin: '2rem auto' } },
+            createElement('h2', { style: { marginBottom: '1.5rem', textAlign: 'center' } }, 'ورود به سیستم'),
+            createElement('form', {
+                onsubmit: (e) => this.handleSubmit(e)
+            },
+                createElement('div', { className: 'form-group' },
+                    createElement('label', { className: 'form-label', for: 'username' }, 'نام کاربری'),
+                    createElement('input', {
+                        type: 'text',
+                        id: 'username',
+                        className: 'form-input',
+                        required: true,
+                        autofocus: true,
+                        placeholder: 'نام کاربری خود را وارد کنید',
+                        'aria-label': 'نام کاربری'
+                    })
+                ),
+                createElement('button', {
+                    type: 'submit',
+                    className: 'btn btn-primary',
+                    style: { width: '100%' }
+                }, 'ورود')
+            )
+        );
 
-        const form = DOM.create('form', {
-            id: 'login-form',
-            'aria-label': 'فرم ورود'
-        });
+        this.container.appendChild(form);
+        
+        // Focus on input
+        setTimeout(() => {
+            const input = $('#username', this.container);
+            if (input) input.focus();
+        }, 100);
+    }
 
-        const usernameGroup = DOM.create('div', { className: 'form-group' });
-        const usernameLabel = DOM.create('label', {
-            className: 'form-label',
-            htmlFor: 'username'
-        }, 'نام کاربری');
-        const usernameInput = DOM.create('input', {
-            type: 'text',
-            id: 'username',
-            className: 'form-input',
-            required: true,
-            autocomplete: 'username',
-            'aria-required': 'true'
-        });
-        usernameGroup.appendChild(usernameLabel);
-        usernameGroup.appendChild(usernameInput);
-        form.appendChild(usernameGroup);
+    async handleSubmit(e) {
+        e.preventDefault();
+        const username = $('#username', this.container).value.trim();
 
-        const submitBtn = DOM.create('button', {
-            type: 'submit',
-            className: 'btn btn-primary',
-            style: 'width: 100%; margin-top: 1rem;'
-        }, 'ورود');
-        form.appendChild(submitBtn);
+        if (!username) {
+            toast.error('لطفاً نام کاربری را وارد کنید');
+            return;
+        }
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const username = usernameInput.value.trim();
-            if (!username) {
-                Toast.error('لطفاً نام کاربری را وارد کنید');
-                return;
-            }
-
-            const result = await this.userService.login(username);
-            if (result.isOk()) {
-                eventBus.emit('user:logged-in', result.data);
-                Toast.success('ورود موفقیت‌آمیز بود');
-            } else {
-                Toast.error(result.error.message || 'خطا در ورود');
-            }
-        });
-
-        card.appendChild(form);
-        container.appendChild(card);
-
-        return container;
+        const result = await handleAsync(() => this.userService.loginOrCreateUser(username));
+        
+        if (result.isOk()) {
+            const user = result.data;
+            eventBus.emit('user:loggedIn', user);
+            toast.success(`خوش آمدید ${user.displayName}`);
+            window.location.hash = '#/questions';
+        } else {
+            toast.error(getErrorMessage(result.error));
+        }
     }
 }
-

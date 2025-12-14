@@ -1,15 +1,14 @@
+/**
+ * User Model
+ */
 export class User {
     constructor(data) {
-        this.id = data.id || this.generateId();
+        this.id = data.id;
         this.username = data.username;
         this.displayName = data.displayName || data.username;
         this.role = data.role || 'Employee';
-        this.department = data.department || '';
+        this.department = data.department || null;
         this.createdAt = data.createdAt || new Date().toISOString();
-    }
-
-    generateId() {
-        return `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     }
 
     isAdmin() {
@@ -20,27 +19,19 @@ export class User {
         return this.role === 'Moderator' || this.role === 'Admin';
     }
 
+    isEmployee() {
+        return this.role === 'Employee';
+    }
+
     canEditQuestion(question) {
-        return question.authorId === this.id || this.isModerator();
+        return this.id === question.authorId || this.isModerator();
     }
 
     canEditAnswer(answer) {
-        return answer.authorId === this.id || this.isModerator();
+        return this.id === answer.authorId || this.isModerator();
     }
 
     canAcceptAnswer(question) {
-        return question.authorId === this.id || this.isModerator();
-    }
-
-    toJSON() {
-        return {
-            id: this.id,
-            username: this.username,
-            displayName: this.displayName,
-            role: this.role,
-            department: this.department,
-            createdAt: this.createdAt
-        };
+        return this.id === question.authorId || this.isModerator();
     }
 }
-

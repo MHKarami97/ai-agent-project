@@ -1,6 +1,6 @@
 // API Key - برای استفاده باید از OpenWeatherMap یک API Key دریافت کنید
 // رایگان است و می‌توانید از https://openweathermap.org/api دریافت کنید
-const API_KEY = 'YOUR_API_KEY_HERE';
+const API_KEY = '9a5302ccaa7cbe3d34c8bf2a5b3ba9d7';
 const API_URL = 'https://api.openweathermap.org/data/2.5/weather';
 
 // عناصر DOM

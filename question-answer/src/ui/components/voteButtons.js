@@ -1,28 +1,23 @@
-import { DOM } from '../../core/dom.js';
+/**
+ * Vote Buttons Component
+ */
+import { createElement } from '../../core/dom.js';
 
-export class VoteButtons {
-    static render(currentVote, score, onVote) {
-        const container = DOM.create('div', { className: 'vote-section' });
+export function createVoteButtons(targetId, targetType, votesScore, userVote, onVote) {
+    const upvoteClass = userVote && userVote.value === 1 ? 'active' : '';
+    const downvoteClass = userVote && userVote.value === -1 ? 'active' : '';
 
-        const upBtn = DOM.create('button', {
-            className: `vote-btn ${currentVote === 1 ? 'active' : ''}`,
-            'aria-label': 'رای مثبت'
-        }, '▲');
-        upBtn.addEventListener('click', () => onVote(1));
-
-        const scoreEl = DOM.create('span', { className: 'vote-score' }, score || 0);
-
-        const downBtn = DOM.create('button', {
-            className: `vote-btn ${currentVote === -1 ? 'active' : ''}`,
-            'aria-label': 'رای منفی'
-        }, '▼');
-        downBtn.addEventListener('click', () => onVote(-1));
-
-        container.appendChild(upBtn);
-        container.appendChild(scoreEl);
-        container.appendChild(downBtn);
-
-        return container;
-    }
+    return createElement('div', { className: 'vote-section' },
+        createElement('button', {
+            className: `vote-btn ${upvoteClass}`,
+            'aria-label': 'رای مثبت',
+            onclick: () => onVote && onVote(targetId, 1)
+        }, '▲'),
+        createElement('div', { className: 'vote-score' }, votesScore || 0),
+        createElement('button', {
+            className: `vote-btn ${downvoteClass}`,
+            'aria-label': 'رای منفی',
+            onclick: () => onVote && onVote(targetId, -1)
+        }, '▼')
+    );
 }
-

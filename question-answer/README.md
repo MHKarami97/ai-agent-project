@@ -1,24 +1,31 @@
 # سیستم سوال و جواب داخلی شرکت
 
-یک سیستم Q&A ساده و سبک برای استفاده داخلی شرکت، شبیه StackOverflow اما بدون نیاز به بک‌اند.
+یک وب‌اپلیکیشن سبک و کامل برای سیستم Q&A داخلی شرکت، مشابه StackOverflow اما ساده‌تر.
 
 ## ویژگی‌ها
 
 - ✅ احراز هویت ساده (بدون پسورد برای MVP)
-- ✅ مدیریت سوال‌ها با تگ، دپارتمان و سطح اهمیت
+- ✅ مدیریت سوال‌ها (ایجاد، ویرایش، حذف، جستجو، فیلتر)
 - ✅ سیستم پاسخ‌دهی و رای‌دهی
-- ✅ پذیرش پاسخ (Accept Answer)
-- ✅ ذخیره‌سازی محلی با IndexedDB
+- ✅ پذیرفتن پاسخ (Accept Answer)
+- ✅ مدیریت کاربران (برای Admin)
 - ✅ Export/Import داده‌ها به صورت JSON
-- ✅ رابط کاربری Responsive و قابل دسترس
-- ✅ پشتیبانی از Dark/Light Mode (آماده برای پیاده‌سازی)
+- ✅ طراحی Responsive و قابل دسترس
+- ✅ ذخیره‌سازی محلی با IndexedDB
 
 ## تکنولوژی‌ها
 
 - **HTML5** - ساختار صفحه
-- **CSS3** - استایل‌دهی با CSS Variables برای Theme Support
-- **Vanilla JavaScript (ES6+)** - منطق برنامه با ES Modules
-- **IndexedDB** - ذخیره‌سازی داده‌ها در مرورگر
+- **CSS3** - استایل‌دهی (Grid, Flexbox)
+- **Vanilla JavaScript (ES6+)** - منطق برنامه
+- **IndexedDB** - ذخیره‌سازی داده‌ها
+- **ES Modules** - ماژولار بودن کد
+
+**بدون استفاده از:**
+- ❌ هیچ فریمورک (React, Vue, Angular)
+- ❌ Build Tools (Webpack, Vite, etc.)
+- ❌ کتابخانه‌های خارجی (CDN)
+- ❌ Backend Server
 
 ## ساختار پروژه
 
@@ -29,46 +36,95 @@ question-answer/
 │   └── styles.css          # استایل‌های اصلی
 ├── src/
 │   ├── main.js             # نقطه ورود برنامه
-│   ├── core/               # لایه Core
-│   │   ├── router.js        # Router ساده (hash-based)
-│   │   ├── eventBus.js     # Event Bus برای ارتباط بین کامپوننت‌ها
-│   │   ├── dom.js          # Utilities برای کار با DOM
+│   ├── core/               # ماژول‌های پایه
+│   │   ├── router.js       # Router ساده (Hash-based)
+│   │   ├── eventBus.js     # Event Bus (Pub/Sub)
+│   │   ├── dom.js          # توابع کمکی DOM
 │   │   ├── validation.js   # اعتبارسنجی داده‌ها
-│   │   ├── error.js        # مدیریت خطا (AppError, Result)
-│   │   ├── logger.js       # Logger برای توسعه
-│   │   └── toast.js        # نمایش اعلان‌ها
-│   ├── data/               # لایه Data
+│   │   ├── error.js        # مدیریت خطا
+│   │   ├── logger.js        # سیستم لاگ
+│   │   ├── toast.js        # اعلان‌های Toast
+│   │   └── utils.js        # توابع کمکی
+│   ├── data/               # لایه داده
 │   │   ├── indexeddb.js    # کلاینت IndexedDB
-│   │   ├── exportImport.js # سرویس Export/Import
+│   │   ├── exportImport.js # Export/Import
 │   │   └── repositories/   # Repository Pattern
 │   │       ├── userRepository.js
 │   │       ├── questionRepository.js
 │   │       ├── answerRepository.js
 │   │       └── voteRepository.js
-│   ├── domain/             # لایه Domain
+│   ├── domain/             # لایه دامنه
 │   │   ├── models/         # مدل‌های دامنه
 │   │   │   ├── user.js
 │   │   │   ├── question.js
 │   │   │   ├── answer.js
 │   │   │   └── vote.js
-│   │   └── services/       # سرویس‌های کسب‌وکار
+│   │   └── services/       # سرویس‌های دامنه
 │   │       ├── userService.js
 │   │       ├── questionService.js
 │   │       └── answerService.js
-│   ├── ui/                  # لایه UI
-│   │   ├── components/      # کامپوننت‌های قابل استفاده مجدد
+│   ├── ui/                 # لایه رابط کاربری
+│   │   ├── components/     # کامپوننت‌های قابل استفاده مجدد
 │   │   │   ├── questionCard.js
 │   │   │   └── voteButtons.js
-│   │   └── views/           # View های صفحه
+│   │   └── views/          # View های صفحه
 │   │       ├── loginView.js
 │   │       ├── questionsListView.js
-│   │       ├── questionDetailView.js
 │   │       ├── newQuestionView.js
+│   │       ├── questionDetailView.js
 │   │       └── adminView.js
-│   └── seed/                # داده‌های اولیه
+│   └── seed/               # داده‌های اولیه
 │       ├── seedData.js
 │       └── seed.js
 └── README.md
+```
+
+## معماری
+
+سیستم از معماری لایه‌ای (Layered Architecture) استفاده می‌کند:
+
+```
+┌─────────────────────────────────────────┐
+│           UI Layer (Views)              │
+│  (Login, Questions, Admin, etc.)       │
+└──────────────┬──────────────────────────┘
+               │
+┌──────────────▼──────────────────────────┐
+│        Domain Services                  │
+│  (UserService, QuestionService, etc.)  │
+└──────────────┬──────────────────────────┘
+               │
+┌──────────────▼──────────────────────────┐
+│        Repositories                     │
+│  (UserRepo, QuestionRepo, etc.)         │
+└──────────────┬──────────────────────────┘
+               │
+┌──────────────▼──────────────────────────┐
+│        IndexedDB Client                 │
+│  (Database Operations)                  │
+└─────────────────────────────────────────┘
+```
+
+### دیاگرام جریان داده
+
+```mermaid
+graph TD
+    A[User Action] --> B[View Component]
+    B --> C[Domain Service]
+    C --> D[Repository]
+    D --> E[IndexedDB]
+    E --> D
+    D --> C
+    C --> B
+    B --> F[EventBus]
+    F --> B
+    B --> G[UI Update]
+    
+    style A fill:#e1f5ff
+    style B fill:#fff4e1
+    style C fill:#e8f5e9
+    style D fill:#f3e5f5
+    style E fill:#ffebee
 ```
 
 ## نحوه اجرا
@@ -76,208 +132,166 @@ question-answer/
 ### روش 1: باز کردن مستقیم فایل
 
 1. فایل `index.html` را در مرورگر باز کنید
-2. توجه: برخی مرورگرها به دلیل CORS ممکن است اجازه اجرای ES Modules را ندهند
+2. سیستم به صورت خودکار IndexedDB را راه‌اندازی می‌کند
 
 ### روش 2: استفاده از Static Server (توصیه می‌شود)
 
-#### با Python:
 ```bash
-# Python 3
+# با Python
 python -m http.server 8000
 
-# Python 2
-python -m SimpleHTTPServer 8000
-```
-
-#### با Node.js (http-server):
-```bash
+# با Node.js (http-server)
 npx http-server -p 8000
-```
 
-#### با PHP:
-```bash
+# با PHP
 php -S localhost:8000
 ```
 
-سپس در مرورگر به آدرس `http://localhost:8000` بروید.
+سپس به آدرس `http://localhost:8000` بروید.
+
+### برای GitHub Pages
+
+1. پروژه را در GitHub push کنید
+2. در Settings > Pages، branch اصلی را انتخاب کنید
+3. آدرس `https://username.github.io/repo-name` در دسترس خواهد بود
 
 ## کاربران پیش‌فرض (Seed Data)
 
-سیستم با کاربران زیر به صورت خودکار seed می‌شود:
+سیستم به صورت خودکار با داده‌های اولیه پر می‌شود:
 
-| نام کاربری | نام نمایشی | نقش | دپارتمان |
-|-----------|-----------|-----|----------|
-| admin | مدیر سیستم | Admin | IT |
-| moderator | ناظر | Moderator | IT |
-| employee1 | کارمند 1 | Employee | Sales |
-| employee2 | کارمند 2 | Employee | Marketing |
+| نام کاربری | نقش | دپارتمان |
+|-----------|-----|----------|
+| `admin` | Admin | IT |
+| `moderator1` | Moderator | HR |
+| `employee1` | Employee | Development |
 
-**نکته:** برای ورود، از نام کاربری استفاده کنید (بدون پسورد).
+**نکته:** برای ورود، فقط نام کاربری را وارد کنید (بدون پسورد).
 
-## معماری سیستم
+## صفحات و Route ها
 
-### لایه‌بندی (Layered Architecture)
+- `#/login` - صفحه ورود
+- `#/questions` - لیست سوال‌ها
+- `#/questions/new` - ایجاد سوال جدید
+- `#/questions/:id` - جزئیات سوال
+- `#/admin` - پنل مدیریت (فقط Admin)
 
-```
-┌─────────────────────────────────────┐
-│         UI Layer (Views)            │
-│  - Login, Questions, Admin Views   │
-└──────────────┬──────────────────────┘
-               │
-┌──────────────▼──────────────────────┐
-│      Domain Layer (Services)        │
-│  - UserService, QuestionService    │
-│  - Business Logic & Validation     │
-└──────────────┬──────────────────────┘
-               │
-┌──────────────▼──────────────────────┐
-│      Data Layer (Repositories)      │
-│  - UserRepo, QuestionRepo, etc.    │
-└──────────────┬──────────────────────┘
-               │
-┌──────────────▼──────────────────────┐
-│      IndexedDB (Storage)           │
-│  - users, questions, answers, votes │
-└─────────────────────────────────────┘
-```
+## قابلیت‌ها
 
-### الگوهای طراحی استفاده شده
+### مدیریت سوال‌ها
 
-1. **Repository Pattern**: جداسازی منطق دسترسی به داده
-2. **Service Layer**: منطق کسب‌وکار در سرویس‌ها
-3. **Event Bus**: ارتباط غیرمستقیم بین کامپوننت‌ها
-4. **Result Pattern**: مدیریت خطا و نتیجه عملیات
-5. **Component Pattern**: کامپوننت‌های قابل استفاده مجدد
+- ایجاد سوال با عنوان، متن، تگ‌ها، دپارتمان و سطح اهمیت
+- جستجو در عنوان سوال‌ها
+- فیلتر بر اساس تگ و دپارتمان
+- مرتب‌سازی (جدیدترین، قدیمی‌ترین، بیشترین/کمترین رای)
+- صفحه‌بندی (Pagination)
+- ویرایش و حذف (فقط نویسنده یا Moderator/Admin)
+
+### سیستم پاسخ‌دهی
+
+- افزودن پاسخ به سوال
+- رای مثبت/منفی روی پاسخ
+- پذیرفتن پاسخ (Accept Answer) - فقط نویسنده سوال یا Moderator/Admin
+- نمایش پاسخ پذیرفته شده در بالا
+
+### رای‌دهی
+
+- هر کاربر فقط یک‌بار می‌تواند به هر سوال/پاسخ رای دهد
+- امکان تغییر رای (Toggle)
+- نمایش امتیاز در UI
+
+### Export/Import
+
+- **Export:** خروجی تمام داده‌ها به فایل JSON
+- **Import:** وارد کردن داده‌ها از JSON با اعتبارسنجی schema
+- **حالت Import:** Replace All (جایگزینی کامل)
 
 ## محدودیت‌ها و فرض‌ها
 
 ### محدودیت‌های MVP
 
-1. **چندکاربره واقعی**: 
-   - داده‌ها فقط در مرورگر کاربر ذخیره می‌شوند
-   - برای انتقال داده بین سیستم‌ها از Export/Import استفاده کنید
-   - هر کاربر فقط داده‌های خودش را می‌بیند (در مرورگر خودش)
+1. **چندکاربره واقعی:** چون بک‌اند نداریم، سیستم چندکاربره واقعی/اشتراک‌گذاری بین کاربران مختلف به صورت کامل ممکن نیست. داده‌ها در مرورگر هر کاربر ذخیره می‌شود.
 
-2. **احراز هویت**: 
-   - بدون پسورد (فقط نام کاربری)
-   - مناسب برای محیط داخلی و قابل اعتماد
+2. **ذخیره‌سازی محلی:** تمام داده‌ها در IndexedDB مرورگر ذخیره می‌شوند و با پاک کردن cache مرورگر از بین می‌روند.
 
-3. **ذخیره‌سازی**: 
-   - فقط IndexedDB (محلی)
-   - با پاک کردن داده‌های مرورگر، داده‌ها از بین می‌روند
+3. **احراز هویت ساده:** برای MVP، فقط نام کاربری لازم است (بدون پسورد).
 
-### راه‌حل‌های پیشنهادی برای Production
+4. **Export/Import:** برای انتقال داده بین سیستم‌ها، از قابلیت Export/Import استفاده کنید.
 
-- استفاده از بک‌اند (REST API) برای ذخیره‌سازی مرکزی
-- احراز هویت واقعی (JWT, OAuth)
-- Real-time updates با WebSocket
-- پشتیبان‌گیری خودکار از داده‌ها
+### تصمیمات معماری
 
-## Export/Import
+1. **Hash-based Routing:** برای سازگاری با GitHub Pages و عدم نیاز به تنظیمات server-side
 
-### Export داده‌ها
+2. **Repository Pattern:** جداسازی منطق دسترسی به داده از منطق دامنه
 
-1. وارد پنل Admin شوید (فقط Admin)
-2. روی دکمه "خروجی JSON" کلیک کنید
-3. فایل JSON دانلود می‌شود
+3. **Service Layer:** قرار دادن قوانین کسب‌وکار در لایه Service
 
-### Import داده‌ها
+4. **Event Bus:** ارتباط loose coupling بین کامپوننت‌ها
 
-1. وارد پنل Admin شوید
-2. روی دکمه "وارد کردن JSON" کلیک کنید
-3. فایل JSON را انتخاب کنید
-4. یکی از دو حالت را انتخاب کنید:
-   - **Replace**: جایگزین کردن تمام داده‌های موجود
-   - **Merge**: ادغام با داده‌های موجود
+5. **Result Pattern:** مدیریت خطا به صورت ساختاریافته
 
-**نکته:** فایل JSON باید schema معتبر داشته باشد (نسخه 1.0.0).
+## امنیت (Frontend)
 
-## Route ها
+- استفاده از `textContent` به جای `innerHTML` برای جلوگیری از XSS
+- اعتبارسنجی ورودی کاربر در لایه Validation
+- Sanitization تگ‌ها و ورودی‌ها
 
-- `#/login` - صفحه ورود
-- `#/questions` - لیست سوالات
-- `#/questions/new` - ایجاد سوال جدید
-- `#/questions/:id` - جزئیات سوال
-- `#/admin` - پنل مدیریت (فقط Admin)
+## دسترسی‌پذیری (Accessibility)
 
-## دسترسی‌ها (Permissions)
-
-### Admin
-- تمام دسترسی‌های Moderator
-- مدیریت کاربران (CRUD)
-- پاک‌سازی دیتابیس
-- Export/Import داده‌ها
-
-### Moderator
-- تمام دسترسی‌های Employee
-- ویرایش/حذف سوالات و پاسخ‌های دیگران
-- پذیرش پاسخ برای هر سوالی
-
-### Employee
-- ایجاد سوال
-- پاسخ دادن به سوالات
-- رای دادن
-- ویرایش/حذف سوالات و پاسخ‌های خود
+- استفاده از `aria-label` برای کنترل‌های مهم
+- ناوبری با کیبورد
+- Focus state واضح
+- Semantic HTML
 
 ## Performance
 
-- **Pagination**: لیست سوالات به صورت صفحه‌بندی شده نمایش داده می‌شود
-- **Lazy Loading**: داده‌ها به صورت lazy load می‌شوند
-- **DOM Optimization**: تغییرات DOM به حداقل رسیده است
+- صفحه‌بندی برای لیست سوال‌ها
+- Lazy loading برای داده‌ها
+- بهینه‌سازی رندر DOM
 
-## Accessibility
+## توسعه و Debug
 
-- ناوبری با کیبورد
-- Focus states واضح
-- aria-label برای کنترل‌های مهم
-- Semantic HTML
-- Support برای Screen Readers
-
-## توسعه و تست
-
-### Logger
-
-برای فعال/غیرفعال کردن logging:
+برای فعال کردن لاگ‌های توسعه:
 
 ```javascript
-import { logger } from './src/core/logger.js';
+import { logger } from './core/logger.js';
 
-logger.enable();  // فعال
-logger.disable(); // غیرفعال
+logger.setLevel('DEBUG'); // یا 'INFO', 'WARN', 'ERROR'
+logger.enable();
 ```
 
-### افزودن Feature جدید
+## تست
 
-1. Model را در `src/domain/models/` تعریف کنید
-2. Repository را در `src/data/repositories/` ایجاد کنید
-3. Service را در `src/domain/services/` پیاده‌سازی کنید
-4. View را در `src/ui/views/` بسازید
-5. Route را در `src/main.js` ثبت کنید
+برای تست دستی:
 
-## عیب‌یابی
+1. ورود با کاربران مختلف
+2. ایجاد سوال و پاسخ
+3. رای‌دهی
+4. ویرایش و حذف
+5. Export/Import داده‌ها
+6. تست در مرورگرهای مختلف
 
-### مشکل: داده‌ها ذخیره نمی‌شوند
-- بررسی کنید که IndexedDB در مرورگر فعال است
-- Console را برای خطاها بررسی کنید
+## مرورگرهای پشتیبانی شده
 
-### مشکل: Seed Data نمایش داده نمی‌شود
-- Console را بررسی کنید
-- ممکن است دیتابیس قبلاً seed شده باشد (فقط یک بار seed می‌شود)
+- Chrome/Edge (جدید)
+- Firefox (جدید)
+- Safari (جدید)
 
-### مشکل: Export/Import کار نمی‌کند
-- مطمئن شوید که فایل JSON معتبر است
-- Schema version را بررسی کنید
+نیاز به پشتیبانی از:
+- ES6 Modules
+- IndexedDB
+- Async/Await
 
 ## مجوز
 
 این پروژه برای استفاده داخلی شرکت ساخته شده است.
 
-## پشتیبانی
+## نکات مهم
 
-برای سوالات و مشکلات، با تیم توسعه تماس بگیرید.
+- تمام کدها با Vanilla JavaScript نوشته شده‌اند
+- هیچ وابستگی خارجی وجود ندارد
+- پروژه آماده برای استقرار در GitHub Pages است
+- کدها ماژولار و قابل نگهداری هستند
 
 ---
 
-**نسخه:** 1.0.0  
-**تاریخ:** 2024
-
+**ساخته شده با ❤️ برای استفاده داخلی شرکت**

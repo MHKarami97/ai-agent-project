@@ -1,6 +1,27 @@
+/**
+ * Simple logger utility
+ */
+
+const LOG_LEVELS = {
+    DEBUG: 0,
+    INFO: 1,
+    WARN: 2,
+    ERROR: 3,
+    NONE: 4
+};
+
 class Logger {
     constructor() {
-        this.enabled = true;
+        this.level = LOG_LEVELS.INFO; // Default level
+        this.enabled = true; // Can be disabled via flag
+    }
+
+    setLevel(level) {
+        if (typeof level === 'string') {
+            this.level = LOG_LEVELS[level.toUpperCase()] || LOG_LEVELS.INFO;
+        } else {
+            this.level = level;
+        }
     }
 
     enable() {
@@ -11,43 +32,29 @@ class Logger {
         this.enabled = false;
     }
 
-    log(level, message, data = null) {
-        if (!this.enabled) return;
-
-        const timestamp = new Date().toISOString();
-        const logMessage = `[${timestamp}] [${level}] ${message}`;
-
-        switch (level) {
-            case 'ERROR':
-                console.error(logMessage, data || '');
-                break;
-            case 'WARN':
-                console.warn(logMessage, data || '');
-                break;
-            case 'INFO':
-                console.info(logMessage, data || '');
-                break;
-            default:
-                console.log(logMessage, data || '');
+    debug(...args) {
+        if (this.enabled && this.level <= LOG_LEVELS.DEBUG) {
+            console.debug('[DEBUG]', ...args);
         }
     }
 
-    error(message, data) {
-        this.log('ERROR', message, data);
+    info(...args) {
+        if (this.enabled && this.level <= LOG_LEVELS.INFO) {
+            console.info('[INFO]', ...args);
+        }
     }
 
-    warn(message, data) {
-        this.log('WARN', message, data);
+    warn(...args) {
+        if (this.enabled && this.level <= LOG_LEVELS.WARN) {
+            console.warn('[WARN]', ...args);
+        }
     }
 
-    info(message, data) {
-        this.log('INFO', message, data);
-    }
-
-    debug(message, data) {
-        this.log('DEBUG', message, data);
+    error(...args) {
+        if (this.enabled && this.level <= LOG_LEVELS.ERROR) {
+            console.error('[ERROR]', ...args);
+        }
     }
 }
 
 export const logger = new Logger();
-

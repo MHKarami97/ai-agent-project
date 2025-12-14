@@ -1,149 +1,158 @@
-import { DOM } from '../../core/dom.js';
-import { eventBus } from '../../core/eventBus.js';
-import { Toast } from '../../core/toast.js';
-import { Validator } from '../../core/validation.js';
+/**
+ * New Question View
+ */
+import { createElement, clearElement, $ } from '../../core/dom.js';
+import { QuestionService } from '../../domain/services/questionService.js';
+import { parseTags } from '../../core/utils.js';
+import { toast } from '../../core/toast.js';
+import { handleAsync, getErrorMessage } from '../../core/error.js';
+import { ValidationError } from '../../core/validation.js';
 
 export class NewQuestionView {
-    constructor(questionService, currentUser) {
-        this.questionService = questionService;
-        this.currentUser = currentUser;
+    constructor(container) {
+        this.container = container;
+        this.questionService = new QuestionService();
+        this.currentUser = null;
+    }
+
+    setCurrentUser(user) {
+        this.currentUser = user;
     }
 
     render() {
         if (!this.currentUser) {
-            return DOM.create('div', { className: 'empty-state' }, 'لطفاً ابتدا وارد شوید');
+            clearElement(this.container);
+            this.container.appendChild(createElement('div', { className: 'empty-state' }, 'لطفاً ابتدا وارد شوید'));
+            return;
         }
 
-        const container = DOM.create('div');
-        const card = DOM.create('div', { className: 'card' });
+        clearElement(this.container);
 
-        const title = DOM.create('h1', { className: 'card-title' }, 'سوال جدید');
-        card.appendChild(title);
+        const form = createElement('div', { className: 'card', style: { maxWidth: '800px', margin: '0 auto' } },
+            createElement('h2', { style: { marginBottom: '1.5rem' } }, 'سوال جدید'),
+            createElement('form', {
+                onsubmit: (e) => this.handleSubmit(e)
+            },
+                createElement('div', { className: 'form-group' },
+                    createElement('label', { className: 'form-label', for: 'title' }, 'عنوان سوال *'),
+                    createElement('input', {
+                        type: 'text',
+                        id: 'title',
+                        className: 'form-input',
+                        required: true,
+                        placeholder: 'عنوان سوال را وارد کنید',
+                        'aria-label': 'عنوان سوال'
+                    }),
+                    createElement('div', { className: 'form-error', id: 'titleError' })
+                ),
+                createElement('div', { className: 'form-group' },
+                    createElement('label', { className: 'form-label', for: 'body' }, 'متن سوال *'),
+                    createElement('textarea', {
+                        id: 'body',
+                        className: 'form-textarea',
+                        required: true,
+                        placeholder: 'متن سوال را وارد کنید',
+                        'aria-label': 'متن سوال'
+                    }),
+                    createElement('div', { className: 'form-error', id: 'bodyError' })
+                ),
+                createElement('div', { className: 'form-group' },
+                    createElement('label', { className: 'form-label', for: 'tags' }, 'تگ‌ها (حداکثر 5 تگ، با کاما جدا کنید)'),
+                    createElement('input', {
+                        type: 'text',
+                        id: 'tags',
+                        className: 'form-input',
+                        placeholder: 'مثال: javascript, react, frontend',
+                        'aria-label': 'تگ‌ها'
+                    }),
+                    createElement('div', { className: 'form-error', id: 'tagsError' })
+                ),
+                createElement('div', { className: 'form-group' },
+                    createElement('label', { className: 'form-label', for: 'department' }, 'دپارتمان (اختیاری)'),
+                    createElement('input', {
+                        type: 'text',
+                        id: 'department',
+                        className: 'form-input',
+                        placeholder: 'نام دپارتمان',
+                        'aria-label': 'دپارتمان'
+                    })
+                ),
+                createElement('div', { className: 'form-group' },
+                    createElement('label', { className: 'form-label', for: 'priority' }, 'سطح اهمیت'),
+                    createElement('select', {
+                        id: 'priority',
+                        className: 'form-select',
+                        'aria-label': 'سطح اهمیت'
+                    },
+                        createElement('option', { value: 'Low' }, 'کم'),
+                        createElement('option', { value: 'Medium', selected: true }, 'متوسط'),
+                        createElement('option', { value: 'High' }, 'زیاد')
+                    )
+                ),
+                createElement('div', { style: { display: 'flex', gap: '1rem', justifyContent: 'flex-end' } },
+                    createElement('button', {
+                        type: 'button',
+                        className: 'btn btn-secondary',
+                        onclick: () => {
+                            window.location.hash = '#/questions';
+                        }
+                    }, 'انصراف'),
+                    createElement('button', {
+                        type: 'submit',
+                        className: 'btn btn-primary'
+                    }, 'ایجاد سوال')
+                )
+            )
+        );
 
-        const form = DOM.create('form', {
-            id: 'new-question-form',
-            'aria-label': 'فرم سوال جدید'
+        this.container.appendChild(form);
+    }
+
+    async handleSubmit(e) {
+        e.preventDefault();
+        
+        // Clear previous errors
+        ['titleError', 'bodyError', 'tagsError'].forEach(id => {
+            const errorEl = $(`#${id}`, this.container);
+            if (errorEl) errorEl.textContent = '';
         });
 
-        const titleGroup = DOM.create('div', { className: 'form-group' });
-        const titleLabel = DOM.create('label', {
-            className: 'form-label',
-            htmlFor: 'question-title'
-        }, 'عنوان سوال:');
-        const titleInput = DOM.create('input', {
-            type: 'text',
-            id: 'question-title',
-            className: 'form-input',
-            required: true,
-            'aria-required': 'true'
-        });
-        titleGroup.appendChild(titleLabel);
-        titleGroup.appendChild(titleInput);
-        form.appendChild(titleGroup);
+        const title = $('#title', this.container).value.trim();
+        const body = $('#body', this.container).value.trim();
+        const tagsString = $('#tags', this.container).value.trim();
+        const department = $('#department', this.container).value.trim() || null;
+        const priority = $('#priority', this.container).value;
 
-        const bodyGroup = DOM.create('div', { className: 'form-group' });
-        const bodyLabel = DOM.create('label', {
-            className: 'form-label',
-            htmlFor: 'question-body'
-        }, 'متن سوال:');
-        const bodyTextarea = DOM.create('textarea', {
-            id: 'question-body',
-            className: 'form-textarea',
-            required: true,
-            'aria-required': 'true'
-        });
-        bodyGroup.appendChild(bodyLabel);
-        bodyGroup.appendChild(bodyTextarea);
-        form.appendChild(bodyGroup);
+        try {
+            const tags = parseTags(tagsString);
+            
+            const result = await handleAsync(() => 
+                this.questionService.createQuestion({
+                    title,
+                    body,
+                    tags,
+                    department,
+                    priority
+                }, this.currentUser.id)
+            );
 
-        const tagsGroup = DOM.create('div', { className: 'form-group' });
-        const tagsLabel = DOM.create('label', {
-            className: 'form-label',
-            htmlFor: 'question-tags'
-        }, 'تگ‌ها (با کاما جدا کنید، حداکثر 5 تگ):');
-        const tagsInput = DOM.create('input', {
-            type: 'text',
-            id: 'question-tags',
-            className: 'form-input',
-            placeholder: 'مثال: javascript, html, css'
-        });
-        tagsGroup.appendChild(tagsLabel);
-        tagsGroup.appendChild(tagsInput);
-        form.appendChild(tagsGroup);
-
-        const departmentGroup = DOM.create('div', { className: 'form-group' });
-        const departmentLabel = DOM.create('label', {
-            className: 'form-label',
-            htmlFor: 'question-department'
-        }, 'دپارتمان (اختیاری):');
-        const departmentInput = DOM.create('input', {
-            type: 'text',
-            id: 'question-department',
-            className: 'form-input'
-        });
-        departmentGroup.appendChild(departmentLabel);
-        departmentGroup.appendChild(departmentInput);
-        form.appendChild(departmentGroup);
-
-        const priorityGroup = DOM.create('div', { className: 'form-group' });
-        const priorityLabel = DOM.create('label', {
-            className: 'form-label',
-            htmlFor: 'question-priority'
-        }, 'سطح اهمیت:');
-        const prioritySelect = DOM.create('select', {
-            id: 'question-priority',
-            className: 'form-select'
-        });
-        prioritySelect.innerHTML = `
-            <option value="Low">کم</option>
-            <option value="Medium" selected>متوسط</option>
-            <option value="High">زیاد</option>
-        `;
-        priorityGroup.appendChild(priorityLabel);
-        priorityGroup.appendChild(prioritySelect);
-        form.appendChild(priorityGroup);
-
-        const submitBtn = DOM.create('button', {
-            type: 'submit',
-            className: 'btn btn-primary',
-            style: 'width: 100%;'
-        }, 'ثبت سوال');
-        form.appendChild(submitBtn);
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const tags = tagsInput.value.split(',').map(t => t.trim()).filter(t => t.length > 0);
-
-            const data = {
-                title: titleInput.value.trim(),
-                body: bodyTextarea.value.trim(),
-                tags,
-                department: departmentInput.value.trim() || undefined,
-                priority: prioritySelect.value,
-                authorId: this.currentUser.id
-            };
-
-            const validation = Validator.validateQuestion(data);
-            if (!validation.isValid) {
-                const firstError = Object.values(validation.errors)[0];
-                Toast.error(firstError);
-                return;
-            }
-
-            const result = await this.questionService.create(data);
             if (result.isOk()) {
-                Toast.success('سوال با موفقیت ثبت شد');
-                eventBus.emit('question:created', result.data);
+                toast.success('سوال با موفقیت ایجاد شد');
+                window.location.hash = `#/questions/${result.data.id}`;
             } else {
-                Toast.error(result.error.message || 'خطا در ثبت سوال');
+                if (result.error instanceof ValidationError) {
+                    const errorEl = $(`#${result.error.field}Error`, this.container);
+                    if (errorEl) {
+                        errorEl.textContent = result.error.message;
+                    } else {
+                        toast.error(result.error.message);
+                    }
+                } else {
+                    toast.error(getErrorMessage(result.error));
+                }
             }
-        });
-
-        card.appendChild(form);
-        container.appendChild(card);
-
-        return container;
+        } catch (error) {
+            toast.error(getErrorMessage(error));
+        }
     }
 }
-

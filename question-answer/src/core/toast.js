@@ -1,45 +1,79 @@
-import { DOM } from './dom.js';
+/**
+ * Toast notification system
+ */
+import { createElement, $ } from './dom.js';
 
-export class Toast {
-    static show(message, type = 'info', duration = 3000) {
-        const container = DOM.$('#toast-container');
-        if (!container) return;
+const TOAST_DURATION = 3000;
 
-        const toast = DOM.create('div', {
-            className: `toast ${type}`,
-            role: 'alert',
-            'aria-live': 'assertive'
-        });
+class ToastManager {
+    constructor() {
+        this.container = null;
+        this.init();
+    }
 
-        const messageEl = DOM.create('div', {
-            className: 'toast-message'
-        }, message);
+    init() {
+        this.container = $('#toastContainer');
+        if (!this.container) {
+            this.container = createElement('div', { id: 'toastContainer', className: 'toast-container' });
+            document.body.appendChild(this.container);
+        }
+    }
 
-        toast.appendChild(messageEl);
-        container.appendChild(toast);
+    /**
+     * Show a toast message
+     * @param {string} message - Toast message
+     * @param {string} type - Toast type (success, error, info)
+     * @param {number} duration - Duration in ms
+     */
+    show(message, type = 'info', duration = TOAST_DURATION) {
+        const toast = createElement('div', {
+            className: `toast toast-${type}`,
+            role: 'alert'
+        },
+            createElement('span', { className: 'toast-message' }, message),
+            createElement('button', {
+                className: 'toast-close',
+                'aria-label': 'بستن',
+                onclick: () => this.remove(toast)
+            }, '×')
+        );
 
-        setTimeout(() => {
+        this.container.appendChild(toast);
+
+        // Auto remove after duration
+        if (duration > 0) {
+            setTimeout(() => this.remove(toast), duration);
+        }
+
+        return toast;
+    }
+
+    /**
+     * Remove a toast
+     * @param {HTMLElement} toast - Toast element
+     */
+    remove(toast) {
+        if (toast && toast.parentNode) {
             toast.style.animation = 'slideOut 0.3s ease-out';
             setTimeout(() => {
-                DOM.remove(toast);
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
             }, 300);
-        }, duration);
+        }
     }
 
-    static success(message) {
-        this.show(message, 'success');
+    success(message, duration = TOAST_DURATION) {
+        return this.show(message, 'success', duration);
     }
 
-    static error(message) {
-        this.show(message, 'error');
+    error(message, duration = TOAST_DURATION) {
+        return this.show(message, 'error', duration);
     }
 
-    static warning(message) {
-        this.show(message, 'warning');
-    }
-
-    static info(message) {
-        this.show(message, 'info');
+    info(message, duration = TOAST_DURATION) {
+        return this.show(message, 'info', duration);
     }
 }
 
+export const toast = new ToastManager();

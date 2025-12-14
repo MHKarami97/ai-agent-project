@@ -1,51 +1,27 @@
+/**
+ * Question Model
+ */
 export class Question {
     constructor(data) {
-        this.id = data.id || this.generateId();
+        this.id = data.id;
         this.title = data.title;
         this.body = data.body;
         this.tags = data.tags || [];
-        this.department = data.department || '';
+        this.department = data.department || null;
         this.priority = data.priority || 'Medium';
         this.authorId = data.authorId;
         this.createdAt = data.createdAt || new Date().toISOString();
-        this.updatedAt = data.updatedAt || this.createdAt;
+        this.updatedAt = data.updatedAt || new Date().toISOString();
         this.votesScore = data.votesScore || 0;
         this.views = data.views || 0;
         this.acceptedAnswerId = data.acceptedAnswerId || null;
     }
 
-    generateId() {
-        return `question_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    hasAcceptedAnswer() {
+        return this.acceptedAnswerId !== null;
     }
 
-    incrementViews() {
-        this.views = (this.views || 0) + 1;
-    }
-
-    updateVoteScore(score) {
-        this.votesScore = score;
-    }
-
-    acceptAnswer(answerId) {
-        this.acceptedAnswerId = answerId;
-        this.updatedAt = new Date().toISOString();
-    }
-
-    toJSON() {
-        return {
-            id: this.id,
-            title: this.title,
-            body: this.body,
-            tags: this.tags,
-            department: this.department,
-            priority: this.priority,
-            authorId: this.authorId,
-            createdAt: this.createdAt,
-            updatedAt: this.updatedAt,
-            votesScore: this.votesScore,
-            views: this.views,
-            acceptedAnswerId: this.acceptedAnswerId
-        };
+    getPriorityClass() {
+        return `priority-${this.priority.toLowerCase()}`;
     }
 }
-

@@ -1,50 +1,101 @@
-import { seedData } from './seedData.js';
+/**
+ * Seed script to populate database with initial data
+ */
 import { UserRepository } from '../data/repositories/userRepository.js';
 import { QuestionRepository } from '../data/repositories/questionRepository.js';
 import { AnswerRepository } from '../data/repositories/answerRepository.js';
 import { VoteRepository } from '../data/repositories/voteRepository.js';
+import { seedUsers, seedQuestions, seedAnswers, seedVotes } from './seedData.js';
 import { logger } from '../core/logger.js';
 
-export async function seedDatabase(db) {
-    try {
-        const userRepo = new UserRepository(db);
-        const questionRepo = new QuestionRepository(db);
-        const answerRepo = new AnswerRepository(db);
-        const voteRepo = new VoteRepository(db);
+export async function seedDatabase() {
+    const userRepo = new UserRepository();
+    const questionRepo = new QuestionRepository();
+    const answerRepo = new AnswerRepository();
+    const voteRepo = new VoteRepository();
 
-        // Check if already seeded
-        const usersResult = await userRepo.getAll();
-        if (usersResult.isOk() && usersResult.data && usersResult.data.length > 0) {
-            logger.info('Database already seeded, skipping...');
-            return;
+    try {
+        // Check if data already exists
+        const existingUsers = await userRepo.findAll();
+        if (existingUsers.length > 0) {
+            logger.info('Database already has data, skipping seed');
+            return { seeded: false, message: 'Database already seeded' };
         }
 
-        logger.info('Seeding database...');
+        logger.info('Starting database seed...');
 
         // Seed users
-        for (const user of seedData.users) {
-            await userRepo.create(user);
+        const createdUsers = [];
+        for (const userData of seedUsers) {
+            const user = await userRepo.create(userData);
+            createdUsers.push(user);
+            logger.debug('User created:', user);
         }
 
-        // Seed questions
-        for (const question of seedData.questions) {
-            await questionRepo.create(question);
+        // Seed questions (need to map authorId to actual created user IDs)
+        const createdQuestions = [];
+        for (let i = 0; i < seedQuestions.length; i++) {
+            const qData = seedQuestions[i];
+            const authorIndex = qData.authorId - 1; // Convert 1-based to 0-based
+            const questionData = {
+                ...qData,
+                authorId: createdUsers[authorIndex].id
+            };
+            const question = await questionRepo.create(questionData);
+            createdQuestions.push(question);
+            logger.debug('Question created:', question);
         }
 
         // Seed answers
-        for (const answer of seedData.answers) {
-            await answerRepo.create(answer);
+        const createdAnswers = [];
+        for (let i = 0; i < seedAnswers.length; i++) {
+            const aData = seedAnswers[i];
+            const questionIndex = aData.questionId - 1;
+            const authorIndex = aData.authorId - 1;
+            const answerData = {
+                ...aData,
+                questionId: createdQuestions[questionIndex].id,
+                authorId: createdUsers[authorIndex].id
+            };
+            const answer = await answerRepo.create(answerData);
+            createdAnswers.push(answer);
+            logger.debug('Answer created:', answer);
         }
 
         // Seed votes
-        for (const vote of seedData.votes) {
-            await voteRepo.create(vote);
+        for (const voteData of seedVotes) {
+            const userIndex = voteData.userId - 1;
+            let targetId;
+            
+            if (voteData.targetType === 'question') {
+                const questionIndex = voteData.targetId - 1;
+                targetId = createdQuestions[questionIndex].id;
+            } else {
+                const answerIndex = voteData.targetId - 1;
+                targetId = createdAnswers[answerIndex].id;
+            }
+
+            const vote = {
+                userId: createdUsers[userIndex].id,
+                targetType: voteData.targetType,
+                targetId: targetId,
+                value: voteData.value
+            };
+
+            await voteRepo.upsert(vote);
+            logger.debug('Vote created:', vote);
         }
 
-        logger.info('Database seeded successfully');
+        logger.info('Database seed completed successfully');
+        return {
+            seeded: true,
+            users: createdUsers.length,
+            questions: createdQuestions.length,
+            answers: createdAnswers.length,
+            votes: seedVotes.length
+        };
     } catch (error) {
-        logger.error('Error seeding database', error);
+        logger.error('Seed error:', error);
         throw error;
     }
 }
-

@@ -1,143 +1,113 @@
-import { Answer } from '../models/answer.js';
+/**
+ * Answer Service
+ */
 import { AnswerRepository } from '../../data/repositories/answerRepository.js';
 import { VoteRepository } from '../../data/repositories/voteRepository.js';
-import { QuestionRepository } from '../../data/repositories/questionRepository.js';
-import { Result, AppError } from '../../core/error.js';
+import { Answer } from '../models/answer.js';
+import { validateAnswer } from '../../core/validation.js';
 import { logger } from '../../core/logger.js';
 
 export class AnswerService {
-    constructor(answerRepo, voteRepo, questionRepo) {
-        this.answerRepo = answerRepo;
-        this.voteRepo = voteRepo;
-        this.questionRepo = questionRepo;
+    constructor() {
+        this.answerRepo = new AnswerRepository();
+        this.voteRepo = new VoteRepository();
     }
 
-    getVoteRepo() {
-        return this.voteRepo;
+    /**
+     * Get answers for a question
+     * @param {number} questionId - Question ID
+     * @returns {Promise<Array<Answer>>}
+     */
+    async getAnswersByQuestionId(questionId) {
+        const answers = await this.answerRepo.findByQuestionId(questionId);
+        return answers.map(a => new Answer(a));
     }
 
-    async create(data) {
-        try {
-            // Verify question exists
-            const questionResult = await this.questionRepo.getById(data.questionId);
-            if (!questionResult.isOk() || !questionResult.data) {
-                return Result.fail(new AppError('سوال یافت نشد', 'QUESTION_NOT_FOUND'));
-            }
+    /**
+     * Get answer by ID
+     * @param {number} id - Answer ID
+     * @returns {Promise<Answer|null>}
+     */
+    async getAnswerById(id) {
+        const answer = await this.answerRepo.findById(id);
+        return answer ? new Answer(answer) : null;
+    }
 
-            const answer = new Answer(data);
-            const result = await this.answerRepo.create(answer);
-            return result;
-        } catch (error) {
-            logger.error('Error in answer service create', error);
-            return Result.fail(new AppError('خطا در ایجاد پاسخ', 'CREATE_ANSWER_ERROR'));
+    /**
+     * Create a new answer
+     * @param {Object} answerData - Answer data
+     * @param {number} authorId - Author ID
+     * @returns {Promise<Answer>}
+     */
+    async createAnswer(answerData, authorId) {
+        validateAnswer(answerData);
+        
+        const data = {
+            ...answerData,
+            authorId
+        };
+
+        const created = await this.answerRepo.create(data);
+        return new Answer(created);
+    }
+
+    /**
+     * Update answer
+     * @param {number} id - Answer ID
+     * @param {Object} updates - Update data
+     * @returns {Promise<Answer>}
+     */
+    async updateAnswer(id, updates) {
+        if (updates.body) {
+            validateAnswer(updates);
         }
+        const updated = await this.answerRepo.update(id, updates);
+        return new Answer(updated);
     }
 
-    async getByQuestionId(questionId) {
-        try {
-            const result = await this.answerRepo.getByQuestionId(questionId);
-            if (!result.isOk()) {
-                return result;
-            }
+    /**
+     * Delete answer
+     * @param {number} id - Answer ID
+     * @returns {Promise<void>}
+     */
+    async deleteAnswer(id) {
+        // Delete all votes for this answer
+        const votes = await this.voteRepo.findByTarget('answer', id);
+        await Promise.all(votes.map(v => this.voteRepo.delete(v.id)));
 
-            // Sort: accepted first, then by votes
-            const answers = result.data.sort((a, b) => {
-                // This will be handled in UI based on question.acceptedAnswerId
-                return b.votesScore - a.votesScore;
+        return this.answerRepo.delete(id);
+    }
+
+    /**
+     * Vote on an answer
+     * @param {number} answerId - Answer ID
+     * @param {number} userId - User ID
+     * @param {number} value - Vote value (1 or -1)
+     * @returns {Promise<Answer>}
+     */
+    async voteOnAnswer(answerId, userId, value) {
+        // Check if user already voted
+        const existingVote = await this.voteRepo.findByUserAndTarget(userId, 'answer', answerId);
+        
+        if (existingVote && existingVote.value === value) {
+            // Same vote - remove it (toggle)
+            await this.voteRepo.delete(existingVote.id);
+            value = 0; // No vote
+        } else {
+            // Create or update vote
+            await this.voteRepo.upsert({
+                userId,
+                targetType: 'answer',
+                targetId: answerId,
+                value
             });
-
-            return Result.ok(answers);
-        } catch (error) {
-            logger.error('Error in answer service getByQuestionId', error);
-            return Result.fail(new AppError('خطا در دریافت پاسخ‌ها', 'GET_ANSWERS_ERROR'));
         }
-    }
 
-    async update(id, data, user) {
-        try {
-            const answerResult = await this.answerRepo.getById(id);
-            if (!answerResult.isOk() || !answerResult.data) {
-                return Result.fail(new AppError('پاسخ یافت نشد', 'ANSWER_NOT_FOUND'));
-            }
+        // Recalculate votes score
+        const votes = await this.voteRepo.findByTarget('answer', answerId);
+        const votesScore = votes.reduce((sum, v) => sum + v.value, 0);
 
-            const answer = answerResult.data;
-            if (!user.canEditAnswer(answer)) {
-                return Result.fail(new AppError('شما اجازه ویرایش این پاسخ را ندارید', 'PERMISSION_DENIED'));
-            }
-
-            Object.assign(answer, data);
-            answer.updatedAt = new Date().toISOString();
-
-            return await this.answerRepo.update(answer);
-        } catch (error) {
-            logger.error('Error in answer service update', error);
-            return Result.fail(new AppError('خطا در به‌روزرسانی پاسخ', 'UPDATE_ANSWER_ERROR'));
-        }
-    }
-
-    async delete(id, user) {
-        try {
-            const answerResult = await this.answerRepo.getById(id);
-            if (!answerResult.isOk() || !answerResult.data) {
-                return Result.fail(new AppError('پاسخ یافت نشد', 'ANSWER_NOT_FOUND'));
-            }
-
-            const answer = answerResult.data;
-            if (!user.canEditAnswer(answer)) {
-                return Result.fail(new AppError('شما اجازه حذف این پاسخ را ندارید', 'PERMISSION_DENIED'));
-            }
-
-            return await this.answerRepo.delete(id);
-        } catch (error) {
-            logger.error('Error in answer service delete', error);
-            return Result.fail(new AppError('خطا در حذف پاسخ', 'DELETE_ANSWER_ERROR'));
-        }
-    }
-
-    async vote(answerId, userId, value) {
-        try {
-            const answerResult = await this.answerRepo.getById(answerId);
-            if (!answerResult.isOk() || !answerResult.data) {
-                return Result.fail(new AppError('پاسخ یافت نشد', 'ANSWER_NOT_FOUND'));
-            }
-
-            const existingVoteResult = await this.voteRepo.getByUserAndTarget(userId, 'answer', answerId);
-            let existingVote = existingVoteResult.isOk() ? existingVoteResult.data : null;
-
-            const answer = answerResult.data;
-            let currentScore = answer.votesScore || 0;
-
-            if (existingVote) {
-                if (existingVote.value === value) {
-                    // Remove vote
-                    await this.voteRepo.delete(existingVote.id);
-                    currentScore -= value;
-                } else {
-                    // Change vote
-                    existingVote.value = value;
-                    await this.voteRepo.create(existingVote);
-                    currentScore = currentScore - existingVote.value + value;
-                }
-            } else {
-                // New vote
-                const vote = {
-                    userId,
-                    targetType: 'answer',
-                    targetId: answerId,
-                    value
-                };
-                await this.voteRepo.create(vote);
-                currentScore += value;
-            }
-
-            answer.updateVoteScore(currentScore);
-            await this.answerRepo.update(answer);
-
-            return Result.ok({ score: currentScore });
-        } catch (error) {
-            logger.error('Error in answer service vote', error);
-            return Result.fail(new AppError('خطا در ثبت رای', 'VOTE_ERROR'));
-        }
+        const updated = await this.answerRepo.update(answerId, { votesScore });
+        return new Answer(updated);
     }
 }
-

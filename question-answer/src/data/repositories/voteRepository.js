@@ -1,82 +1,162 @@
-import { IndexedDBClient } from '../indexeddb.js';
-import { Result, AppError } from '../../core/error.js';
+/**
+ * Vote Repository
+ */
+import { dbClient } from '../indexeddb.js';
 import { logger } from '../../core/logger.js';
+import { AppError } from '../../core/error.js';
 
 export class VoteRepository {
-    constructor(db) {
-        this.db = db;
+    constructor() {
+        this.storeName = 'votes';
     }
 
-    async create(vote) {
-        try {
-            // Check if vote already exists
-            const existing = await this.getByUserAndTarget(vote.userId, vote.targetType, vote.targetId);
-            if (existing.isOk() && existing.data) {
-                // Update existing vote
-                vote.id = existing.data.id;
-            }
-            await this.db.put('votes', vote);
-            logger.info('Vote created/updated', { id: vote.id });
-            return Result.ok(vote);
-        } catch (error) {
-            logger.error('Error creating vote', error);
-            return Result.fail(new AppError('خطا در ثبت رای', 'CREATE_VOTE_ERROR'));
-        }
+    /**
+     * Find vote by user and target
+     * @param {number} userId - User ID
+     * @param {string} targetType - 'question' or 'answer'
+     * @param {number} targetId - Target ID
+     * @returns {Promise<Object|null>}
+     */
+    async findByUserAndTarget(userId, targetType, targetId) {
+        const db = await dbClient.getDB();
+        return new Promise((resolve, reject) => {
+            const transaction = db.transaction([this.storeName], 'readonly');
+            const store = transaction.objectStore(this.storeName);
+            const index = store.index('userTarget');
+            const key = [userId, targetType, targetId];
+            const request = index.get(key);
+
+            request.onsuccess = () => {
+                logger.debug('Vote found:', request.result);
+                resolve(request.result || null);
+            };
+
+            request.onerror = () => {
+                logger.error('Error finding vote:', request.error);
+                reject(new AppError('خطا در دریافت رای', 'DB_ERROR'));
+            };
+        });
     }
 
-    async getByUserAndTarget(userId, targetType, targetId) {
-        try {
-            const votes = await this.db.query('votes', 'userTarget', IDBKeyRange.only([userId, targetType, targetId]));
-            return Result.ok(votes.length > 0 ? votes[0] : null);
-        } catch (error) {
-            logger.error('Error getting vote by user and target', error);
-            return Result.fail(new AppError('خطا در دریافت رای', 'GET_VOTE_ERROR'));
-        }
+    /**
+     * Get all votes for a target
+     * @param {string} targetType - 'question' or 'answer'
+     * @param {number} targetId - Target ID
+     * @returns {Promise<Array>}
+     */
+    async findByTarget(targetType, targetId) {
+        const db = await dbClient.getDB();
+        return new Promise((resolve, reject) => {
+            const transaction = db.transaction([this.storeName], 'readonly');
+            const store = transaction.objectStore(this.storeName);
+            const index = store.index('targetId');
+            const request = index.getAll(targetId);
+
+            request.onsuccess = () => {
+                const votes = request.result.filter(v => v.targetType === targetType);
+                logger.debug(`Votes found for ${targetType} ${targetId}:`, votes.length);
+                resolve(votes);
+            };
+
+            request.onerror = () => {
+                logger.error('Error finding votes:', request.error);
+                reject(new AppError('خطا در دریافت رای‌ها', 'DB_ERROR'));
+            };
+        });
     }
 
-    async getByTarget(targetType, targetId) {
-        try {
-            const allVotes = await this.db.getAll('votes');
-            const votes = allVotes.filter(v => v.targetType === targetType && v.targetId === targetId);
-            return Result.ok(votes);
-        } catch (error) {
-            logger.error('Error getting votes by target', error);
-            return Result.fail(new AppError('خطا در دریافت رای‌ها', 'GET_VOTES_ERROR'));
-        }
+    /**
+     * Create or update a vote
+     * @param {Object} voteData - Vote data
+     * @returns {Promise<Object>}
+     */
+    async upsert(voteData) {
+        const db = await dbClient.getDB();
+        return new Promise((resolve, reject) => {
+            const transaction = db.transaction([this.storeName], 'readwrite');
+            const store = transaction.objectStore(this.storeName);
+            const index = store.index('userTarget');
+            const key = [voteData.userId, voteData.targetType, voteData.targetId];
+            const getRequest = index.get(key);
+
+            getRequest.onsuccess = () => {
+                const existingVote = getRequest.result;
+                
+                if (existingVote) {
+                    // Update existing vote
+                    const updatedVote = {
+                        ...existingVote,
+                        value: voteData.value
+                    };
+                    const putRequest = store.put(updatedVote);
+                    putRequest.onsuccess = () => {
+                        logger.debug('Vote updated:', updatedVote);
+                        resolve(updatedVote);
+                    };
+                    putRequest.onerror = () => {
+                        logger.error('Error updating vote:', putRequest.error);
+                        reject(new AppError('خطا در به‌روزرسانی رای', 'DB_ERROR'));
+                    };
+                } else {
+                    // Create new vote
+                    const vote = {
+                        ...voteData
+                    };
+                    const addRequest = store.add(vote);
+                    addRequest.onsuccess = () => {
+                        const newVote = { ...vote, id: addRequest.result };
+                        logger.debug('Vote created:', newVote);
+                        resolve(newVote);
+                    };
+                    addRequest.onerror = () => {
+                        logger.error('Error creating vote:', addRequest.error);
+                        reject(new AppError('خطا در ایجاد رای', 'DB_ERROR'));
+                    };
+                }
+            };
+
+            getRequest.onerror = () => {
+                logger.error('Error checking existing vote:', getRequest.error);
+                reject(new AppError('خطا در بررسی رای موجود', 'DB_ERROR'));
+            };
+        });
     }
 
+    /**
+     * Delete vote
+     * @param {number} id - Vote ID
+     * @returns {Promise<void>}
+     */
     async delete(id) {
-        try {
-            await this.db.delete('votes', id);
-            logger.info('Vote deleted', { id });
-            return Result.ok();
-        } catch (error) {
-            logger.error('Error deleting vote', error);
-            return Result.fail(new AppError('خطا در حذف رای', 'DELETE_VOTE_ERROR'));
-        }
+        const db = await dbClient.getDB();
+        return new Promise((resolve, reject) => {
+            const transaction = db.transaction([this.storeName], 'readwrite');
+            const store = transaction.objectStore(this.storeName);
+            const request = store.delete(id);
+
+            request.onsuccess = () => {
+                logger.debug('Vote deleted:', id);
+                resolve();
+            };
+
+            request.onerror = () => {
+                logger.error('Error deleting vote:', request.error);
+                reject(new AppError('خطا در حذف رای', 'DB_ERROR'));
+            };
+        });
     }
 
+    /**
+     * Delete vote by user and target
+     * @param {number} userId - User ID
+     * @param {string} targetType - 'question' or 'answer'
+     * @param {number} targetId - Target ID
+     * @returns {Promise<void>}
+     */
     async deleteByUserAndTarget(userId, targetType, targetId) {
-        try {
-            const voteResult = await this.getByUserAndTarget(userId, targetType, targetId);
-            if (voteResult.isOk() && voteResult.data) {
-                await this.delete(voteResult.data.id);
-            }
-            return Result.ok();
-        } catch (error) {
-            logger.error('Error deleting vote by user and target', error);
-            return Result.fail(new AppError('خطا در حذف رای', 'DELETE_VOTE_ERROR'));
-        }
-    }
-
-    async getAll() {
-        try {
-            const votes = await this.db.getAll('votes');
-            return Result.ok(votes);
-        } catch (error) {
-            logger.error('Error getting all votes', error);
-            return Result.fail(new AppError('خطا در دریافت رای‌ها', 'GET_VOTES_ERROR'));
+        const vote = await this.findByUserAndTarget(userId, targetType, targetId);
+        if (vote) {
+            return this.delete(vote.id);
         }
     }
 }
-

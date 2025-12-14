@@ -1,183 +1,279 @@
-import { DOM } from '../../core/dom.js';
-import { QuestionCard } from '../components/questionCard.js';
+/**
+ * Questions List View
+ */
+import { createElement, clearElement } from '../../core/dom.js';
+import { QuestionService } from '../../domain/services/questionService.js';
+import { UserService } from '../../domain/services/userService.js';
+import { VoteRepository } from '../../data/repositories/voteRepository.js';
+import { createQuestionCard } from '../components/questionCard.js';
+import { toast } from '../../core/toast.js';
+import { handleAsync, getErrorMessage } from '../../core/error.js';
 import { eventBus } from '../../core/eventBus.js';
 
 export class QuestionsListView {
-    constructor(questionService, userService) {
-        this.questionService = questionService;
-        this.userService = userService;
+    constructor(container) {
+        this.container = container;
+        this.questionService = new QuestionService();
+        this.userService = new UserService();
+        this.voteRepo = new VoteRepository();
+        this.currentUser = null;
         this.currentPage = 1;
         this.pageSize = 10;
-        this.sortBy = 'newest';
-        this.filters = {};
-        this.questions = [];
-        this.authors = new Map();
+        this.filters = {
+            sortBy: 'createdAt',
+            sortOrder: 'desc',
+            tag: null,
+            department: null,
+            search: null
+        };
+    }
+
+    setCurrentUser(user) {
+        this.currentUser = user;
     }
 
     async render() {
-        const container = DOM.create('div', { className: 'questions-list' });
+        clearElement(this.container);
 
-        // Filters
-        const filtersDiv = DOM.create('div', { className: 'filters' });
+        // Show loading
+        const loading = createElement('div', { className: 'loading' }, 'در حال بارگذاری...');
+        this.container.appendChild(loading);
 
-        const sortGroup = DOM.create('div', { className: 'filter-group' });
-        const sortLabel = DOM.create('label', { className: 'form-label' }, 'مرتب‌سازی:');
-        const sortSelect = DOM.create('select', {
-            className: 'form-select',
-            id: 'sort-select'
-        });
-        sortSelect.innerHTML = `
-            <option value="newest">جدیدترین</option>
-            <option value="votes">بیشترین رای</option>
-            <option value="oldest">قدیمی‌ترین</option>
-        `;
-        sortSelect.value = this.sortBy;
-        sortSelect.addEventListener('change', (e) => {
-            this.sortBy = e.target.value;
-            this.loadQuestions();
-        });
-        sortGroup.appendChild(sortLabel);
-        sortGroup.appendChild(sortSelect);
-        filtersDiv.appendChild(sortGroup);
+        // Load questions
+        const result = await handleAsync(() => 
+            this.questionService.getQuestions({
+                page: this.currentPage,
+                pageSize: this.pageSize,
+                ...this.filters
+            })
+        );
 
-        const searchGroup = DOM.create('div', { className: 'filter-group' });
-        const searchInput = DOM.create('input', {
-            type: 'text',
-            className: 'form-input',
-            placeholder: 'جستجو در عنوان...',
-            id: 'search-input'
-        });
-        let searchTimeout;
-        searchInput.addEventListener('input', (e) => {
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
-                this.filters.search = e.target.value.trim() || undefined;
-                this.loadQuestions();
-            }, 300);
-        });
-        searchGroup.appendChild(searchInput);
-        filtersDiv.appendChild(searchGroup);
+        clearElement(this.container);
 
-        const unansweredCheckbox = DOM.create('input', {
-            type: 'checkbox',
-            id: 'unanswered-filter'
-        });
-        const unansweredLabel = DOM.create('label', {
-            htmlFor: 'unanswered-filter'
-        }, 'فقط سوالات بدون پاسخ');
-        unansweredCheckbox.addEventListener('change', (e) => {
-            this.filters.unanswered = e.target.checked || undefined;
-            this.loadQuestions();
-        });
-        filtersDiv.appendChild(unansweredCheckbox);
-        filtersDiv.appendChild(unansweredLabel);
-
-        container.appendChild(filtersDiv);
-
-        // Questions container
-        const questionsContainer = DOM.create('div', { id: 'questions-container' });
-        container.appendChild(questionsContainer);
-
-        // Pagination
-        const paginationDiv = DOM.create('div', { className: 'pagination', id: 'pagination' });
-        container.appendChild(paginationDiv);
-
-        await this.loadQuestions();
-
-        return container;
-    }
-
-    async loadQuestions() {
-        const container = DOM.$('#questions-container');
-        if (!container) return;
-
-        container.innerHTML = '<div class="loading">در حال بارگذاری...</div>';
-
-        const result = await this.questionService.getAll(this.sortBy, this.filters);
-        if (!result.isOk()) {
-            container.innerHTML = `<div class="empty-state">${result.error.message}</div>`;
+        if (result.isFail()) {
+            toast.error(getErrorMessage(result.error));
+            this.container.appendChild(createElement('div', { className: 'empty-state' }, 'خطا در بارگذاری سوال‌ها'));
             return;
         }
 
-        this.questions = result.data;
-        await this.loadAuthors();
+        const { questions, total } = result.data;
+        const totalPages = Math.ceil(total / this.pageSize);
 
-        if (this.questions.length === 0) {
-            container.innerHTML = '<div class="empty-state">سوالی یافت نشد</div>';
-            return;
+        // Create filters
+        const filtersSection = this.createFiltersSection();
+        this.container.appendChild(filtersSection);
+
+        // Create questions list
+        if (questions.length === 0) {
+            this.container.appendChild(createElement('div', { className: 'empty-state' }, 'هیچ سوالی یافت نشد'));
+        } else {
+            const questionsList = createElement('div', { id: 'questionsList' });
+            
+            // Load authors for questions
+            const authorsMap = await this.loadAuthors(questions);
+            
+            // Load user votes
+            const userVotesMap = this.currentUser ? await this.loadUserVotes(questions) : {};
+
+            for (const question of questions) {
+                const author = authorsMap[question.authorId];
+                const userVote = userVotesMap[question.id];
+                const card = createQuestionCard(
+                    question,
+                    author,
+                    this.currentUser,
+                    userVote,
+                    (qId, value) => this.handleVote(qId, value),
+                    (q) => this.handleEdit(q),
+                    (qId) => this.handleDelete(qId)
+                );
+                questionsList.appendChild(card);
+            }
+
+            this.container.appendChild(questionsList);
+
+            // Create pagination
+            if (totalPages > 1) {
+                const pagination = this.createPagination(totalPages);
+                this.container.appendChild(pagination);
+            }
         }
-
-        // Pagination
-        const totalPages = Math.ceil(this.questions.length / this.pageSize);
-        const start = (this.currentPage - 1) * this.pageSize;
-        const end = start + this.pageSize;
-        const paginatedQuestions = this.questions.slice(start, end);
-
-        container.innerHTML = '';
-        paginatedQuestions.forEach(question => {
-            const author = this.authors.get(question.authorId);
-            const card = QuestionCard.render(question, author);
-            container.appendChild(card);
-        });
-
-        this.renderPagination(totalPages);
     }
 
-    async loadAuthors() {
-        const userIds = new Set(this.questions.map(q => q.authorId));
-        for (const userId of userIds) {
-            if (!this.authors.has(userId)) {
-                const userResult = await this.userService.getById(userId);
-                if (userResult.isOk() && userResult.data) {
-                    this.authors.set(userId, userResult.data);
+    createFiltersSection() {
+        return createElement('div', { className: 'filters' },
+            createElement('div', { className: 'filters-row' },
+                createElement('div', { className: 'form-group' },
+                    createElement('label', { className: 'form-label' }, 'جستجو'),
+                    createElement('input', {
+                        type: 'text',
+                        className: 'form-input',
+                        placeholder: 'جستجو در عنوان سوال‌ها...',
+                        value: this.filters.search || '',
+                        oninput: (e) => {
+                            this.filters.search = e.target.value || null;
+                            this.currentPage = 1;
+                            this.render();
+                        }
+                    })
+                ),
+                createElement('div', { className: 'form-group' },
+                    createElement('label', { className: 'form-label' }, 'مرتب‌سازی'),
+                    createElement('select', {
+                        className: 'form-select',
+                        value: `${this.filters.sortBy}-${this.filters.sortOrder}`,
+                        onchange: (e) => {
+                            const [sortBy, sortOrder] = e.target.value.split('-');
+                            this.filters.sortBy = sortBy;
+                            this.filters.sortOrder = sortOrder;
+                            this.currentPage = 1;
+                            this.render();
+                        }
+                    },
+                        createElement('option', { value: 'createdAt-desc' }, 'جدیدترین'),
+                        createElement('option', { value: 'createdAt-asc' }, 'قدیمی‌ترین'),
+                        createElement('option', { value: 'votesScore-desc' }, 'بیشترین رای'),
+                        createElement('option', { value: 'votesScore-asc' }, 'کمترین رای')
+                    )
+                ),
+                createElement('div', { className: 'form-group' },
+                    createElement('label', { className: 'form-label' }, 'تگ'),
+                    createElement('input', {
+                        type: 'text',
+                        className: 'form-input',
+                        placeholder: 'فیلتر بر اساس تگ...',
+                        value: this.filters.tag || '',
+                        oninput: (e) => {
+                            this.filters.tag = e.target.value || null;
+                            this.currentPage = 1;
+                            this.render();
+                        }
+                    })
+                ),
+                createElement('div', { className: 'form-group' },
+                    createElement('label', { className: 'form-label' }, 'دپارتمان'),
+                    createElement('input', {
+                        type: 'text',
+                        className: 'form-input',
+                        placeholder: 'فیلتر بر اساس دپارتمان...',
+                        value: this.filters.department || '',
+                        oninput: (e) => {
+                            this.filters.department = e.target.value || null;
+                            this.currentPage = 1;
+                            this.render();
+                        }
+                    })
+                )
+            )
+        );
+    }
+
+    createPagination(totalPages) {
+        const pagination = createElement('div', { className: 'pagination' });
+
+        // Previous button
+        pagination.appendChild(createElement('button', {
+            className: 'pagination-btn',
+            disabled: this.currentPage === 1,
+            onclick: () => {
+                if (this.currentPage > 1) {
+                    this.currentPage--;
+                    this.render();
                 }
             }
+        }, 'قبلی'));
+
+        // Page numbers
+        for (let i = 1; i <= totalPages; i++) {
+            if (i === 1 || i === totalPages || (i >= this.currentPage - 2 && i <= this.currentPage + 2)) {
+                pagination.appendChild(createElement('button', {
+                    className: `pagination-btn ${i === this.currentPage ? 'active' : ''}`,
+                    onclick: () => {
+                        this.currentPage = i;
+                        this.render();
+                    }
+                }, i));
+            } else if (i === this.currentPage - 3 || i === this.currentPage + 3) {
+                pagination.appendChild(createElement('span', {}, '...'));
+            }
         }
+
+        // Next button
+        pagination.appendChild(createElement('button', {
+            className: 'pagination-btn',
+            disabled: this.currentPage === totalPages,
+            onclick: () => {
+                if (this.currentPage < totalPages) {
+                    this.currentPage++;
+                    this.render();
+                }
+            }
+        }, 'بعدی'));
+
+        return pagination;
     }
 
-    renderPagination(totalPages) {
-        const paginationDiv = DOM.$('#pagination');
-        if (!paginationDiv || totalPages <= 1) {
-            if (paginationDiv) paginationDiv.innerHTML = '';
+    async loadAuthors(questions) {
+        const authorIds = [...new Set(questions.map(q => q.authorId))];
+        const authorsMap = {};
+        
+        for (const authorId of authorIds) {
+            const result = await handleAsync(() => this.userService.getUserById(authorId));
+            if (result.isOk() && result.data) {
+                authorsMap[authorId] = result.data;
+            }
+        }
+        
+        return authorsMap;
+    }
+
+    async loadUserVotes(questions) {
+        if (!this.currentUser) return {};
+        
+        const votesMap = {};
+        for (const question of questions) {
+            const result = await handleAsync(() => 
+                this.voteRepo.findByUserAndTarget(this.currentUser.id, 'question', question.id)
+            );
+            if (result.isOk() && result.data) {
+                votesMap[question.id] = result.data;
+            }
+        }
+        return votesMap;
+    }
+
+    async handleVote(questionId, value) {
+        if (!this.currentUser) {
+            toast.error('لطفاً ابتدا وارد شوید');
             return;
         }
 
-        paginationDiv.innerHTML = '';
+        const result = await handleAsync(() => 
+            this.questionService.voteOnQuestion(questionId, this.currentUser.id, value)
+        );
 
-        const prevBtn = DOM.create('button', {
-            className: 'pagination-btn',
-            disabled: this.currentPage === 1
-        }, 'قبلی');
-        prevBtn.addEventListener('click', () => {
-            if (this.currentPage > 1) {
-                this.currentPage--;
-                this.loadQuestions();
-            }
-        });
-        paginationDiv.appendChild(prevBtn);
-
-        for (let i = 1; i <= totalPages; i++) {
-            const pageBtn = DOM.create('button', {
-                className: `pagination-btn ${i === this.currentPage ? 'active' : ''}`
-            }, i.toString());
-            pageBtn.addEventListener('click', () => {
-                this.currentPage = i;
-                this.loadQuestions();
-            });
-            paginationDiv.appendChild(pageBtn);
+        if (result.isOk()) {
+            toast.info('رای شما ثبت شد');
+            this.render();
+        } else {
+            toast.error(getErrorMessage(result.error));
         }
+    }
 
-        const nextBtn = DOM.create('button', {
-            className: 'pagination-btn',
-            disabled: this.currentPage === totalPages
-        }, 'بعدی');
-        nextBtn.addEventListener('click', () => {
-            if (this.currentPage < totalPages) {
-                this.currentPage++;
-                this.loadQuestions();
-            }
-        });
-        paginationDiv.appendChild(nextBtn);
+    handleEdit(question) {
+        window.location.hash = `#/questions/${question.id}/edit`;
+    }
+
+    async handleDelete(questionId) {
+        const result = await handleAsync(() => 
+            this.questionService.deleteQuestion(questionId)
+        );
+
+        if (result.isOk()) {
+            toast.success('سوال حذف شد');
+            this.render();
+        } else {
+            toast.error(getErrorMessage(result.error));
+        }
     }
 }
-

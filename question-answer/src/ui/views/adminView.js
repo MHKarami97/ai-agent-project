@@ -1,219 +1,209 @@
-import { DOM } from '../../core/dom.js';
+/**
+ * Admin View
+ */
+import { createElement, clearElement, $ } from '../../core/dom.js';
+import { UserService } from '../../domain/services/userService.js';
+import { dbClient } from '../../data/indexeddb.js';
+import { exportData, importData } from '../../data/exportImport.js';
+import { toast } from '../../core/toast.js';
+import { handleAsync, getErrorMessage } from '../../core/error.js';
+import { ValidationError } from '../../core/validation.js';
 import { eventBus } from '../../core/eventBus.js';
-import { Toast } from '../../core/toast.js';
-import { Validator } from '../../core/validation.js';
 
 export class AdminView {
-    constructor(userService, db, exportImportService) {
-        this.userService = userService;
-        this.db = db;
-        this.exportImportService = exportImportService;
-        this.users = [];
+    constructor(container) {
+        this.container = container;
+        this.userService = new UserService();
+        this.currentUser = null;
+    }
+
+    setCurrentUser(user) {
+        this.currentUser = user;
     }
 
     async render() {
-        const container = DOM.create('div', { className: 'admin-section' });
+        if (!this.currentUser || !this.currentUser.isAdmin()) {
+            clearElement(this.container);
+            this.container.appendChild(createElement('div', { className: 'empty-state' }, 'دسترسی غیرمجاز'));
+            return;
+        }
 
-        const title = DOM.create('h1', { className: 'card-title' }, 'پنل مدیریت');
-        container.appendChild(title);
+        clearElement(this.container);
 
-        const actions = DOM.create('div', { className: 'admin-actions' });
+        const adminPanel = createElement('div', {},
+            createElement('h1', { style: { marginBottom: '2rem' } }, 'پنل مدیریت'),
+            
+            // Users Management Section
+            createElement('div', { className: 'card', style: { marginBottom: '2rem' } },
+                createElement('h2', { style: { marginBottom: '1rem' } }, 'مدیریت کاربران'),
+                createElement('div', { id: 'usersList' }, 'در حال بارگذاری...')
+            ),
 
-        const exportBtn = DOM.create('button', {
-            className: 'btn btn-primary',
-            'aria-label': 'خروجی JSON'
-        }, 'خروجی JSON');
-        exportBtn.addEventListener('click', () => this.exportData());
-        actions.appendChild(exportBtn);
+            // Database Management Section
+            createElement('div', { className: 'card', style: { marginBottom: '2rem' } },
+                createElement('h2', { style: { marginBottom: '1rem' } }, 'مدیریت پایگاه داده'),
+                createElement('div', { style: { display: 'flex', gap: '1rem', flexWrap: 'wrap' } },
+                    createElement('button', {
+                        className: 'btn btn-danger',
+                        onclick: () => this.handleClearDatabase()
+                    }, 'پاک‌سازی کل پایگاه داده'),
+                    createElement('button', {
+                        className: 'btn btn-primary',
+                        onclick: () => this.handleExport()
+                    }, 'خروجی JSON'),
+                    createElement('label', {
+                        className: 'btn btn-primary',
+                        style: { cursor: 'pointer' }
+                    },
+                        'ورودی JSON',
+                        createElement('input', {
+                            type: 'file',
+                            accept: '.json',
+                            style: { display: 'none' },
+                            onchange: (e) => this.handleImport(e)
+                        })
+                    )
+                )
+            )
+        );
 
-        const importBtn = DOM.create('button', {
-            className: 'btn btn-secondary',
-            'aria-label': 'وارد کردن JSON'
-        }, 'وارد کردن JSON');
-        importBtn.addEventListener('click', () => this.importData());
-        actions.appendChild(importBtn);
-
-        const clearBtn = DOM.create('button', {
-            className: 'btn btn-danger',
-            'aria-label': 'پاک‌سازی دیتابیس'
-        }, 'پاک‌سازی دیتابیس');
-        clearBtn.addEventListener('click', () => this.clearDatabase());
-        actions.appendChild(clearBtn);
-
-        container.appendChild(actions);
-
-        // Users section
-        const usersSection = DOM.create('div');
-        const usersTitle = DOM.create('h2', {}, 'مدیریت کاربران');
-        usersSection.appendChild(usersTitle);
-
-        const addUserBtn = DOM.create('button', {
-            className: 'btn btn-primary',
-            style: 'margin-bottom: 1rem;'
-        }, 'افزودن کاربر جدید');
-        addUserBtn.addEventListener('click', () => this.showAddUserForm());
-        usersSection.appendChild(addUserBtn);
-
-        const usersTable = DOM.create('table', { className: 'users-table' });
-        usersTable.innerHTML = `
-            <thead>
-                <tr>
-                    <th>نام کاربری</th>
-                    <th>نام نمایشی</th>
-                    <th>نقش</th>
-                    <th>دپارتمان</th>
-                    <th>عملیات</th>
-                </tr>
-            </thead>
-            <tbody id="users-tbody"></tbody>
-        `;
-        usersSection.appendChild(usersTable);
-
-        container.appendChild(usersSection);
-
+        this.container.appendChild(adminPanel);
         await this.loadUsers();
-
-        return container;
     }
 
     async loadUsers() {
-        const tbody = DOM.$('#users-tbody');
-        if (!tbody) return;
+        const usersList = $('#usersList', this.container);
+        if (!usersList) return;
 
-        const result = await this.userService.getAll();
-        if (!result.isOk()) {
-            Toast.error(result.error.message);
+        usersList.textContent = 'در حال بارگذاری...';
+
+        const result = await handleAsync(() => this.userService.getAllUsers());
+
+        if (result.isFail()) {
+            usersList.textContent = 'خطا در بارگذاری کاربران';
+            toast.error(getErrorMessage(result.error));
             return;
         }
 
-        this.users = result.data;
-        tbody.innerHTML = '';
+        const users = result.data;
+        clearElement(usersList);
 
-        this.users.forEach(user => {
-            const row = DOM.create('tr');
-            row.innerHTML = `
-                <td>${DOM.safeHTML(user.username)}</td>
-                <td>${DOM.safeHTML(user.displayName)}</td>
-                <td>${DOM.safeHTML(user.role)}</td>
-                <td>${DOM.safeHTML(user.department || '-')}</td>
-                <td>
-                    <button class="btn btn-danger btn-small delete-user" data-id="${user.id}">حذف</button>
-                </td>
-            `;
-
-            const deleteBtn = row.querySelector('.delete-user');
-            deleteBtn.addEventListener('click', () => this.deleteUser(user.id));
-
-            tbody.appendChild(row);
-        });
-    }
-
-    showAddUserForm() {
-        const username = prompt('نام کاربری:');
-        if (!username || !username.trim()) return;
-
-        const displayName = prompt('نام نمایشی:', username);
-        if (!displayName || !displayName.trim()) return;
-
-        const role = prompt('نقش (Admin/Moderator/Employee):', 'Employee');
-        if (!['Admin', 'Moderator', 'Employee'].includes(role)) {
-            Toast.error('نقش نامعتبر است');
+        if (users.length === 0) {
+            usersList.appendChild(createElement('div', { className: 'empty-state' }, 'هیچ کاربری یافت نشد'));
             return;
         }
 
-        const department = prompt('دپارتمان (اختیاری):', '');
+        const table = createElement('table', {
+            style: { width: '100%', borderCollapse: 'collapse' }
+        },
+            createElement('thead', {},
+                createElement('tr', {},
+                    createElement('th', { style: { padding: '0.5rem', textAlign: 'right', borderBottom: '1px solid var(--border-color)' } }, 'نام کاربری'),
+                    createElement('th', { style: { padding: '0.5rem', textAlign: 'right', borderBottom: '1px solid var(--border-color)' } }, 'نام نمایشی'),
+                    createElement('th', { style: { padding: '0.5rem', textAlign: 'right', borderBottom: '1px solid var(--border-color)' } }, 'نقش'),
+                    createElement('th', { style: { padding: '0.5rem', textAlign: 'right', borderBottom: '1px solid var(--border-color)' } }, 'دپارتمان'),
+                    createElement('th', { style: { padding: '0.5rem', textAlign: 'right', borderBottom: '1px solid var(--border-color)' } }, 'عملیات')
+                )
+            ),
+            createElement('tbody', {},
+                ...users.map(user => createElement('tr', { key: user.id },
+                    createElement('td', { style: { padding: '0.5rem', borderBottom: '1px solid var(--border-color)' } }, user.username),
+                    createElement('td', { style: { padding: '0.5rem', borderBottom: '1px solid var(--border-color)' } }, user.displayName),
+                    createElement('td', { style: { padding: '0.5rem', borderBottom: '1px solid var(--border-color)' } }, user.role),
+                    createElement('td', { style: { padding: '0.5rem', borderBottom: '1px solid var(--border-color)' } }, user.department || '-'),
+                    createElement('td', { style: { padding: '0.5rem', borderBottom: '1px solid var(--border-color)' } },
+                        createElement('button', {
+                            className: 'btn btn-sm btn-danger',
+                            onclick: () => {
+                                if (confirm(`آیا از حذف کاربر ${user.username} اطمینان دارید؟`)) {
+                                    this.handleDeleteUser(user.id);
+                                }
+                            },
+                            disabled: user.id === this.currentUser.id
+                        }, 'حذف')
+                    )
+                ))
+            )
+        );
 
-        const data = {
-            username: username.trim(),
-            displayName: displayName.trim(),
-            role,
-            department: department.trim() || undefined
-        };
+        usersList.appendChild(table);
+    }
 
-        const validation = Validator.validateUser(data);
-        if (!validation.isValid) {
-            Toast.error(Object.values(validation.errors)[0]);
+    async handleDeleteUser(userId) {
+        const result = await handleAsync(() => this.userService.deleteUser(userId));
+
+        if (result.isOk()) {
+            toast.success('کاربر حذف شد');
+            this.loadUsers();
+        } else {
+            toast.error(getErrorMessage(result.error));
+        }
+    }
+
+    async handleClearDatabase() {
+        if (!confirm('آیا از پاک‌سازی کامل پایگاه داده اطمینان دارید؟ این عمل غیرقابل بازگشت است!')) {
             return;
         }
 
-        this.createUser(data);
-    }
+        const result = await handleAsync(() => dbClient.clearAll());
 
-    async createUser(data) {
-        const result = await this.userService.create(data);
         if (result.isOk()) {
-            Toast.success('کاربر با موفقیت ایجاد شد');
-            await this.loadUsers();
+            toast.success('پایگاه داده پاک شد');
+            eventBus.emit('user:loggedOut');
+            window.location.hash = '#/login';
         } else {
-            Toast.error(result.error.message || 'خطا در ایجاد کاربر');
+            toast.error(getErrorMessage(result.error));
         }
     }
 
-    async deleteUser(id) {
-        if (!confirm('آیا از حذف این کاربر اطمینان دارید؟')) return;
-
-        const result = await this.userService.delete(id);
-        if (result.isOk()) {
-            Toast.success('کاربر با موفقیت حذف شد');
-            await this.loadUsers();
-        } else {
-            Toast.error(result.error.message || 'خطا در حذف کاربر');
+    async handleExport() {
+        try {
+            const result = await handleAsync(() => exportData());
+            if (result.isOk()) {
+                const dataStr = JSON.stringify(result.data, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(dataBlob);
+                const link = createElement('a', {
+                    href: url,
+                    download: `qa-system-export-${new Date().toISOString().split('T')[0]}.json`
+                });
+                link.click();
+                URL.revokeObjectURL(url);
+                toast.success('داده‌ها با موفقیت خروجی گرفته شد');
+            } else {
+                toast.error(getErrorMessage(result.error));
+            }
+        } catch (error) {
+            toast.error(getErrorMessage(error));
         }
     }
 
-    async exportData() {
-        const result = await this.exportImportService.export();
-        if (result.isOk()) {
-            const dataStr = JSON.stringify(result.data, null, 2);
-            const blob = new Blob([dataStr], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = DOM.create('a', { href: url, download: `qa-export-${Date.now()}.json` });
-            a.click();
-            URL.revokeObjectURL(url);
-            Toast.success('داده‌ها با موفقیت خروجی گرفته شد');
-        } else {
-            Toast.error(result.error.message || 'خطا در خروجی گرفتن');
-        }
-    }
+    async handleImport(e) {
+        const file = e.target.files[0];
+        if (!file) return;
 
-    async importData() {
-        const input = DOM.create('input', { type: 'file', accept: '.json' });
-        input.addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-
+        try {
             const text = await file.text();
-            let data;
-            try {
-                data = JSON.parse(text);
-            } catch (error) {
-                Toast.error('فایل JSON نامعتبر است');
+            const data = JSON.parse(text);
+
+            if (!confirm('آیا می‌خواهید داده‌های فعلی را با داده‌های فایل جایگزین کنید؟')) {
                 return;
             }
 
-            const mode = confirm('آیا می‌خواهید داده‌های موجود را جایگزین کنید؟ (OK = جایگزین، Cancel = ادغام)') ? 'replace' : 'merge';
+            const result = await handleAsync(() => importData(data, 'replace'));
 
-            const result = await this.exportImportService.import(data, mode);
             if (result.isOk()) {
-                Toast.success('داده‌ها با موفقیت وارد شد');
+                toast.success('داده‌ها با موفقیت وارد شد');
                 eventBus.emit('data:imported');
+                window.location.reload();
             } else {
-                Toast.error(result.error.message || 'خطا در وارد کردن داده‌ها');
+                toast.error(getErrorMessage(result.error));
             }
-        });
-        input.click();
-    }
-
-    async clearDatabase() {
-        if (!confirm('آیا از پاک‌سازی کامل دیتابیس اطمینان دارید؟ این عمل غیرقابل بازگشت است!')) return;
-
-        try {
-            await this.db.clearAll();
-            Toast.success('دیتابیس با موفقیت پاک شد');
-            eventBus.emit('database:cleared');
         } catch (error) {
-            Toast.error('خطا در پاک‌سازی دیتابیس');
+            toast.error('خطا در خواندن فایل: ' + getErrorMessage(error));
         }
+
+        // Reset file input
+        e.target.value = '';
     }
 }
-

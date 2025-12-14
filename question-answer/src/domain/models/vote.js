@@ -1,3 +1,6 @@
+/**
+ * Vote Model
+ */
 export class Vote {
     constructor(data) {
         this.id = data.id;
@@ -7,14 +10,11 @@ export class Vote {
         this.value = data.value; // -1 or 1
     }
 
-    toJSON() {
-        return {
-            id: this.id,
-            userId: this.userId,
-            targetType: this.targetType,
-            targetId: this.targetId,
-            value: this.value
-        };
+    isUpvote() {
+        return this.value === 1;
+    }
+
+    isDownvote() {
+        return this.value === -1;
     }
 }
-

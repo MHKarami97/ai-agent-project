@@ -1,213 +1,149 @@
-import { Question } from '../models/question.js';
+/**
+ * Question Service
+ */
 import { QuestionRepository } from '../../data/repositories/questionRepository.js';
 import { AnswerRepository } from '../../data/repositories/answerRepository.js';
 import { VoteRepository } from '../../data/repositories/voteRepository.js';
-import { Result, AppError } from '../../core/error.js';
+import { Question } from '../models/question.js';
+import { validateQuestion } from '../../core/validation.js';
+import { sanitizeTags } from '../../core/validation.js';
 import { logger } from '../../core/logger.js';
 
 export class QuestionService {
-    constructor(questionRepo, answerRepo, voteRepo) {
-        this.questionRepo = questionRepo;
-        this.answerRepo = answerRepo;
-        this.voteRepo = voteRepo;
+    constructor() {
+        this.questionRepo = new QuestionRepository();
+        this.answerRepo = new AnswerRepository();
+        this.voteRepo = new VoteRepository();
     }
 
-    getVoteRepo() {
-        return this.voteRepo;
+    /**
+     * Get questions with filters and pagination
+     * @param {Object} options - Query options
+     * @returns {Promise<{questions: Array<Question>, total: number}>}
+     */
+    async getQuestions(options = {}) {
+        const result = await this.questionRepo.findAll(options);
+        return {
+            questions: result.questions.map(q => new Question(q)),
+            total: result.total
+        };
     }
 
-    async create(data) {
-        try {
-            const question = new Question(data);
-            const result = await this.questionRepo.create(question);
-            return result;
-        } catch (error) {
-            logger.error('Error in question service create', error);
-            return Result.fail(new AppError('خطا در ایجاد سوال', 'CREATE_QUESTION_ERROR'));
+    /**
+     * Get question by ID with answers
+     * @param {number} id - Question ID
+     * @returns {Promise<{question: Question, answers: Array}>}
+     */
+    async getQuestionById(id) {
+        const question = await this.questionRepo.findById(id);
+        if (!question) {
+            return null;
         }
+
+        const answers = await this.answerRepo.findByQuestionId(id);
+        return {
+            question: new Question(question),
+            answers: answers.map(a => ({ ...a }))
+        };
     }
 
-    async getById(id, incrementViews = false) {
-        try {
-            const result = await this.questionRepo.getById(id);
-            if (result.isOk() && result.data) {
-                if (incrementViews) {
-                    result.data.incrementViews();
-                    await this.questionRepo.update(result.data);
-                }
-            }
-            return result;
-        } catch (error) {
-            logger.error('Error in question service getById', error);
-            return Result.fail(new AppError('خطا در دریافت سوال', 'GET_QUESTION_ERROR'));
+    /**
+     * Create a new question
+     * @param {Object} questionData - Question data
+     * @param {number} authorId - Author ID
+     * @returns {Promise<Question>}
+     */
+    async createQuestion(questionData, authorId) {
+        validateQuestion(questionData);
+        
+        const data = {
+            ...questionData,
+            tags: sanitizeTags(questionData.tags),
+            authorId
+        };
+
+        const created = await this.questionRepo.create(data);
+        return new Question(created);
+    }
+
+    /**
+     * Update question
+     * @param {number} id - Question ID
+     * @param {Object} updates - Update data
+     * @returns {Promise<Question>}
+     */
+    async updateQuestion(id, updates) {
+        if (updates.tags) {
+            updates.tags = sanitizeTags(updates.tags);
         }
+        if (updates.title || updates.body) {
+            validateQuestion(updates);
+        }
+        const updated = await this.questionRepo.update(id, updates);
+        return new Question(updated);
     }
 
-    async getAll(sortBy = 'newest', filters = {}) {
-        try {
-            const result = await this.questionRepo.getAll();
-            if (!result.isOk()) {
-                return result;
-            }
+    /**
+     * Delete question and its answers
+     * @param {number} id - Question ID
+     * @returns {Promise<void>}
+     */
+    async deleteQuestion(id) {
+        // Delete all answers for this question
+        const answers = await this.answerRepo.findByQuestionId(id);
+        await Promise.all(answers.map(a => this.answerRepo.delete(a.id)));
 
-            let questions = result.data;
+        // Delete all votes for this question
+        const votes = await this.voteRepo.findByTarget('question', id);
+        await Promise.all(votes.map(v => this.voteRepo.delete(v.id)));
 
-            // Apply filters
-            if (filters.tag) {
-                questions = questions.filter(q => q.tags && q.tags.includes(filters.tag));
-            }
-            if (filters.department) {
-                questions = questions.filter(q => q.department === filters.department);
-            }
-            if (filters.search) {
-                const searchLower = filters.search.toLowerCase();
-                questions = questions.filter(q => 
-                    q.title.toLowerCase().includes(searchLower) ||
-                    q.body.toLowerCase().includes(searchLower)
-                );
-            }
-            if (filters.unanswered) {
-                const answersResult = await this.answerRepo.getAll();
-                if (answersResult.isOk()) {
-                    const answeredIds = new Set(answersResult.data.map(a => a.questionId));
-                    questions = questions.filter(q => !answeredIds.has(q.id));
-                }
-            }
+        // Delete question
+        return this.questionRepo.delete(id);
+    }
 
-            // Sort
-            questions.sort((a, b) => {
-                switch (sortBy) {
-                    case 'newest':
-                        return new Date(b.createdAt) - new Date(a.createdAt);
-                    case 'votes':
-                        return b.votesScore - a.votesScore;
-                    case 'oldest':
-                        return new Date(a.createdAt) - new Date(b.createdAt);
-                    default:
-                        return new Date(b.createdAt) - new Date(a.createdAt);
-                }
+    /**
+     * Accept an answer
+     * @param {number} questionId - Question ID
+     * @param {number} answerId - Answer ID
+     * @returns {Promise<Question>}
+     */
+    async acceptAnswer(questionId, answerId) {
+        const updated = await this.questionRepo.update(questionId, {
+            acceptedAnswerId: answerId
+        });
+        return new Question(updated);
+    }
+
+    /**
+     * Vote on a question
+     * @param {number} questionId - Question ID
+     * @param {number} userId - User ID
+     * @param {number} value - Vote value (1 or -1)
+     * @returns {Promise<Question>}
+     */
+    async voteOnQuestion(questionId, userId, value) {
+        // Check if user already voted
+        const existingVote = await this.voteRepo.findByUserAndTarget(userId, 'question', questionId);
+        
+        if (existingVote && existingVote.value === value) {
+            // Same vote - remove it (toggle)
+            await this.voteRepo.delete(existingVote.id);
+            value = 0; // No vote
+        } else {
+            // Create or update vote
+            await this.voteRepo.upsert({
+                userId,
+                targetType: 'question',
+                targetId: questionId,
+                value
             });
-
-            return Result.ok(questions);
-        } catch (error) {
-            logger.error('Error in question service getAll', error);
-            return Result.fail(new AppError('خطا در دریافت سوالات', 'GET_QUESTIONS_ERROR'));
         }
-    }
 
-    async update(id, data, user) {
-        try {
-            const questionResult = await this.questionRepo.getById(id);
-            if (!questionResult.isOk() || !questionResult.data) {
-                return Result.fail(new AppError('سوال یافت نشد', 'QUESTION_NOT_FOUND'));
-            }
+        // Recalculate votes score
+        const votes = await this.voteRepo.findByTarget('question', questionId);
+        const votesScore = votes.reduce((sum, v) => sum + v.value, 0);
 
-            const question = questionResult.data;
-            if (!user.canEditQuestion(question)) {
-                return Result.fail(new AppError('شما اجازه ویرایش این سوال را ندارید', 'PERMISSION_DENIED'));
-            }
-
-            Object.assign(question, data);
-            question.updatedAt = new Date().toISOString();
-
-            return await this.questionRepo.update(question);
-        } catch (error) {
-            logger.error('Error in question service update', error);
-            return Result.fail(new AppError('خطا در به‌روزرسانی سوال', 'UPDATE_QUESTION_ERROR'));
-        }
-    }
-
-    async delete(id, user) {
-        try {
-            const questionResult = await this.questionRepo.getById(id);
-            if (!questionResult.isOk() || !questionResult.data) {
-                return Result.fail(new AppError('سوال یافت نشد', 'QUESTION_NOT_FOUND'));
-            }
-
-            const question = questionResult.data;
-            if (!user.canEditQuestion(question)) {
-                return Result.fail(new AppError('شما اجازه حذف این سوال را ندارید', 'PERMISSION_DENIED'));
-            }
-
-            // Delete related answers and votes
-            const answersResult = await this.answerRepo.getByQuestionId(id);
-            if (answersResult.isOk()) {
-                for (const answer of answersResult.data) {
-                    await this.answerRepo.delete(answer.id);
-                }
-            }
-
-            return await this.questionRepo.delete(id);
-        } catch (error) {
-            logger.error('Error in question service delete', error);
-            return Result.fail(new AppError('خطا در حذف سوال', 'DELETE_QUESTION_ERROR'));
-        }
-    }
-
-    async vote(questionId, userId, value) {
-        try {
-            const questionResult = await this.questionRepo.getById(questionId);
-            if (!questionResult.isOk() || !questionResult.data) {
-                return Result.fail(new AppError('سوال یافت نشد', 'QUESTION_NOT_FOUND'));
-            }
-
-            const existingVoteResult = await this.voteRepo.getByUserAndTarget(userId, 'question', questionId);
-            let existingVote = existingVoteResult.isOk() ? existingVoteResult.data : null;
-
-            const question = questionResult.data;
-            let currentScore = question.votesScore || 0;
-
-            if (existingVote) {
-                if (existingVote.value === value) {
-                    // Remove vote
-                    await this.voteRepo.delete(existingVote.id);
-                    currentScore -= value;
-                } else {
-                    // Change vote
-                    existingVote.value = value;
-                    await this.voteRepo.create(existingVote);
-                    currentScore = currentScore - existingVote.value + value;
-                }
-            } else {
-                // New vote
-                const vote = {
-                    userId,
-                    targetType: 'question',
-                    targetId: questionId,
-                    value
-                };
-                await this.voteRepo.create(vote);
-                currentScore += value;
-            }
-
-            question.updateVoteScore(currentScore);
-            await this.questionRepo.update(question);
-
-            return Result.ok({ score: currentScore });
-        } catch (error) {
-            logger.error('Error in question service vote', error);
-            return Result.fail(new AppError('خطا در ثبت رای', 'VOTE_ERROR'));
-        }
-    }
-
-    async acceptAnswer(questionId, answerId, user) {
-        try {
-            const questionResult = await this.questionRepo.getById(questionId);
-            if (!questionResult.isOk() || !questionResult.data) {
-                return Result.fail(new AppError('سوال یافت نشد', 'QUESTION_NOT_FOUND'));
-            }
-
-            const question = questionResult.data;
-            if (!user.canAcceptAnswer(question)) {
-                return Result.fail(new AppError('شما اجازه پذیرش پاسخ را ندارید', 'PERMISSION_DENIED'));
-            }
-
-            question.acceptAnswer(answerId);
-            return await this.questionRepo.update(question);
-        } catch (error) {
-            logger.error('Error in question service acceptAnswer', error);
-            return Result.fail(new AppError('خطا در پذیرش پاسخ', 'ACCEPT_ANSWER_ERROR'));
-        }
+        const updated = await this.questionRepo.update(questionId, { votesScore });
+        return new Question(updated);
     }
 }
-

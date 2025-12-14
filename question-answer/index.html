@@ -10,19 +10,26 @@
     <div id="app">
         <nav class="navbar" role="navigation" aria-label="منوی اصلی">
             <div class="container">
-                <a href="#/questions" class="logo" aria-label="صفحه اصلی">Q&A</a>
-                <div class="nav-links">
-                    <a href="#/questions" class="nav-link">سوالات</a>
+                <div class="nav-brand">
+                    <a href="#/questions" class="logo">سوال و جواب</a>
+                </div>
+                <div class="nav-menu" id="navMenu">
+                    <a href="#/questions" class="nav-link">سوال‌ها</a>
                     <a href="#/questions/new" class="nav-link">سوال جدید</a>
-                    <span id="user-info" class="user-info"></span>
-                    <button id="logout-btn" class="btn btn-secondary" style="display: none;">خروج</button>
+                    <span id="userInfo" class="user-info"></span>
+                    <a href="#/admin" id="adminLink" class="nav-link" style="display: none;">مدیریت</a>
+                    <button id="logoutBtn" class="btn btn-secondary" style="display: none;">خروج</button>
                 </div>
             </div>
         </nav>
-        <main id="main-content" role="main"></main>
-        <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+        <main class="main-content" id="mainContent" role="main">
+            <!-- Views will be rendered here -->
+        </main>
+
+        <div id="toastContainer" class="toast-container" role="status" aria-live="polite"></div>
     </div>
+
     <script type="module" src="src/main.js"></script>
 </body>
 </html>
-
