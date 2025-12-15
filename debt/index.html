@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محاسبه‌گر واقعی سود وام - ایران</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>محاسبه‌گر واقعی سود وام بانکی</h1>
+            <p class="subtitle">محاسبه دقیق هزینه واقعی وام‌های بانکی در ایران</p>
+        </header>
+
+        <div class="main-content">
+            <section class="input-section">
+                <h2>اطلاعات وام</h2>
+                
+                <div class="form-group">
+                    <label for="bankName">نام بانک:</label>
+                    <input type="text" id="bankName" placeholder="مثال: بانک ملی">
+                </div>
+
+                <div class="form-group">
+                    <label for="loanAmount">مبلغ وام (تومان):</label>
+                    <input type="number" id="loanAmount" placeholder="مثال: 100000000" min="0">
+                </div>
+
+                <div class="form-group">
+                    <label for="depositAmount">مبلغ سپرده قبلی (تومان):</label>
+                    <input type="number" id="depositAmount" placeholder="مثال: 20000000" min="0" value="0">
+                    <small>مبلغی که باید قبل از دریافت وام در بانک سپرده‌گذاری کنید</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="depositPeriod">مدت سپرده‌گذاری (ماه):</label>
+                    <input type="number" id="depositPeriod" placeholder="مثال: 6" min="0" value="0">
+                    <small>مدت زمانی که باید پول را قبل از وام نگه دارید</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="interestRate">نرخ سود بانک (درصد سالانه):</label>
+                    <input type="number" id="interestRate" placeholder="مثال: 18" min="0" step="0.1">
+                    <small>نرخ سودی که بانک اعلام می‌کند</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="loanPeriod">مدت بازپرداخت (ماه):</label>
+                    <input type="number" id="loanPeriod" placeholder="مثال: 60" min="1">
+                </div>
+
+                <div class="form-group">
+                    <label for="commissionPercent">کارمزد اولیه (درصد):</label>
+                    <input type="number" id="commissionPercent" placeholder="مثال: 2" min="0" step="0.1" value="0">
+                    <small>کارمزدی که بانک هنگام پرداخت وام کسر می‌کند</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="upfrontDeduction">کسر اولیه بانک (تومان):</label>
+                    <input type="number" id="upfrontDeduction" placeholder="مثال: 5000000" min="0" value="0">
+                    <small>مبلغی که بانک در ابتدا از وام کسر می‌کند</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="insurancePercent">بیمه وام (درصد سالانه):</label>
+                    <input type="number" id="insurancePercent" placeholder="مثال: 0.5" min="0" step="0.1" value="0">
+                    <small>هزینه بیمه وام که به اقساط اضافه می‌شود</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="inflationRate">نرخ تورم پیش‌بینی (درصد سالانه):</label>
+                    <input type="number" id="inflationRate" placeholder="مثال: 40" min="0" step="0.1" value="0">
+                    <small>برای محاسبه ارزش واقعی پول</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="calculationMethod">روش محاسبه سود:</label>
+                    <select id="calculationMethod">
+                        <option value="reducing">سود متناقص (کاهشی)</option>
+                        <option value="flat">سود ثابت</option>
+                    </select>
+                    <small>سود متناقص: سود روی مانده بدهی محاسبه می‌شود</small>
+                </div>
+
+                <button id="calculateBtn" class="btn-primary">محاسبه کن</button>
+                <button id="saveBtn" class="btn-secondary">ذخیره محاسبه</button>
+            </section>
+
+            <section class="results-section" id="resultsSection" style="display: none;">
+                <h2>نتایج محاسبه</h2>
+                
+                <div class="result-card highlight">
+                    <h3>نرخ سود واقعی</h3>
+                    <div class="result-value" id="realInterestRate">-</div>
+                    <p class="result-description">نرخ سود واقعی که پرداخت می‌کنید (APR)</p>
+                </div>
+
+                <div class="result-grid">
+                    <div class="result-card">
+                        <h4>مبلغ دریافتی واقعی</h4>
+                        <div class="result-value small" id="actualReceived">-</div>
+                        <p>پولی که واقعاً دریافت می‌کنید</p>
+                    </div>
+
+                    <div class="result-card">
+                        <h4>قسط ماهانه</h4>
+                        <div class="result-value small" id="monthlyPayment">-</div>
+                        <p>مبلغ پرداختی هر ماه</p>
+                    </div>
+
+                    <div class="result-card">
+                        <h4>کل بازپرداخت</h4>
+                        <div class="result-value small" id="totalPayment">-</div>
+                        <p>مجموع مبالغ پرداختی</p>
+                    </div>
+
+                    <div class="result-card">
+                        <h4>کل سود پرداختی</h4>
+                        <div class="result-value small" id="totalInterest">-</div>
+                        <p>سودی که به بانک می‌دهید</p>
+                    </div>
+
+                    <div class="result-card">
+                        <h4>تاریخ پایان</h4>
+                        <div class="result-value small" id="endDate">-</div>
+                        <p>زمان پایان وام</p>
+                    </div>
+
+                    <div class="result-card">
+                        <h4>هزینه فرصت سپرده</h4>
+                        <div class="result-value small" id="opportunityCost">-</div>
+                        <p>سودی که از سپرده قبلی از دست دادید</p>
+                    </div>
+                </div>
+
+                <div class="result-card recommendation" id="recommendation">
+                    <h3>توصیه</h3>
+                    <p id="recommendationText">-</p>
+                </div>
+
+                <div class="chart-container">
+                    <h3>نمودار اقساط ماهانه</h3>
+                    <canvas id="paymentChart"></canvas>
+                </div>
+
+                <div class="amortization-container">
+                    <h3>جدول اقساط</h3>
+                    <button id="toggleAmortization" class="btn-secondary">نمایش جدول کامل</button>
+                    <div id="amortizationTable" style="display: none;"></div>
+                </div>
+            </section>
+
+            <section class="history-section">
+                <h2>تاریخچه محاسبات</h2>
+                <button id="clearHistoryBtn" class="btn-secondary">پاک کردن تاریخچه</button>
+                <div id="historyList"></div>
+            </section>
+        </div>
+
+        <footer>
+            <p>محاسبه‌گر واقعی سود وام - ابزاری برای تصمیم‌گیری آگاهانه</p>
+            <p class="disclaimer">توجه: این محاسبات تقریبی هستند. لطفاً برای اطلاعات دقیق با بانک مشورت کنید.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

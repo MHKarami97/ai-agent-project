@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="سازنده و خواننده آنلاین کد QR با پشتیبانی کامل موبایل"
+    />
+    <title>سازنده و خواننده QR</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero__content">
+        <p class="hero__eyebrow">ساده، سریع، بدون بک‌اند</p>
+        <h1>سازنده و خواننده QR</h1>
+        <p>
+          متن یا لینک خود را بنویسید و خروجی QR بسازید یا با آپلود تصویر / دوربین،
+          محتوای کد را بخوانید. همه چیز فقط در مرورگر انجام می‌شود.
+        </p>
+      </div>
+    </header>
+
+    <main class="app" id="app" tabindex="-1">
+      <section class="panel" aria-labelledby="generator-title">
+        <div class="panel__header">
+          <h2 id="generator-title">ساخت کد QR</h2>
+          <p>خروجی PNG با رنگ دلخواه دریافت کنید. آخرین تنظیمات در مرورگر ذخیره می‌شود.</p>
+        </div>
+        <form id="qr-generator" class="panel__body" novalidate>
+          <label for="qr-text">متن یا لینک</label>
+          <textarea
+            id="qr-text"
+            name="qr-text"
+            rows="4"
+            placeholder="https://example.com"
+            required
+          ></textarea>
+
+          <div class="form-grid">
+            <label class="form-field">
+              رنگ QR
+              <input type="color" id="qr-color" name="qr-color" value="#111827" />
+            </label>
+            <label class="form-field">
+              رنگ پس‌زمینه
+              <input type="color" id="qr-bg" name="qr-bg" value="#ffffff" />
+            </label>
+            <label class="form-field">
+              اندازه (پیکسل)
+              <select id="qr-size" name="qr-size">
+                <option value="200">200</option>
+                <option value="240" selected>240</option>
+                <option value="320">320</option>
+                <option value="400">400</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="actions">
+            <button type="submit">ساخت QR</button>
+            <button type="button" id="download-btn" class="secondary">دانلود PNG</button>
+            <button type="button" id="copy-btn" class="ghost">کپی متن</button>
+          </div>
+          <p class="status" id="generator-status" role="status"></p>
+        </form>
+        <div class="preview" aria-live="polite">
+          <canvas id="qr-canvas" width="240" height="240" aria-label="پیش‌نمایش QR"></canvas>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="reader-title">
+        <div class="panel__header">
+          <h2 id="reader-title">خواندن کد QR</h2>
+          <p>عکس را آپلود کنید یا از دوربین استفاده کنید تا متن داخل QR نمایش داده شود.</p>
+        </div>
+        <div class="panel__body">
+          <label for="qr-file">آپلود تصویر QR</label>
+          <input type="file" id="qr-file" accept="image/*" />
+
+          <div class="divider" role="presentation"><span>یا</span></div>
+
+          <div class="camera">
+            <div class="camera__actions">
+              <button type="button" id="start-camera">شروع اسکن دوربین</button>
+              <button type="button" id="stop-camera" class="ghost" disabled>توقف</button>
+            </div>
+            <video id="qr-video" autoplay playsinline muted></video>
+          </div>
+
+          <p class="status" id="reader-status" role="status"></p>
+          <article class="result" id="reader-result" aria-live="polite">
+            <h3>خروجی</h3>
+            <pre id="reader-output">چیزی برای نمایش نیست</pre>
+            <div class="result__actions">
+              <button type="button" id="open-link" class="secondary" disabled>باز کردن لینک</button>
+              <button type="button" id="copy-result" class="ghost" disabled>کپی متن</button>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>ساخته‌شده با عشق و فونت وزیرمتن • مناسب GitHub Pages</p>
+    </footer>
+
+    <canvas id="qr-reader-canvas" hidden></canvas>
+
+    <script src="assets/js/vendor-qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+    <script src="assets/js/app.js" defer></script>
+  </body>
+</html>

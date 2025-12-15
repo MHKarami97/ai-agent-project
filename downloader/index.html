@@ -1,0 +1,41 @@
+﻿<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>دانلودر رسانه‌های اجتماعی (بدون سرور)</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <main class="container">
+    <h1>دانلودر رسانه‌ها (بدون نیاز به سرور)</h1>
+    <p class="lead">آدرس پست اینستاگرام، تلگرام، توییتر (X) یا لینکداین را وارد کنید، برنامه داخل مرورگر محتوا را واکشی و رسانه (عکس/ویدیو) را برای دانلود فراهم می‌کند.</p>
+
+    <form id="fetchForm">
+      <label for="urlInput">نشانی پست</label>
+      <input id="urlInput" type="url" placeholder="مثال: https://www.instagram.com/p/...." required>
+
+      <div class="row">
+        <button id="fetchBtn" type="submit">پیدا کن</button>
+        <select id="proxySelect" title="پراکسی برای واکشی HTML">
+          <option value="https://api.allorigins.win/raw?url=">AllOrigins (پیشنهادی)</option>
+          <option value="https://thingproxy.freeboard.io/fetch/">ThingProxy (غیرقابل‌اطمینان)</option>
+        </select>
+      </div>
+    </form>
+
+    <section id="notice">
+      <strong>هشدار حقوقی و حریم خصوصی</strong>
+      <p>فقط محتوای عمومی و مجاز را دانلود کنید. درخواست‌ها ممکن است از طریق پراکسی‌های شخص‌ثالث ارسال شوند و آن‌ها ممکن است آدرس‌ها را ذخیره کنند — برای حفظ حریم خصوصی از خود-هاست کردن پراکسی (Cloudflare Worker) استفاده کنید.</p>
+    </section>
+
+    <section id="results" aria-live="polite"></section>
+
+    <footer>
+      <p>این برنامه به‌صورت محلی در مرورگر اجرا می‌شود و برای تولید پایدار پیشنهاد می‌شود یک پراکسی سرور کوچک داشته باشید.</p>
+    </footer>
+  </main>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

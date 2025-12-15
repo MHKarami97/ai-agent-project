@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="ویرایشگر مارک‌داون راست‌به‌چپ با پیش‌نمایش زنده و خروجی PDF/Word" />
+  <title>ویرایشگر مارک‌داون RTL</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='60' text-anchor='middle' font-size='60'%3EMP%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/html-docx-js/dist/html-docx.js"></script>
+  <script defer src="assets/js/app.js"></script>
+</head>
+<body>
+  <header class="app-header">
+    <div class="branding">
+      <div class="logo" aria-hidden="true">✏️</div>
+      <div>
+        <p class="title">ویرایشگر مارک‌داون</p>
+        <p class="subtitle">پیش‌نمایش زنده + ذخیره خودکار + خروجی PDF/Word</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button id="themeToggle" class="ghost" type="button" aria-pressed="false">حالت تیره</button>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <section class="toolbar" aria-label="نوار ابزار">
+      <div class="toolbar-group">
+        <button id="newDocBtn" type="button">سند تازه</button>
+        <button id="sampleBtn" type="button">نمونهٔ مارک‌داون</button>
+        <button id="saveNowBtn" type="button" class="ghost">ذخیره فوری</button>
+      </div>
+      <div class="toolbar-group">
+        <button id="exportPdfBtn" type="button">خروجی PDF</button>
+        <button id="exportDocBtn" type="button">خروجی Word</button>
+      </div>
+    </section>
+
+    <div class="status-bar" role="status" aria-live="polite">
+      <span id="statusMessage">همه‌چیز ذخیره شده است.</span>
+      <span id="wordCount">۰ واژه</span>
+    </div>
+
+    <section class="panes" aria-label="ویرایشگر و پیش‌نمایش">
+      <article class="panel editor-panel">
+        <header class="panel-header">
+          <h2>ویرایشگر (Markdown)</h2>
+          <span class="hint">از کلیدهای Ctrl/Cmd+S برای ذخیره دستی استفاده کنید.</span>
+        </header>
+        <textarea id="editor" spellcheck="false" aria-label="ناحیهٔ نوشتن مارک‌داون"
+          placeholder="# سلام!
+این یک ویرایشگر مارک‌داون راست‌به‌چپ با پیش‌نمایش زنده است.
+- تیترها
+- لیست‌ها
+- کد
+همه پشتیبانی می‌شوند."></textarea>
+      </article>
+
+      <article class="panel preview-panel">
+        <header class="panel-header">
+          <h2>پیش‌نمایش زنده</h2>
+          <span class="hint">خروجی تمیز و امن با DOMPurify</span>
+        </header>
+        <div id="preview" class="markdown-body" aria-live="polite"></div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>
+      متن و پیش‌نمایش از فونت <strong>Vazirmatn</strong> استفاده می‌کنند. این پروژه تماماً سمت مرورگر اجرا می‌شود و برای میزبانی در GitHub Pages آماده است.
+    </p>
+  </footer>
+</body>
+</html>
+

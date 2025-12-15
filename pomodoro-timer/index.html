@@ -1,0 +1,150 @@
+﻿<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="تایمر پومودورو RTL با آمار روزانه و ذخیره‌سازی در مرورگر برای مدیریت زمان"
+    />
+    <title>تایمر پومودورو روزانه</title>
+    <link
+      rel="preload"
+      as="style"
+      href="https://cdn.jsdelivr.net/npm/vazirmatn@33.103.15/Vazirmatn-Variable-font-face.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/vazirmatn@33.103.15/Vazirmatn-Variable-font-face.css"
+    />
+    <link rel="stylesheet" href="assets/css/main.css" />
+  </head>
+  <body>
+    <header class="hero" role="banner">
+      <div class="container hero__grid">
+        <div>
+          <p class="eyebrow">مدیریت زمان با تمرکز</p>
+          <h1>تایمر پومودورو - آمار لحظه‌ای و گزارش روزانه</h1>
+          <p>
+            چرخه‌های تمرکز و استراحت را با تکنیک پومودورو دنبال کنید، ریتم کاری خود را حفظ
+            کنید و گزارش روزانه از عملکردتان بگیرید؛ همه‌چیز در مرورگر شما و بدون نیاز به
+            سرور.
+          </p>
+          <div class="hero__badges">
+            <span>RTL</span>
+            <span>آفلاین</span>
+            <span>پشتیبانی موبایل</span>
+          </div>
+        </div>
+        <div class="hero__note">
+          <p>
+            تنظیم کنید، استارت بزنید، و بقیه‌اش را به داشبورد هوشمند بسپارید. داده‌های هر روز
+            به‌صورت خودکار ذخیره می‌شوند تا روند پیشرفت‌تان همیشه جلوی چشم باشد.
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <main class="container" id="app" tabindex="-1">
+      <section class="panel timer-card" aria-labelledby="timer-heading">
+        <div class="panel__header">
+          <h2 id="timer-heading">چرخه فعال</h2>
+          <p class="panel__subtitle" id="cycle-label">چرخه ۱ از ۴</p>
+        </div>
+
+        <div class="mode-tabs" role="tablist" aria-label="انتخاب حالت">
+          <button class="mode-tab is-active" role="tab" data-mode="focus">تمرکز</button>
+          <button class="mode-tab" role="tab" data-mode="short">استراحت کوتاه</button>
+          <button class="mode-tab" role="tab" data-mode="long">استراحت بلند</button>
+        </div>
+
+        <div class="timer-display" aria-live="polite">
+          <div class="timer-progress" role="img" aria-hidden="true">
+            <span class="timer-progress__shadow"></span>
+            <span class="timer-progress__inner" id="timer-fill"></span>
+          </div>
+          <p class="timer-display__value" id="time-text">25:00</p>
+          <p class="timer-display__label" id="mode-label">تمرکز فعال</p>
+        </div>
+
+        <div class="controls">
+          <button class="btn btn-primary" id="start-pause">شروع</button>
+          <button class="btn" id="reset">بازنشانی</button>
+          <button class="btn btn-ghost" id="skip">رد کردن فاز</button>
+        </div>
+
+        <form class="settings" id="settings-form" autocomplete="off">
+          <h3>تنظیم مدت زمان چرخه‌ها</h3>
+          <div class="settings__grid">
+            <label>
+              تمرکز (دقیقه)
+              <input type="number" min="10" max="60" step="1" name="focus" required />
+            </label>
+            <label>
+              استراحت کوتاه (دقیقه)
+              <input type="number" min="3" max="20" step="1" name="short" required />
+            </label>
+            <label>
+              استراحت بلند (دقیقه)
+              <input type="number" min="10" max="40" step="1" name="long" required />
+            </label>
+            <label>
+              تعداد چرخه تا استراحت بلند
+              <input type="number" min="2" max="6" step="1" name="interval" required />
+            </label>
+          </div>
+          <div class="settings__actions">
+            <button class="btn" type="submit">ذخیره و اعمال</button>
+            <button class="btn btn-ghost" type="button" id="reset-stats">
+              پاک‌سازی آمار روزانه
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel stats-card" aria-labelledby="stats-heading">
+        <div class="panel__header">
+          <h2 id="stats-heading">آمار امروز</h2>
+          <p class="panel__subtitle" id="today-date">—</p>
+        </div>
+
+        <div class="stats-grid" id="today-stats">
+          <article class="stat">
+            <p class="stat__label">چرخه‌های کامل شده</p>
+            <p class="stat__value" id="today-focus">0</p>
+          </article>
+          <article class="stat">
+            <p class="stat__label">دقایق تمرکز</p>
+            <p class="stat__value" id="today-focus-minutes">0</p>
+          </article>
+          <article class="stat">
+            <p class="stat__label">دقایق استراحت</p>
+            <p class="stat__value" id="today-break-minutes">0</p>
+          </article>
+        </div>
+
+        <div class="history">
+          <div class="history__header">
+            <h3>گزارش هفت روز اخیر</h3>
+            <p class="history__hint">ذخیره‌سازی در مرورگر انجام می‌شود.</p>
+          </div>
+          <ul class="history__list" id="history-list" aria-live="polite"></ul>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer__grid">
+        <p>
+          ساخته شده برای هاست روی GitHub Pages | همه‌چیز در مرورگر اجرا می‌شود و داده‌ها در
+          <span lang="en">localStorage</span> باقی می‌مانند.
+        </p>
+        <p class="footer__signature">پروژه پومودورو RTL</p>
+      </div>
+    </footer>
+
+    <script src="assets/js/storage.js" defer></script>
+    <script src="assets/js/app.js" defer></script>
+  </body>
+</html>
+

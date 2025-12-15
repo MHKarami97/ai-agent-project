@@ -1,0 +1,72 @@
+﻿<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>OSINT Search Dashboard</title>
+  <!-- Improve font loading: preconnect + crossorigin for Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- VazirmtN font from Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="wrap">
+    <h1>OSINT Search Dashboard</h1>
+    <p class="lead">وارد کنید: نام یا نام و نام خانوادگی (فارسی یا لاتین). این ابزار چندین سرویس عمومی را جستجو می‌کند (Wikipedia, Wikidata, DuckDuckGo instant answers) و لینک‌های عمیق به موتورهای جستجو و شبکه‌های اجتماعی می‌سازد.</p>
+
+    <div class="controls">
+      <label for="q" class="sr-only">جستجو</label>
+      <input id="q" type="text" placeholder="مثال: علیرضا رضایی or Elon Musk" />
+      <button id="searchBtn">جستجو</button>
+      <button id="openAllBtn" class="secondary">باز کردن همه لینک‌های جستجو</button>
+      <div id="status" class="small"></div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <strong>نتایج جمع‌آوری‌شده</strong>
+            <div class="small">منابع: Wikipedia (چند زبان), Wikidata, DuckDuckGo, لینک‌های جستجوی عمیق</div>
+          </div>
+          <div id="results" aria-live="polite">
+            <div class="small">هیچ جستجویی انجام نشده است.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col side">
+        <div class="card">
+          <strong>جستجوی عمیق / لینک‌های سریع</strong>
+          <p class="small">کلیک روی یک آیتم، صفحه جستجو را برای نام مورد نظر باز می‌کند (در تب جدید).</p>
+          <div class="links" id="deepLinks"></div>
+
+          <!-- OSINT resources panel (rendered by JS) -->
+          <hr />
+          <div id="resourcesPanel"></div>
+
+          <hr />
+          <div>
+            <strong>زبان‌هایی که جستجو شد</strong>
+            <div class="langList" id="langList"></div>
+          </div>
+
+          <hr />
+          <div>
+            <strong>خروجی JSON</strong>
+            <p class="small">در انتها می‌توانید خروجی را به صورت JSON کپی کنید.</p>
+            <button id="copyJson" class="secondary">کپی JSON</button>
+            <button id="downloadJson" class="secondary">دانلود JSON</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>این ابزار برای تحقیقات روی داده‌های عمومی طراحی شده است؛ مسئولیت استفاده اخلاقی با شماست.</footer>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>

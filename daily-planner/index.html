@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>برنامه‌ریز روزانه | Daily Planner</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📅 برنامه‌ریز روزانه</h1>
+            <p class="subtitle">مدیریت هوشمند وظایف روزانه شما</p>
+        </header>
+
+        <main>
+            <!-- Persian Calendar Section -->
+            <section class="calendar-section">
+                <div class="calendar-header">
+                    <button id="prevMonth" class="btn-nav">◄</button>
+                    <h2 id="currentMonth"></h2>
+                    <button id="nextMonth" class="btn-nav">►</button>
+                </div>
+                <div id="calendar" class="calendar-grid"></div>
+                <div class="today-info">
+                    <p id="todayDate"></p>
+                </div>
+            </section>
+
+            <!-- Task Input Section -->
+            <section class="task-input-section">
+                <h3>افزودن وظیفه جدید</h3>
+                <div class="input-group">
+                    <input type="text" id="taskTitle" placeholder="عنوان وظیفه" class="input-field">
+                    <textarea id="taskDescription" placeholder="توضیحات (اختیاری)" class="input-field" rows="3"></textarea>
+                    
+                    <div class="row">
+                        <div class="col">
+                            <label for="taskDate">تاریخ:</label>
+                            <input type="text" id="taskDate" class="input-field" placeholder="انتخاب از تقویم" readonly>
+                        </div>
+                        <div class="col">
+                            <label for="taskTime">زمان:</label>
+                            <input type="time" id="taskTime" class="input-field">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <label for="taskPriority">اولویت:</label>
+                            <select id="taskPriority" class="input-field">
+                                <option value="low">کم</option>
+                                <option value="medium" selected>متوسط</option>
+                                <option value="high">زیاد</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="taskReminder">یادآوری:</label>
+                            <select id="taskReminder" class="input-field">
+                                <option value="none">بدون یادآوری</option>
+                                <option value="0">در زمان وظیفه</option>
+                                <option value="5">5 دقیقه قبل</option>
+                                <option value="15">15 دقیقه قبل</option>
+                                <option value="30">30 دقیقه قبل</option>
+                                <option value="60">1 ساعت قبل</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button id="addTaskBtn" class="btn btn-primary">افزودن وظیفه</button>
+                    <button id="updateTaskBtn" class="btn btn-success" style="display: none;">ذخیره تغییرات</button>
+                    <button id="cancelEditBtn" class="btn btn-secondary" style="display: none;">انصراف</button>
+                </div>
+            </section>
+
+            <!-- Filter Section -->
+            <section class="filter-section">
+                <h3>فیلتر وظایف</h3>
+                <div class="filter-buttons">
+                    <button class="btn-filter active" data-filter="all">همه</button>
+                    <button class="btn-filter" data-filter="today">امروز</button>
+                    <button class="btn-filter" data-filter="week">این هفته</button>
+                    <button class="btn-filter" data-filter="completed">انجام شده</button>
+                    <button class="btn-filter" data-filter="pending">در انتظار</button>
+                </div>
+                <div class="search-box">
+                    <input type="text" id="searchTasks" class="input-field" placeholder="🔍 جستجو در وظایف...">
+                </div>
+            </section>
+
+            <!-- Tasks List Section -->
+            <section class="tasks-section">
+                <div class="tasks-header">
+                    <h3>لیست وظایف</h3>
+                    <button id="clearCompletedBtn" class="btn btn-danger-outline">پاک کردن انجام شده‌ها</button>
+                </div>
+                <div id="tasksList" class="tasks-list">
+                    <p class="no-tasks">هیچ وظیفه‌ای وجود ندارد. لطفاً یک وظیفه جدید اضافه کنید.</p>
+                </div>
+            </section>
+
+            <!-- Statistics Section -->
+            <section class="stats-section">
+                <h3>آمار وظایف</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalTasks">0</div>
+                        <div class="stat-label">کل وظایف</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="completedTasks">0</div>
+                        <div class="stat-label">انجام شده</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="pendingTasks">0</div>
+                        <div class="stat-label">در انتظار</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="todayTasks">0</div>
+                        <div class="stat-label">وظایف امروز</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>ساخته شده با ❤️ برای مدیریت بهتر زمان</p>
+        </footer>
+    </div>
+
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
+

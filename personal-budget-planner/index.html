@@ -1,0 +1,186 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>برنامه مدیریت بودجه شخصی</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💰 مدیریت بودجه شخصی</h1>
+            <p class="subtitle">برنامه ریزی و تحلیل دارایی های خود</p>
+        </header>
+
+        <div class="summary-cards">
+            <div class="card income-card">
+                <div class="card-icon">📈</div>
+                <div class="card-content">
+                    <h3>کل درآمد</h3>
+                    <p class="amount" id="totalIncome">0</p>
+                </div>
+            </div>
+            <div class="card expense-card">
+                <div class="card-icon">📉</div>
+                <div class="card-content">
+                    <h3>کل هزینه</h3>
+                    <p class="amount" id="totalExpense">0</p>
+                </div>
+            </div>
+            <div class="card balance-card">
+                <div class="card-icon">💵</div>
+                <div class="card-content">
+                    <h3>موجودی</h3>
+                    <p class="amount" id="balance">0</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="form-section">
+                <h2>افزودن تراکنش جدید</h2>
+                <form id="transactionForm">
+                    <div class="form-group">
+                        <label for="type">نوع تراکنش:</label>
+                        <select id="type" required>
+                            <option value="income">درآمد</option>
+                            <option value="expense">هزینه</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">دسته بندی:</label>
+                        <select id="category" required>
+                            <option value="حقوق">حقوق</option>
+                            <option value="پاداش">پاداش</option>
+                            <option value="سرمایه گذاری">سرمایه گذاری</option>
+                            <option value="غذا">غذا</option>
+                            <option value="حمل و نقل">حمل و نقل</option>
+                            <option value="خرید">خرید</option>
+                            <option value="قبض">قبض</option>
+                            <option value="تفریح">تفریح</option>
+                            <option value="بهداشت">بهداشت</option>
+                            <option value="آموزش">آموزش</option>
+                            <option value="سایر">سایر</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">توضیحات:</label>
+                        <input type="text" id="description" placeholder="توضیحات تراکنش" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="amount">مبلغ (تومان):</label>
+                        <input type="number" id="amount" placeholder="0" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="date">تاریخ:</label>
+                        <input type="date" id="date" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        <span id="btnText">افزودن تراکنش</span>
+                    </button>
+                </form>
+            </div>
+
+            <div class="chart-section">
+                <h2>نمودار تحلیلی</h2>
+                <div class="chart-tabs">
+                    <button class="tab-btn active" data-chart="pie">نمودار دایره‌ای</button>
+                    <button class="tab-btn" data-chart="bar">نمودار میله‌ای</button>
+                    <button class="tab-btn" data-chart="line">نمودار خطی</button>
+                </div>
+                <div class="chart-container">
+                    <canvas id="chart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="transactions-section">
+            <div class="section-header">
+                <h2>تاریخچه تراکنش ها</h2>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">همه</button>
+                    <button class="filter-btn" data-filter="income">درآمد</button>
+                    <button class="filter-btn" data-filter="expense">هزینه</button>
+                </div>
+            </div>
+            
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="جستجو در تراکنش ها...">
+            </div>
+
+            <div id="transactionsList" class="transactions-list">
+                <div class="empty-state">
+                    <div class="empty-icon">📝</div>
+                    <p>هنوز تراکنشی ثبت نشده است</p>
+                    <p class="empty-hint">برای شروع، یک تراکنش جدید اضافه کنید</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="export-section">
+            <button class="btn btn-secondary" id="exportBtn">📊 خروجی Excel</button>
+            <button class="btn btn-danger" id="clearAllBtn">🗑️ پاک کردن همه داده‌ها</button>
+        </div>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>ویرایش تراکنش</h2>
+            <form id="editForm">
+                <div class="form-group">
+                    <label for="editType">نوع تراکنش:</label>
+                    <select id="editType" required>
+                        <option value="income">درآمد</option>
+                        <option value="expense">هزینه</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="editCategory">دسته بندی:</label>
+                    <select id="editCategory" required>
+                        <option value="حقوق">حقوق</option>
+                        <option value="پاداش">پاداش</option>
+                        <option value="سرمایه گذاری">سرمایه گذاری</option>
+                        <option value="غذا">غذا</option>
+                        <option value="حمل و نقل">حمل و نقل</option>
+                        <option value="خرید">خرید</option>
+                        <option value="قبض">قبض</option>
+                        <option value="تفریح">تفریح</option>
+                        <option value="بهداشت">بهداشت</option>
+                        <option value="آموزش">آموزش</option>
+                        <option value="سایر">سایر</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="editDescription">توضیحات:</label>
+                    <input type="text" id="editDescription" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editAmount">مبلغ (تومان):</label>
+                    <input type="number" id="editAmount" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editDate">تاریخ:</label>
+                    <input type="date" id="editDate" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">ذخیره تغییرات</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
