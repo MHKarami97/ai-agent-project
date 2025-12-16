@@ -1,0 +1,187 @@
+﻿@import url("https://fonts.cdnfonts.com/css/vazirmtn");
+
+:root {
+  color-scheme: light;
+  font-family: "Vazirmtn", "Vazir", "Tahoma", sans-serif;
+  background-color: #fdfdfb;
+  color: #1f1f1f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  background: radial-gradient(circle at top, #e6f2ff 0%, #fdfdfb 60%);
+}
+
+.app-shell {
+  width: min(960px, 100%);
+  background: #ffffffee;
+  border-radius: 1.5rem;
+  padding: clamp(1.5rem, 2vw, 3rem);
+  box-shadow: 0 25px 60px -35px rgba(32, 44, 79, 0.8);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.hero {
+  text-align: right;
+}
+
+.hero h1 {
+  margin: 0.25rem 0 0.6rem;
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+}
+
+.eyebrow {
+  font-size: 0.95rem;
+  letter-spacing: 0.21em;
+  text-transform: uppercase;
+  color: #3c5a99;
+  margin: 0;
+}
+
+.lead {
+  margin: 0;
+  line-height: 1.65;
+  color: #4e5864;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.controls {
+  background: #f8fbff;
+  border-radius: 1.25rem;
+  padding: 1.25rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.control-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-weight: 600;
+}
+
+.control-item input[type="number"] {
+  border-radius: 0.75rem;
+  border: 1px solid #d7dce4;
+  padding: 0.6rem 0.9rem;
+  font-size: 1rem;
+  direction: ltr;
+}
+
+.control-item input[type="range"] {
+  width: 100%;
+  accent-color: #4059ff;
+}
+
+.range-value {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  border-radius: 0.9rem;
+  padding: 0.75rem 1.4rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.primary {
+  background: linear-gradient(135deg, #4059ff, #7c6bff);
+  color: white;
+  box-shadow: 0 15px 35px -20px #4059ff;
+}
+
+.ghost {
+  background: #ffffff;
+  border: 1px solid #d1d5e0;
+  color: #3b3f4a;
+}
+
+.primary:not(:disabled):hover,
+.ghost:not(:disabled):hover {
+  transform: translateY(-2px);
+}
+
+.output {
+  background: #10101c;
+  color: #f7f7fb;
+  border-radius: 1.25rem;
+  padding: 1.25rem;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.output-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.result {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  line-height: 1.8;
+}
+
+.result p {
+  margin: 0;
+}
+
+.status {
+  font-size: 0.85rem;
+  color: #82fcff;
+  min-height: 1.2em;
+}
+
+@media (max-width: 640px) {
+  body {
+    padding: 1rem;
+  }
+  .controls {
+    padding: 1rem;
+  }
+  .actions {
+    justify-content: stretch;
+  }
+  button {
+    width: 100%;
+    text-align: center;
+  }
+}
+

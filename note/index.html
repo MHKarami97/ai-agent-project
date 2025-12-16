@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>دفتر هوشمند یادداشت‌ها</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">دفتر یادداشت آفلاین</p>
+        <h1>یادداشت‌های خود را به سبک درگ و دراپ سازمان‌دهی کنید</h1>
+        <p class="supporting">
+          بدون سرور، فقط مرورگر؛ متن و Markdown را ذخیره کنید، جا‌به‌جا کنید، و دوباره بازنویسی کنید.
+        </p>
+      </div>
+      <div class="hero-meta">
+        <p>محیط کاملاً راست‌چین شده (RTL)</p>
+        <p>ذخیره خودکار با LocalStorage</p>
+        <p>رندر سریع Markdown</p>
+      </div>
+    </header>
+
+    <section class="note-form-section">
+      <div class="form-shell">
+        <form id="note-form">
+          <label for="note-title">عنوان یادداشت</label>
+          <input id="note-title" name="title" type="text" placeholder="مثلاً: برنامه‌ریزی جلسه" autocomplete="off" required />
+
+          <label for="note-content">محتوای Markdown</label>
+          <textarea id="note-content" name="content" rows="6" placeholder="**نکته‌ کلیدی** را بنویسید" required></textarea>
+
+          <div class="form-actions">
+            <button type="submit" id="note-submit">ذخیره یادداشت</button>
+            <button type="button" id="note-cancel" class="ghost-button">لغو و پاک‌سازی</button>
+          </div>
+        </form>
+        <div class="markdown-preview" aria-live="polite">
+          <p class="preview-label">پیش‌نمایش Markdown</p>
+          <div id="markdown-preview" class="preview-body">
+            <p>متن خود را تایپ کنید تا پیش‌نمایش آن را ببینید.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="board-section">
+      <div class="board-toolbar">
+        <div>
+          <strong id="note-count">0</strong>
+          <span>یادداشت فعال</span>
+        </div>
+        <div>
+          <button type="button" id="clear-all">پاک‌سازی همه</button>
+        </div>
+      </div>
+      <p class="board-hint">برای حرکت: نگه دارید و بکشید. از دکمه‌های ویرایش/حذف برای مدیریت استفاده کنید.</p>
+      <div id="notes-board" class="notes-board" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script src="assets/app.js" defer></script>
+</body>
+</html>

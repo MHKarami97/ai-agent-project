@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ژنراتور Lorem Ipsum فارسی</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="hero">
+      <p class="eyebrow">متن تستی فوری</p>
+      <h1>ژنراتور Lorem Ipsum فارسی</h1>
+      <p class="lead">چند خط یا پاراگراف از متن تولیدشده برای چیدمان رابط کاربری، بدون نیاز به سرور یا تنظیمات پیچیده.</p>
+    </header>
+
+    <main>
+      <section class="controls" aria-label="تنظیمات تولید">
+        <label class="control-item">
+          <span>تعداد پاراگراف</span>
+          <input type="number" id="paragraphCount" min="1" max="8" value="3">
+        </label>
+        <label class="control-item">
+          <span>جملات در هر پاراگراف</span>
+          <input type="range" id="sentencesPerParagraph" min="2" max="8" value="4">
+          <span class="range-value" id="sentenceValue">۴</span>
+        </label>
+        <div class="actions">
+          <button id="generateBtn" class="primary">تولید جدید</button>
+          <button id="copyBtn" class="ghost" disabled>کپی متن</button>
+        </div>
+      </section>
+
+      <section class="output" aria-live="polite">
+        <div class="output-header">
+          <h2>متن تولیدشده</h2>
+          <p id="statusMessage" class="status"></p>
+        </div>
+        <div id="result" class="result" tabindex="0"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
+

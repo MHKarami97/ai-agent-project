@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>برنامه‌ریز سفر | مسافر هوشمند</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="assets/styles/main.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="hero__content">
+      <p class="hero__eyebrow">سفر با برنامه</p>
+      <h1>محاسبه‌گر فاصله و برنامه‌ریز سفر</h1>
+      <p>
+        تمام ابزارهای لازم برای تخمین زمان، فاصله، هزینه و یادداشت‌های مسیرها را با
+        یک رابط ساده در اختیار دارید. هیچ بک‌اندی لازم نیست؛ همه داده‌ها در مرورگر
+        شما ذخیره می‌شود.
+      </p>
+      <div class="hero__actions">
+        <a href="#calculator" class="btn primary">محاسبه فاصله</a>
+        <a href="#itinerary" class="btn secondary">برنامه‌ریزی سفر</a>
+      </div>
+    </div>
+    <div class="hero__panel">
+      <h2>برنامه‌ریزی هوشمند</h2>
+      <p>
+        با ثبت مسیرها، بودجه و یادداشت‌ها، یک خلاصه سفر برای خود بسازید و هر زمان
+        آن را ادامه دهید؛ اطلاعات تا وقتی مرورگر شما پاک نشود، باقی می‌مانند.
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <section id="calculator" class="panel">
+      <div class="panel__header">
+        <h3>محاسبه‌گر فاصله و زمان سفر</h3>
+        <p>مسافت، سرعت متوسط و نتیجه زمانی را همین حالا ببینید.</p>
+      </div>
+      <form id="distance-form" class="form-grid">
+        <label>
+          شهر مبدا
+          <input type="text" name="origin" placeholder="مثلاً تهران" required />
+        </label>
+        <label>
+          شهر مقصد
+          <input type="text" name="destination" placeholder="مثلاً مشهد" required />
+        </label>
+        <label>
+          سرعت متوسط (کیلومتر بر ساعت)
+          <input type="number" name="speed" placeholder="مثلاً 90" min="10" step="5" required />
+        </label>
+        <p class="form-note">
+          فقط مبدا، مقصد و سرعت را وارد کنید؛ فاصله و زمان با استفاده از داده‌های آزاد نقشه (OpenStreetMap/OSRM) و در صورت نیاز محاسبه کروی داخلی تخمین زده می‌شود.
+        </p>
+        <button type="submit" class="btn primary">محاسبه کن</button>
+      </form>
+      <div id="distance-result" class="result-card" aria-live="polite">
+        <p>در اینجا نتیجه فاصله و زمان نشان داده می‌شود.</p>
+      </div>
+    </section>
+
+    <section id="itinerary" class="panel">
+      <div class="panel__header">
+        <h3>برنامه‌ریز مسیر و هزینه</h3>
+        <p>هر مسیر را همراه با هزینه و توضیحات ثبت کن و همیشه در دسترس داشته باش.</p>
+      </div>
+      <form id="itinerary-form" class="form-grid">
+        <label>
+          نام مسیر یا شهر
+          <input type="text" name="title" placeholder="مثلاً تهران به شیراز" required />
+        </label>
+        <label>
+          مدت (شب)
+          <input type="number" name="nights" placeholder="مثلاً 3" min="1" step="1" required />
+        </label>
+        <label>
+          بودجه تخمینی (ریال)
+          <input type="number" name="budget" placeholder="مثلاً 25000000" min="1" step="1000" required />
+        </label>
+        <label>
+          یادداشت‌های کوتاه
+          <textarea name="notes" rows="2" placeholder="مکان‌های پیشنهادی یا نکات مهم"></textarea>
+        </label>
+        <button type="submit" class="btn secondary">ذخیره برنامه</button>
+      </form>
+      <div class="itinerary">
+        <div class="itinerary__header">
+          <h4>لیست برنامه‌ها</h4>
+          <button id="clear-itinerary" class="btn ghost">پاک کردن همه</button>
+        </div>
+        <div id="itinerary-list" class="itinerary__list">
+          <p>هنوز برنامه‌ای ذخیره نشده است.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>همه اطلاعات روی مرورگر شما نگهداری می‌شود و برای راه‌اندازی فقط کافیست صفحه را باز کنید.</p>
+    <p>مناسب برای میزبانی روی GitHub Pages یا هر سرویس استاتیک دیگر.</p>
+  </footer>
+
+  <script src="assets/scripts/app.js" defer></script>
+</body>
+</html>

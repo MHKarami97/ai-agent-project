@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JSON Formatter و Validator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <div>
+        <p class="hero__eyebrow">JSON Formatter و Validator</p>
+        <h1>فرمت‌دهی، اعتبارسنجی و نمایش درختی JSON در مرورگر</h1>
+        <p class="hero__lead">
+          همه چیز بدون بک‌اند، فقط با مرورگر شما انجام می‌شود؛ متن را وارد کنید، فرمت
+          کنید، درخت را ببینید و نتیجه را در حافظه مرورگر نگه دارید.
+        </p>
+      </div>
+      <div class="hero__badge">Cache در localStorage</div>
+    </header>
+
+    <main class="app-shell">
+      <section class="panel">
+        <div class="panel__header">
+          <div>
+            <p class="panel__eyebrow">ورودی JSON</p>
+            <h2>متن یا فایل JSON خود را وارد کنید</h2>
+          </div>
+          <p class="panel__side-note">بر اساس داده‌های شما در همان مرورگر می‌ماند.</p>
+        </div>
+        <textarea
+          id="json-input"
+          placeholder="{\n  \"name\": \"سرویس من\",\n  \"items\": [1, 2, 3]\n}"
+          aria-label="ورودی JSON"
+        ></textarea>
+
+        <div class="panel__actions">
+          <button id="format-btn" class="btn btn--primary">فرمت کردن</button>
+          <button id="validate-btn" class="btn btn--ghost">اعتبارسنجی</button>
+          <button id="clear-btn" class="btn btn--ghost">پاک کردن</button>
+        </div>
+
+        <p id="status" class="status" role="status"></p>
+
+        <div class="examples">
+          <span>مثال‌ها:</span>
+          <div class="examples__list">
+            <button type="button" class="chip sample" data-sample='{ "title": "آرشیو", "tags": ["json", "validator"], "meta": { "version": 1 } }'>آبجکت
+              ساده</button>
+            <button type="button" class="chip sample" data-sample='[ { "id": 1, "done": false }, { "id": 2, "done": true } ]'>آرایه</button>
+            <button type="button" class="chip sample" data-sample='{ "name": "فروشگاه", "products": [ { "id": "a1", "price": 9900 }, { "id": "b2", "price": 12500 } ], "meta": { "owner": null, "opened": true } }'>چند
+              لایه</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel panel--tree">
+        <div class="panel__header">
+          <div>
+            <p class="panel__eyebrow">درخت JSON</p>
+            <h2>ساختار را از نزدیک ببینید</h2>
+          </div>
+          <button id="toggle-tree" class="btn btn--ghost">نمایش/پنهان ساختار</button>
+        </div>
+        <div id="json-tree" class="tree" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>تمام داده‌ها داخل مرورگر شما ذخیره می‌شود و برای استفاده در هر بار باز کردن صفحه
+        بازیابی می‌شود.</p>
+      <small>قابل میزبانی روی GitHub Pages یا هر میزبان استاتیک دیگر</small>
+    </footer>
+  </div>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
