@@ -1,10 +1,27 @@
 ﻿<!doctype html>
-<html lang="en">
+<html lang="fa"
+      dir="rtl">
 <head>
     <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
-    <title>AI</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1"/>
+    <link rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon.png">
+    <title>
+        ابزارهای
+        وب
+        |
+        Web
+        Tools</title>
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
     <style>
         :root {
             --bg0: #0b1020;
@@ -18,6 +35,7 @@
             --shadow: 0 20px 60px rgba(0, 0, 0, .45);
             --radius: 18px;
         }
+
         @media (prefers-color-scheme: light) {
             :root {
                 --bg0: #f6f7fb;
@@ -29,14 +47,18 @@
                 --shadow: 0 16px 50px rgba(18, 24, 40, .14);
             }
         }
+
         * {
             box-sizing: border-box;
         }
+
         body {
             margin: 0;
             min-height: 100dvh;
             color: var(--text);
-            font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            font-family: 'Vazirmatn', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
             background: radial-gradient(900px 500px at 20% 10%, rgba(124, 92, 255, .35), transparent 60%),
             radial-gradient(700px 450px at 85% 25%, rgba(46, 233, 166, .22), transparent 55%),
             linear-gradient(180deg, var(--bg0), var(--bg1));
@@ -44,26 +66,76 @@
             place-items: center;
             padding: 28px 16px;
         }
+
         .wrap {
-            width: min(920px, 100%);
+            width: min(1100px, 100%);
         }
+
         header {
             display: flex;
             justify-content: space-between;
-            align-items: baseline;
+            align-items: center;
             gap: 14px;
-            margin-bottom: 14px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
         h1 {
             margin: 0;
-            font-size: clamp(20px, 2.5vw, 28px);
+            font-size: clamp(22px, 3vw, 32px);
             letter-spacing: .2px;
+            font-weight: 700;
         }
+
         .hint {
             margin: 0;
             color: var(--muted);
             font-size: 14px;
         }
+
+        .search-box {
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 16px 12px 44px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--text);
+            font-size: 15px;
+            font-family: 'Vazirmatn', sans-serif;
+            transition: border-color .2s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .search-input::placeholder {
+            color: var(--muted);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+            pointer-events: none;
+        }
+
         .card {
             background: var(--card);
             border: 1px solid var(--border);
@@ -72,9 +144,11 @@
             overflow: hidden;
             backdrop-filter: blur(10px);
         }
+
         nav {
             padding: 8px;
         }
+
         ul {
             list-style: none;
             margin: 0;
@@ -82,12 +156,13 @@
             display: grid;
             gap: 10px;
         }
+
         a.link {
             display: grid;
-            grid-template-columns: 1fr auto;
+            grid-template-columns: auto 1fr;
             align-items: center;
-            gap: 12px;
-            padding: 14px 14px;
+            gap: 16px;
+            padding: 16px;
             border-radius: 14px;
             text-decoration: none;
             color: var(--text);
@@ -95,41 +170,89 @@
             background: rgba(255, 255, 255, .06);
             transition: transform .12s ease, background .12s ease, border-color .12s ease;
         }
+
         a.link:hover {
             transform: translateY(-1px);
             border-color: rgba(124, 92, 255, .35);
             background: rgba(124, 92, 255, .12);
         }
+
         a.link:active {
             transform: translateY(0);
         }
+
         a.link:focus-visible {
             outline: 2px solid var(--accent);
             outline-offset: 3px;
         }
-        .title {
+
+        .icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(124, 92, 255, .15);
+            border-radius: 12px;
+            flex-shrink: 0;
+        }
+
+        .icon svg {
+            width: 28px;
+            height: 28px;
+            fill: var(--accent);
+        }
+
+        .content {
             display: grid;
-            gap: 2px;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            min-width: 0;
         }
+
+        .lang-section {
+            display: grid;
+            gap: 4px;
+            min-width: 0;
+        }
+
         .name {
-            font-weight: 650;
+            font-weight: 600;
             letter-spacing: .15px;
+            font-size: 15px;
         }
+
         .desc {
             font-size: 13px;
             color: var(--muted);
-        }
-        .chip {
-            font-size: 12px;
-            color: var(--text);
-            padding: 6px 10px;
-            border-radius: 999px;
-            border: 1px solid rgba(255, 255, 255, .16);
-            background: linear-gradient(90deg, rgba(124, 92, 255, .18), rgba(46, 233, 166, .14));
+            overflow: hidden;
+            text-overflow: ellipsis;
             white-space: nowrap;
         }
+
+        .en {
+            text-align: left;
+            direction: ltr;
+        }
+
+        .fa {
+            text-align: right;
+            direction: rtl;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 48px 24px;
+            color: var(--muted);
+        }
+
+        .no-results-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
         footer {
-            margin-top: 12px;
+            margin-top: 16px;
             color: var(--muted);
             font-size: 13px;
             display: flex;
@@ -137,6 +260,7 @@
             gap: 12px;
             flex-wrap: wrap;
         }
+
         .kbd {
             font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
             padding: 2px 8px;
@@ -145,478 +269,605 @@
             background: rgba(255, 255, 255, .05);
             color: var(--text);
         }
+
+        .stats-bar {
+            padding: 12px 16px;
+            background: rgba(124, 92, 255, .08);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .count {
+            color: var(--accent2);
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            a.link {
+                grid-template-columns: auto 1fr;
+                gap: 12px;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                max-width: 100%;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
 <div class="wrap">
     <header>
-        <h1>AI Project Links</h1>
-        <p class="hint">
-            Projects
-            created
-            by
-            ai
-            agents
-        </p>
+        <div class="header-content">
+            <h1>
+                🛠️
+                ابزارهای
+                وب
+                |
+                Web
+                Tools</h1>
+            <p class="hint">
+                مجموعه
+                ابزارهای
+                آنلاین
+                ساخته
+                شده
+                با
+                هوش
+                مصنوعی</p>
+        </div>
+        <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text"
+                   class="search-input"
+                   id="searchInput"
+                   placeholder="جستجوی ابزار..."/>
+        </div>
     </header>
+
     <section
             class="card"
-            aria-label="Links card">
-        <nav aria-label="Useful links">
-            <ul>
-                <li>
-                    <a class="link"
-                       href="/weather/index.html"
-                       target="_blank"
-                       rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Weather</span>
-                     <span class="desc">weather of today</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/question-answer/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Question Answer</span>
-                     <span class="desc">question and answer</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/chat/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Chat</span>
-                     <span class="desc">chat system</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/compress/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Compress</span>
-                     <span class="desc">compress images</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/cost-divider/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Cost Divider</span>
-                     <span class="desc">divide costs</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/downloader/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Downloader</span>
-                     <span class="desc">download files</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/osint/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">OSINT</span>
-                     <span class="desc">open source intelligence</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/personal-budget-planner/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Personal Budget Planner</span>
-                     <span class="desc">plan your budget</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/debt/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Debt</span>
-                     <span class="desc">debt</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/currency-conversion-calculator/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Currency Conversion Calculator</span>
-                     <span class="desc">convert currencies</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/daily-planner/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Daily Planner</span>
-                     <span class="desc">plan your day</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/convertor/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Convertor</span>
-                     <span class="desc">convert units</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/editor/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Editor</span>
-                     <span class="desc">edit text</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/qr/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">QR</span>
-                     <span class="desc">generate QR codes</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/pomodoro-timer/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Pomodoro Timer</span>
-                     <span class="desc">manage your time</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/note/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Note</span>
-                     <span class="desc">take notes</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/date/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Date</span>
-                     <span class="desc">show date and time</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/travel/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Travel</span>
-                     <span class="desc">plan your trips</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/color/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Color</span>
-                     <span class="desc">choose colors</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/json/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Json</span>
-                     <span class="desc">generate JSON data</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/text/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Text</span>
-                     <span class="desc">generate text content</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/encoder/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Encoder</span>
-                     <span class="desc">encode and decode data</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/mime/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">MIME</span>
-                     <span class="desc">handle MIME</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/habit/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Habit</span>
-                     <span class="desc">track your habits</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/time-tracker/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Time Tracker</span>
-                     <span class="desc">track your time</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/check-list/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Check List</span>
-                     <span class="desc">manage your checklists</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/medicine/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Medicine</span>
-                     <span class="desc">manage your medicines</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/warranty-management/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Warranty Management</span>
-                     <span class="desc">manage your warranties</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/meta-data/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Meta Data</span>
-                     <span class="desc">Image meta data</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/regex/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Regex</span>
-                     <span class="desc">create and test regular expressions</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/ocr/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">OCR</span>
-                     <span class="desc">optical character recognition</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/cron/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Cron</span>
-                     <span class="desc">cron job scheduler</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/leitner/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Leitner</span>
-                     <span class="desc">manage your flashcards</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/typing/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Typing</span>
-                     <span class="desc">improve your typing skills</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/secure-text/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Secure Text</span>
-                     <span class="desc">manage your secure texts</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/password/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Password</span>
-                     <span class="desc">create password</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/text-formatter/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Text Formatter</span>
-                     <span class="desc">format your text</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/meeting-finder/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Meeting Finder</span>
-                     <span class="desc">schedule your meetings</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/log-analyzer/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Log Analyzer</span>
-                     <span class="desc">analyze your logs</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/time/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Time</span>
-                     <span class="desc">time and clock</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/mapper/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Mapper</span>
-                     <span class="desc">map your units</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/compare/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Compare</span>
-                     <span class="desc">compare your texts</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/text-counter/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Text Counter</span>
-                     <span class="desc">count your text</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/compress-file/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Compress File</span>
-                     <span class="desc">compress your HTML, Css, Js</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/metronome/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Metronome</span>
-                     <span class="desc">keep your rhythm</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/home-tracker/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Home Tracker</span>
-                     <span class="desc">manage your home objects</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/favcion/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Favicon</span>
-                     <span class="desc">create favicon</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/water-mark/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Water Mark</span>
-                     <span class="desc">add watermark to your images</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="link" href="/mind-map/index.html" target="_blank" rel="noopener noreferrer">
-                     <span class="title">
-                     <span class="name">Mind Map</span>
-                     <span class="desc">create mind map</span>
-                     </span>
-                        <span class="chip">Open</span>
-                    </a>
-                </li>
+            aria-label="Tools list">
+        <div class="stats-bar">
+            <span>تعداد ابزارها: <span
+                    class="count"
+                    id="totalCount">0</span></span>
+            <span id="filteredInfo"></span>
+        </div>
+        <nav aria-label="Tools">
+            <ul id="toolsList">
+                <!-- Tools will be inserted here by JavaScript -->
             </ul>
+            <div id="noResults"
+                 class="no-results hidden">
+                <div class="no-results-icon">
+                    🔍
+                </div>
+                <p>
+                    هیچ
+                    ابزاری
+                    یافت
+                    نشد</p>
+                <p style="font-size: 13px;">
+                    لطفاً
+                    کلمات
+                    دیگری
+                    را
+                    امتحان
+                    کنید</p>
+            </div>
         </nav>
     </section>
+
     <footer>
-            <span>Tip: Use <span
-                    class="kbd">Tab</span> to move focus and <span
-                    class="kbd">Enter</span> to open</span>
+        <span>استفاده از <span
+                class="kbd">Tab</span> برای حرکت و <span
+                class="kbd">Enter</span> برای باز کردن</span>
         <span>mhkarami97.ir</span>
     </footer>
 </div>
+
+<script>
+    // Tools data with bilingual names and descriptions
+    const tools = [
+        {
+            path: 'weather',
+            faName: 'وضعیت هوا',
+            enName: 'Weather',
+            faDesc: 'نمایش وضعیت آب و هوای امروز',
+            enDesc: 'Show today\'s weather',
+            icon: '🌤️'
+        },
+        {
+            path: 'chat',
+            faName: 'چت',
+            enName: 'Chat',
+            faDesc: 'سیستم چت آنلاین',
+            enDesc: 'Online chat system',
+            icon: '💬'
+        },
+        {
+            path: 'compress',
+            faName: 'فشرده‌ساز تصویر',
+            enName: 'Image Compressor',
+            faDesc: 'فشرده‌سازی تصاویر در مرورگر',
+            enDesc: 'Compress images in browser',
+            icon: '🗜️'
+        },
+        {
+            path: 'compress-file',
+            faName: 'فشرده‌ساز فایل',
+            enName: 'File Compressor',
+            faDesc: 'فشرده‌سازی HTML, CSS, JS',
+            enDesc: 'Compress HTML, CSS, JS files',
+            icon: '📦'
+        },
+        {
+            path: 'qr',
+            faName: 'کیوآر کد',
+            enName: 'QR Code',
+            faDesc: 'ساخت و خواندن کد QR',
+            enDesc: 'Generate and read QR codes',
+            icon: '📱'
+        },
+        {
+            path: 'color',
+            faName: 'پالت رنگ',
+            enName: 'Color Palette',
+            faDesc: 'ژنراتور پالت رنگ هماهنگ',
+            enDesc: 'Harmonious color palette generator',
+            icon: '🎨'
+        },
+        {
+            path: 'json',
+            faName: 'JSON',
+            enName: 'JSON Formatter',
+            faDesc: 'فرمت و اعتبارسنجی JSON',
+            enDesc: 'Format and validate JSON',
+            icon: '📋'
+        },
+        {
+            path: 'editor',
+            faName: 'ویرایشگر متن',
+            enName: 'Text Editor',
+            faDesc: 'ویرایشگر متن پیشرفته',
+            enDesc: 'Advanced text editor',
+            icon: '📝'
+        },
+        {
+            path: 'text',
+            faName: 'ژنراتور متن',
+            enName: 'Text Generator',
+            faDesc: 'تولید محتوای متنی',
+            enDesc: 'Generate text content',
+            icon: '✍️'
+        },
+        {
+            path: 'text-counter',
+            faName: 'شمارنده متن',
+            enName: 'Text Counter',
+            faDesc: 'شمارش کلمات و کاراکترها',
+            enDesc: 'Count words and characters',
+            icon: '🔢'
+        },
+        {
+            path: 'text-formatter',
+            faName: 'فرمت‌دهنده متن',
+            enName: 'Text Formatter',
+            faDesc: 'فرمت‌دهی و تبدیل متن',
+            enDesc: 'Format and transform text',
+            icon: '📄'
+        },
+        {
+            path: 'encoder',
+            faName: 'رمزگذار',
+            enName: 'Encoder',
+            faDesc: 'رمزگذاری و رمزگشایی داده',
+            enDesc: 'Encode and decode data',
+            icon: '🔐'
+        },
+        {
+            path: 'password',
+            faName: 'رمز عبور',
+            enName: 'Password Generator',
+            faDesc: 'تولید رمز عبور امن',
+            enDesc: 'Generate secure passwords',
+            icon: '🔑'
+        },
+        {
+            path: 'secure-text',
+            faName: 'متن امن',
+            enName: 'Secure Text',
+            faDesc: 'مدیریت متن‌های امن',
+            enDesc: 'Manage secure texts',
+            icon: '🔒'
+        },
+        {
+            path: 'convertor',
+            faName: 'تبدیل واحد',
+            enName: 'Unit Converter',
+            faDesc: 'تبدیل واحدهای مختلف',
+            enDesc: 'Convert various units',
+            icon: '🔄'
+        },
+        {
+            path: 'currency-conversion-calculator',
+            faName: 'تبدیل ارز',
+            enName: 'Currency Converter',
+            faDesc: 'تبدیل ارزهای مختلف',
+            enDesc: 'Convert currencies',
+            icon: '💱'
+        },
+        {
+            path: 'date',
+            faName: 'تاریخ',
+            enName: 'Date Converter',
+            faDesc: 'تبدیل و نمایش تاریخ',
+            enDesc: 'Convert and display dates',
+            icon: '📅'
+        },
+        {
+            path: 'time',
+            faName: 'زمان',
+            enName: 'Time & Clock',
+            faDesc: 'ساعت و زمان',
+            enDesc: 'Clock and time',
+            icon: '⏰'
+        },
+        {
+            path: 'time-tracker',
+            faName: 'زمان‌سنج',
+            enName: 'Time Tracker',
+            faDesc: 'ردیابی زمان کارها',
+            enDesc: 'Track time for tasks',
+            icon: '⏱️'
+        },
+        {
+            path: 'pomodoro-timer',
+            faName: 'تایمر پومودورو',
+            enName: 'Pomodoro Timer',
+            faDesc: 'مدیریت زمان با روش پومودورو',
+            enDesc: 'Manage time with Pomodoro technique',
+            icon: '🍅'
+        },
+        {
+            path: 'daily-planner',
+            faName: 'برنامه‌ریز روزانه',
+            enName: 'Daily Planner',
+            faDesc: 'برنامه‌ریزی وظایف روزانه',
+            enDesc: 'Plan your daily tasks',
+            icon: '📆'
+        },
+        {
+            path: 'note',
+            faName: 'یادداشت',
+            enName: 'Note',
+            faDesc: 'یادداشت‌برداری سریع',
+            enDesc: 'Quick note-taking',
+            icon: '📓'
+        },
+        {
+            path: 'check-list',
+            faName: 'چک‌لیست',
+            enName: 'Checklist',
+            faDesc: 'مدیریت چک‌لیست‌ها',
+            enDesc: 'Manage checklists',
+            icon: '✅'
+        },
+        {
+            path: 'habit',
+            faName: 'ردیاب عادت',
+            enName: 'Habit Tracker',
+            faDesc: 'ردیابی عادت‌های روزانه',
+            enDesc: 'Track daily habits',
+            icon: '🎯'
+        },
+        {
+            path: 'cost-divider',
+            faName: 'تقسیم هزینه',
+            enName: 'Cost Divider',
+            faDesc: 'تقسیم هزینه‌های مشترک',
+            enDesc: 'Split shared expenses',
+            icon: '💰'
+        },
+        {
+            path: 'debt',
+            faName: 'مدیریت بدهی',
+            enName: 'Debt Manager',
+            faDesc: 'مدیریت بدهی‌ها',
+            enDesc: 'Manage debts',
+            icon: '💳'
+        },
+        {
+            path: 'personal-budget-planner',
+            faName: 'بودجه شخصی',
+            enName: 'Budget Planner',
+            faDesc: 'برنامه‌ریزی بودجه شخصی',
+            enDesc: 'Plan personal budget',
+            icon: '💵'
+        },
+        {
+            path: 'medicine',
+            faName: 'مدیریت دارو',
+            enName: 'Medicine Manager',
+            faDesc: 'مدیریت داروها',
+            enDesc: 'Manage medicines',
+            icon: '💊'
+        },
+        {
+            path: 'warranty-management',
+            faName: 'مدیریت گارانتی',
+            enName: 'Warranty Manager',
+            faDesc: 'مدیریت گارانتی‌ها',
+            enDesc: 'Manage warranties',
+            icon: '📜'
+        },
+        {
+            path: 'home-tracker',
+            faName: 'ردیاب خانه',
+            enName: 'Home Tracker',
+            faDesc: 'مدیریت اشیاء منزل',
+            enDesc: 'Manage home objects',
+            icon: '🏠'
+        },
+        {
+            path: 'travel',
+            faName: 'برنامه سفر',
+            enName: 'Travel Planner',
+            faDesc: 'برنامه‌ریزی سفرها',
+            enDesc: 'Plan your trips',
+            icon: '✈️'
+        },
+        {
+            path: 'meeting-finder',
+            faName: 'جلسه‌یاب',
+            enName: 'Meeting Finder',
+            faDesc: 'زمان‌بندی جلسات',
+            enDesc: 'Schedule meetings',
+            icon: '🤝'
+        },
+        {
+            path: 'regex',
+            faName: 'رجکس',
+            enName: 'Regex Tester',
+            faDesc: 'تست عبارات منظم',
+            enDesc: 'Test regular expressions',
+            icon: '🔍'
+        },
+        {
+            path: 'compare',
+            faName: 'مقایسه متن',
+            enName: 'Text Compare',
+            faDesc: 'مقایسه متن‌ها',
+            enDesc: 'Compare texts',
+            icon: '🔀'
+        },
+        {
+            path: 'mapper',
+            faName: 'نقشه',
+            enName: 'Mapper',
+            faDesc: 'نقشه و مکان‌یابی',
+            enDesc: 'Map and location',
+            icon: '🗺️'
+        },
+        {
+            path: 'downloader',
+            faName: 'دانلودر',
+            enName: 'Downloader',
+            faDesc: 'دانلود فایل‌ها',
+            enDesc: 'Download files',
+            icon: '⬇️'
+        },
+        {
+            path: 'meta-data',
+            faName: 'متادیتا',
+            enName: 'Metadata Viewer',
+            faDesc: 'نمایش متادیتای تصاویر',
+            enDesc: 'View image metadata',
+            icon: '🖼️'
+        },
+        {
+            path: 'ocr',
+            faName: 'تشخیص متن',
+            enName: 'OCR',
+            faDesc: 'تشخیص نوشتار روی تصاویر',
+            enDesc: 'Optical character recognition',
+            icon: '👁️'
+        },
+        {
+            path: 'water-mark',
+            faName: 'واترمارک',
+            enName: 'Watermark',
+            faDesc: 'افزودن واترمارک به تصاویر',
+            enDesc: 'Add watermark to images',
+            icon: '©️'
+        },
+        {
+            path: 'favicon',
+            faName: 'فاویکون',
+            enName: 'Favicon Generator',
+            faDesc: 'ساخت فاویکون',
+            enDesc: 'Generate favicon',
+            icon: '🎴'
+        },
+        {
+            path: 'cron',
+            faName: 'کران جاب',
+            enName: 'Cron Job',
+            faDesc: 'زمان‌بند وظایف',
+            enDesc: 'Task scheduler',
+            icon: '⚙️'
+        },
+        {
+            path: 'log-analyzer',
+            faName: 'تحلیل لاگ',
+            enName: 'Log Analyzer',
+            faDesc: 'تحلیل فایل‌های لاگ',
+            enDesc: 'Analyze log files',
+            icon: '📊'
+        },
+        {
+            path: 'leitner',
+            faName: 'سیستم لایتنر',
+            enName: 'Leitner System',
+            faDesc: 'یادگیری با فلش کارت',
+            enDesc: 'Learn with flashcards',
+            icon: '🎓'
+        },
+        {
+            path: 'typing',
+            faName: 'تمرین تایپ',
+            enName: 'Typing Practice',
+            faDesc: 'بهبود سرعت تایپ',
+            enDesc: 'Improve typing speed',
+            icon: '⌨️'
+        },
+        {
+            path: 'mime',
+            faName: 'MIME',
+            enName: 'MIME Types',
+            faDesc: 'شناسایی نوع فایل',
+            enDesc: 'Identify file types',
+            icon: '📎'
+        },
+        {
+            path: 'osint',
+            faName: 'اطلاعات باز',
+            enName: 'OSINT',
+            faDesc: 'جستجوی اطلاعات عمومی',
+            enDesc: 'Open source intelligence',
+            icon: '🕵️'
+        },
+        {
+            path: 'question-answer',
+            faName: 'پرسش و پاسخ',
+            enName: 'Q&A',
+            faDesc: 'سیستم پرسش و پاسخ',
+            enDesc: 'Question and answer system',
+            icon: '❓'
+        },
+        {
+            path: 'mind-map',
+            faName: 'نقشه ذهنی',
+            enName: 'Mind Map',
+            faDesc: 'ساخت نقشه ذهنی',
+            enDesc: 'Create mind maps',
+            icon: '🧠'
+        },
+        {
+            path: 'metronome',
+            faName: 'مترونوم',
+            enName: 'Metronome',
+            faDesc: 'حفظ ریتم موسیقی',
+            enDesc: 'Keep musical rhythm',
+            icon: '🎵'
+        }
+    ];
+
+    // Sort tools alphabetically by Persian name
+    tools.sort((a, b) => a.faName.localeCompare(b.faName, 'fa'));
+
+    let filteredTools = [...tools];
+
+    // Render tools
+    function renderTools() {
+        const toolsList = document.getElementById('toolsList');
+        const noResults = document.getElementById('noResults');
+
+        if (filteredTools.length === 0) {
+            toolsList.innerHTML = '';
+            noResults.classList.remove('hidden');
+            return;
+        }
+
+        noResults.classList.add('hidden');
+
+        toolsList.innerHTML = filteredTools.map(tool => `
+        <li>
+            <a class="link" href="/${tool.path}/" rel="noopener noreferrer">
+                <div class="icon">${tool.icon}</div>
+                <div class="content">
+                    <div class="lang-section fa">
+                        <div class="name">${tool.faName}</div>
+                        <div class="desc">${tool.faDesc}</div>
+                    </div>
+                    <div class="lang-section en">
+                        <div class="name">${tool.enName}</div>
+                        <div class="desc">${tool.enDesc}</div>
+                    </div>
+                </div>
+            </a>
+        </li>
+    `).join('');
+
+        updateStats();
+    }
+
+    // Update statistics
+    function updateStats() {
+        const totalCount = document.getElementById('totalCount');
+        const filteredInfo = document.getElementById('filteredInfo');
+
+        totalCount.textContent = tools.length;
+
+        if (filteredTools.length < tools.length) {
+            filteredInfo.textContent = `نمایش ${filteredTools.length} مورد`;
+        } else {
+            filteredInfo.textContent = '';
+        }
+    }
+
+    // Search functionality
+    function handleSearch(query) {
+        const q = query.toLowerCase().trim();
+
+        if (!q) {
+            filteredTools = [...tools];
+        } else {
+            filteredTools = tools.filter(tool =>
+                tool.faName.toLowerCase().includes(q) ||
+                tool.enName.toLowerCase().includes(q) ||
+                tool.faDesc.toLowerCase().includes(q) ||
+                tool.enDesc.toLowerCase().includes(q) ||
+                tool.path.toLowerCase().includes(q)
+            );
+        }
+
+        renderTools();
+    }
+
+    // Event listeners
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+        handleSearch(e.target.value);
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === '/' || (e.key === 'k' && (e.metaKey || e.ctrlKey))) {
+            e.preventDefault();
+            document.getElementById('searchInput').focus();
+        }
+    });
+
+    // Initial render
+    renderTools();
+</script>
 </body>
 </html>
+
