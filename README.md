@@ -9,7 +9,7 @@
 
 **مجموعه کاملی از 49+ ابزار آنلاین ساخته شده با هوش مصنوعی**
 
-[🌐 مشاهده دمو](https://ai.mhkarami97.ir) | [📖 مستندات](./README.md) | [🐛 گزارش باگ](/issues)
+[🌐 مشاهده دمو](https://ai.mhkarami97.ir) | [📖 مستندات](./README.md) | [🐛 گزارش باگ](https://github.com/mhkarami97-ir/ai-agent-project/issues)
 
 </div>
 
@@ -637,7 +637,7 @@ in the Software without restriction...
 ## 📈 آمار استفاده
 
 ![GitHub stars](https://img.shields.io/github/stars/mhkarami97-ir/ai-agent-project?style=social)
-![GitHub forks](https://img.shields.io/github/forks/v/ai-agent-project?style=social)
+![GitHub forks](https://img.shields.io/github/forks/mhkarami97-ir/ai-agent-project?style=social)
 ![GitHub watchers](https://img.shields.io/github/watchers/mhkarami97-ir/ai-agent-project?style=social)
 
 ---
