@@ -5,6 +5,8 @@
     <meta charset="utf-8"/>
     <meta name="viewport"
           content="width=device-width, initial-scale=1"/>
+    <meta name="theme-color"
+          content="#7c5cff"/>
     <link rel="icon"
           type="image/png"
           sizes="32x32"
@@ -309,6 +311,79 @@
         .hidden {
             display: none !important;
         }
+
+        .theme-toggle {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--text);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            transition: all .2s ease;
+            backdrop-filter: blur(10px);
+            flex-shrink: 0;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(124, 92, 255, .12);
+            border-color: rgba(124, 92, 255, .35);
+            transform: scale(1.05);
+        }
+
+        .theme-toggle:active {
+            transform: scale(0.95);
+        }
+
+        body[data-theme="light"] {
+            --bg0: #f6f7fb;
+            --bg1: #ffffff;
+            --card: rgba(0, 0, 0, .06);
+            --border: rgba(0, 0, 0, .18);
+            --text: rgba(0, 0, 0, .88);
+            --muted: rgba(0, 0, 0, .62);
+            --shadow: 0 16px 50px rgba(18, 24, 40, .14);
+        }
+
+        body[data-theme="light"] a.link {
+            background: rgba(124, 92, 255, .04);
+            border: 1px solid rgba(0, 0, 0, .12);
+        }
+
+        body[data-theme="light"] a.link:hover {
+            background: rgba(124, 92, 255, .12);
+            border-color: rgba(124, 92, 255, .45);
+            box-shadow: 0 4px 12px rgba(124, 92, 255, .15);
+        }
+
+        body[data-theme="light"] .icon {
+            background: rgba(124, 92, 255, .12);
+            border: 1px solid rgba(124, 92, 255, .2);
+        }
+
+        body[data-theme="light"] .stats-bar {
+            background: rgba(124, 92, 255, .06);
+            border-bottom: 1px solid rgba(0, 0, 0, .12);
+        }
+
+        body[data-theme="light"] .card {
+            background: rgba(255, 255, 255, .85);
+            backdrop-filter: blur(20px);
+        }
+
+        body[data-theme="dark"] {
+            --bg0: #0b1020;
+            --bg1: #0f1730;
+            --card: rgba(255, 255, 255, .08);
+            --border: rgba(255, 255, 255, .14);
+            --text: rgba(255, 255, 255, .92);
+            --muted: rgba(255, 255, 255, .72);
+            --shadow: 0 20px 60px rgba(0, 0, 0, .45);
+        }
     </style>
 </head>
 <body>
@@ -332,12 +407,20 @@
                 هوش
                 مصنوعی</p>
         </div>
-        <div class="search-box">
-            <span class="search-icon">🔍</span>
-            <input type="text"
-                   class="search-input"
-                   id="searchInput"
-                   placeholder="جستجوی ابزار..."/>
+        <div style="display: flex; gap: 12px; align-items: center;">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text"
+                       class="search-input"
+                       id="searchInput"
+                       placeholder="جستجوی ابزار..."/>
+            </div>
+            <button class="theme-toggle"
+                    id="themeToggle"
+                    title="تغییر تم"
+                    aria-label="Toggle theme">
+                <span id="themeIcon">🌙</span>
+            </button>
         </div>
     </header>
 
@@ -352,7 +435,6 @@
         </div>
         <nav aria-label="Tools">
             <ul id="toolsList">
-                <!-- Tools will be inserted here by JavaScript -->
             </ul>
             <div id="noResults"
                  class="no-results hidden">
@@ -384,7 +466,6 @@
 </div>
 
 <script>
-    // Tools data with bilingual names and descriptions
     const tools = [
         {
             path: 'weather',
@@ -780,12 +861,10 @@
         }
     ];
 
-    // Sort tools alphabetically by Persian name
     tools.sort((a, b) => a.faName.localeCompare(b.faName, 'fa'));
 
     let filteredTools = [...tools];
 
-    // Render tools
     function renderTools() {
         const toolsList = document.getElementById('toolsList');
         const noResults = document.getElementById('noResults');
@@ -819,7 +898,6 @@
         updateStats();
     }
 
-    // Update statistics
     function updateStats() {
         const totalCount = document.getElementById('totalCount');
         const filteredInfo = document.getElementById('filteredInfo');
@@ -833,7 +911,6 @@
         }
     }
 
-    // Search functionality
     function handleSearch(query) {
         const q = query.toLowerCase().trim();
 
@@ -852,12 +929,10 @@
         renderTools();
     }
 
-    // Event listeners
     document.getElementById('searchInput').addEventListener('input', (e) => {
         handleSearch(e.target.value);
     });
 
-    // Keyboard navigation
     document.addEventListener('keydown', (e) => {
         if (e.key === '/' || (e.key === 'k' && (e.metaKey || e.ctrlKey))) {
             e.preventDefault();
@@ -865,8 +940,49 @@
         }
     });
 
-    // Initial render
     renderTools();
+
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const body = document.body;
+
+    function loadTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            body.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+        } else {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = prefersDark ? 'dark' : 'light';
+            body.setAttribute('data-theme', theme);
+            updateThemeIcon(theme);
+        }
+    }
+
+    function updateThemeIcon(theme) {
+        themeIcon.textContent = theme === 'dark' ? '🌙' : '☀️';
+    }
+
+    function toggleTheme() {
+        const currentTheme = body.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+        body.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
+    }
+
+    themeToggle.addEventListener('click', toggleTheme);
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+            const theme = e.matches ? 'dark' : 'light';
+            body.setAttribute('data-theme', theme);
+            updateThemeIcon(theme);
+        }
+    });
+
+    loadTheme();
 </script>
 </body>
 </html>
