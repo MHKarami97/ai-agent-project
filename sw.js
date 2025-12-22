@@ -2,8 +2,12 @@
 const urlsToCache = [
     '/',
     '/index.html',
+    '/style.css',
+    '/script.js',
     '/favicon.png',
-    '/manifest.json'
+    '/favicon.ico',
+    '/manifest.json',
+    '/Vazirmatn-font-face.css'
 ];
 
 self.addEventListener('install', (event) => {

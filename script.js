@@ -550,7 +550,6 @@ function showInstallPrompt() {
     prompt.innerHTML = `
         <div class="install-prompt-text">
             <div class="install-prompt-title">📱 نصب اپلیکیشن</div>
-            <div class="install-prompt-desc">برای دسترسی سریع‌تر نصب کنید</div>
         </div>
         <button class="install-btn" id="installBtn">نصب</button>
         <button class="close-install" id="closeInstall">✕</button>
