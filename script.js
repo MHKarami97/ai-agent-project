@@ -6,7 +6,7 @@ const tools = [
         enName: 'LicensePlate',
         faDesc: 'نمایش جزئیات پلاک و شماره تلفن استانها',
         enDesc: 'Show details of license plates and phone numbers of provinces',
-        icon: '🌤️'
+        icon: '📱️'
     },
     {
         path: 'weather',
@@ -305,14 +305,6 @@ const tools = [
         icon: '🖼️'
     },
     {
-        path: 'ocr',
-        faName: 'تشخیص متن',
-        enName: 'OCR',
-        faDesc: 'تشخیص نوشتار روی تصاویر',
-        enDesc: 'Optical character recognition',
-        icon: '👁️'
-    },
-    {
         path: 'water-mark',
         faName: 'واترمارک',
         enName: 'Watermark',
@@ -370,9 +362,9 @@ const tools = [
     },
     {
         path: 'osint',
-        faName: 'اطلاعات باز',
+        faName: 'اطلاعات افراد',
         enName: 'OSINT',
-        faDesc: 'جستجوی اطلاعات عمومی',
+        faDesc: 'جستجوی اطلاعات عمومی افراد',
         enDesc: 'Open source intelligence',
         icon: '🕵️'
     },
