@@ -9,10 +9,15 @@ class BluetoothMeshMessenger {
         this.connectedDevices = new Map();
         this.bluetoothDevice = null;
         this.characteristic = null;
+        this.server = null;
         this.settings = {
             soundEnabled: true,
             autoConnect: true
         };
+        
+        // Bluetooth GATT service UUID for messaging
+        this.SERVICE_UUID = '12345678-1234-5678-1234-56789abcdef0';
+        this.CHARACTERISTIC_UUID = '12345678-1234-5678-1234-56789abcdef1';
         
         this.initDatabase();
         this.initElements();
@@ -183,8 +188,7 @@ class BluetoothMeshMessenger {
         
         // Check if Web Bluetooth API is available
         if (!navigator.bluetooth) {
-            this.showToast('مرورگر شما از Bluetooth پشتیبانی نمی‌کند', 'error');
-            this.simulateBluetoothMode();
+            this.showToast('مرورگر شما از Bluetooth پشتیبانی نمی‌کند. لطفاً از مرورگر Chrome در دستگاه موبایل یا دسکتاپ استفاده کنید.', 'error');
             return;
         }
         
@@ -197,44 +201,25 @@ class BluetoothMeshMessenger {
         this.showToast(`خوش آمدید ${username}!`, 'success');
         this.updateStatus(true);
         this.loadMessages();
+        this.loadDevices();
+    }
+    
+    // Load devices from database
+    loadDevices() {
+        const transaction = this.db.transaction(['devices'], 'readonly');
+        const store = transaction.objectStore('devices');
+        const request = store.getAll();
         
-        // Try to connect in demo mode since real Bluetooth requires user interaction
-        this.simulateBluetoothMode();
-    }
-
-    // Simulate Bluetooth mode for demo (since real BLE requires specific hardware)
-    simulateBluetoothMode() {
-        this.showToast('حالت نمایشی: برای یافتن دستگاه‌ها روی دکمه جستجو کلیک کنید', 'info');
-        // Demo mode is ready - users can click scan button to find devices
-    }
-
-    // Add demo device
-    addDemoDevice(name, id) {
-        const device = {
-            id: id,
-            name: name,
-            status: 'connected',
-            lastSeen: Date.now()
+        request.onsuccess = (event) => {
+            const devices = event.target.result;
+            devices.forEach(device => {
+                this.connectedDevices.set(device.id, {
+                    ...device,
+                    status: 'disconnected'
+                });
+            });
+            this.renderDevicesList();
         };
-        
-        this.connectedDevices.set(id, device);
-        this.saveToDatabase('devices', device);
-        this.renderDevicesList();
-    }
-
-    // Simulate receiving a message
-    receiveSimulatedMessage(text, sender, deviceId) {
-        const message = {
-            text: this.decryptMessage(text),
-            sender: sender,
-            deviceId: deviceId,
-            timestamp: Date.now(),
-            type: 'received'
-        };
-        
-        this.saveMessage(message);
-        this.renderMessage(message);
-        this.playNotificationSound();
     }
 
     // Scan for Bluetooth devices
@@ -247,20 +232,29 @@ class BluetoothMeshMessenger {
         this.showToast('در حال جستجوی دستگاه‌ها...', 'info');
         
         try {
-            // Request Bluetooth device
+            // Request Bluetooth device with messaging service
             const device = await navigator.bluetooth.requestDevice({
-                acceptAllDevices: true,
-                optionalServices: ['battery_service', 'device_information']
+                filters: [
+                    { services: [this.SERVICE_UUID] }
+                ],
+                optionalServices: [this.SERVICE_UUID]
+            }).catch(err => {
+                // Fallback to accept all devices if service not found
+                return navigator.bluetooth.requestDevice({
+                    acceptAllDevices: true,
+                    optionalServices: [this.SERVICE_UUID, 'battery_service', 'device_information']
+                });
             });
             
             if (device) {
                 // Check if device already exists
-                if (!this.connectedDevices.has(device.id)) {
-                    this.addDemoDevice(device.name || 'دستگاه ناشناس', device.id);
-                    this.showToast(`دستگاه ${device.name || 'جدید'} یافت شد!`, 'success');
-                } else {
+                if (this.connectedDevices.has(device.id)) {
                     this.showToast('این دستگاه قبلاً اضافه شده است', 'warning');
+                    return;
                 }
+                
+                // Connect to device
+                await this.connectToDevice(device);
             }
         } catch (error) {
             if (error.name === 'NotFoundError') {
@@ -272,29 +266,150 @@ class BluetoothMeshMessenger {
             }
         }
     }
-
-    // Encrypt message (simple XOR encryption for demo - in production use proper encryption)
-    encryptMessage(message) {
-        const key = this.deviceId;
-        let encrypted = '';
-        for (let i = 0; i < message.length; i++) {
-            encrypted += String.fromCharCode(message.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+    
+    // Connect to Bluetooth device
+    async connectToDevice(device) {
+        try {
+            this.showToast('در حال اتصال...', 'info');
+            
+            // Connect to GATT server
+            const server = await device.gatt.connect();
+            
+            // Try to get our custom service for messaging
+            let service, characteristic;
+            try {
+                service = await server.getPrimaryService(this.SERVICE_UUID);
+                characteristic = await service.getCharacteristic(this.CHARACTERISTIC_UUID);
+                
+                // Start notifications for incoming messages
+                await characteristic.startNotifications();
+                characteristic.addEventListener('characteristicvaluechanged', (event) => {
+                    this.handleIncomingMessage(event.target.value);
+                });
+            } catch (e) {
+                // Service not available - device can still be added but won't receive messages
+                console.log('Messaging service not available on this device');
+            }
+            
+            // Add device to connected list
+            const deviceData = {
+                id: device.id,
+                name: device.name || 'دستگاه ناشناس',
+                status: 'connected',
+                lastSeen: Date.now(),
+                device: device,
+                server: server,
+                characteristic: characteristic
+            };
+            
+            this.connectedDevices.set(device.id, deviceData);
+            this.saveToDatabase('devices', {
+                id: device.id,
+                name: deviceData.name,
+                status: 'connected',
+                lastSeen: deviceData.lastSeen
+            });
+            
+            this.renderDevicesList();
+            this.showToast(`به ${deviceData.name} متصل شدید!`, 'success');
+            
+            // Handle disconnection
+            device.addEventListener('gattserverdisconnected', () => {
+                this.handleDeviceDisconnected(device.id);
+            });
+            
+        } catch (error) {
+            this.showToast('خطا در اتصال: ' + error.message, 'error');
+            console.error('Connection error:', error);
         }
-        return btoa(encrypted);
+    }
+    
+    // Handle device disconnection
+    handleDeviceDisconnected(deviceId) {
+        const device = this.connectedDevices.get(deviceId);
+        if (device) {
+            device.status = 'disconnected';
+            this.connectedDevices.set(deviceId, device);
+            this.renderDevicesList();
+            this.showToast(`${device.name} قطع شد`, 'warning');
+        }
+    }
+    
+    // Handle incoming message from Bluetooth
+    handleIncomingMessage(value) {
+        try {
+            const decoder = new TextDecoder();
+            const receivedData = decoder.decode(value);
+            const messageData = JSON.parse(receivedData);
+            
+            // Decrypt message
+            const decryptedText = this.decryptMessage(messageData.text);
+            
+            const message = {
+                text: decryptedText,
+                sender: messageData.sender,
+                deviceId: messageData.deviceId,
+                timestamp: messageData.timestamp || Date.now(),
+                type: 'received'
+            };
+            
+            this.saveMessage(message);
+            this.renderMessage(message);
+            this.playNotificationSound();
+            
+        } catch (error) {
+            console.error('Error handling incoming message:', error);
+        }
     }
 
-    // Decrypt message
+    // Encrypt message with UTF-8 support (for Persian/Farsi text)
+    encryptMessage(message) {
+        try {
+            const key = this.deviceId;
+            // Convert to UTF-8 bytes
+            const encoder = new TextEncoder();
+            const messageBytes = encoder.encode(message);
+            const keyBytes = encoder.encode(key);
+            
+            // XOR encryption
+            const encrypted = new Uint8Array(messageBytes.length);
+            for (let i = 0; i < messageBytes.length; i++) {
+                encrypted[i] = messageBytes[i] ^ keyBytes[i % keyBytes.length];
+            }
+            
+            // Convert to base64
+            return btoa(String.fromCharCode(...encrypted));
+        } catch (e) {
+            console.error('Encryption error:', e);
+            return btoa(message);
+        }
+    }
+
+    // Decrypt message with UTF-8 support
     decryptMessage(encrypted) {
         try {
             const key = this.deviceId;
+            // Decode from base64
             const decoded = atob(encrypted);
-            let decrypted = '';
+            const encryptedBytes = new Uint8Array(decoded.length);
             for (let i = 0; i < decoded.length; i++) {
-                decrypted += String.fromCharCode(decoded.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+                encryptedBytes[i] = decoded.charCodeAt(i);
             }
-            return decrypted;
+            
+            // XOR decryption
+            const encoder = new TextEncoder();
+            const keyBytes = encoder.encode(key);
+            const decryptedBytes = new Uint8Array(encryptedBytes.length);
+            for (let i = 0; i < encryptedBytes.length; i++) {
+                decryptedBytes[i] = encryptedBytes[i] ^ keyBytes[i % keyBytes.length];
+            }
+            
+            // Convert back to string
+            const decoder = new TextDecoder();
+            return decoder.decode(decryptedBytes);
         } catch (e) {
-            return encrypted; // Return as-is if decryption fails
+            console.error('Decryption error:', e);
+            return encrypted;
         }
     }
 
@@ -312,11 +427,7 @@ class BluetoothMeshMessenger {
             type: 'sent'
         };
         
-        // Encrypt the message
-        const encryptedText = this.encryptMessage(text);
-        
-        // In real implementation, send via Bluetooth
-        // For demo, just save and display
+        // Save and display locally
         this.saveMessage(message);
         this.renderMessage(message);
         
@@ -325,9 +436,40 @@ class BluetoothMeshMessenger {
         this.elements.messageInput.style.height = 'auto';
         this.elements.sendBtn.disabled = true;
         
-        this.showToast('پیام ارسال شد', 'success');
+        // Encrypt the message
+        const encryptedText = this.encryptMessage(text);
         
-        // In real implementation, the message would be sent via Bluetooth here
+        // Prepare message data for transmission
+        const messageData = {
+            text: encryptedText,
+            sender: this.username,
+            deviceId: this.deviceId,
+            timestamp: message.timestamp
+        };
+        
+        // Send to all connected devices via Bluetooth
+        let sentCount = 0;
+        for (const [deviceId, deviceData] of this.connectedDevices) {
+            if (deviceData.characteristic && deviceData.status === 'connected') {
+                try {
+                    const encoder = new TextEncoder();
+                    const data = encoder.encode(JSON.stringify(messageData));
+                    await deviceData.characteristic.writeValue(data);
+                    sentCount++;
+                } catch (error) {
+                    console.error(`Failed to send to ${deviceData.name}:`, error);
+                    this.showToast(`خطا در ارسال به ${deviceData.name}`, 'error');
+                }
+            }
+        }
+        
+        if (sentCount > 0) {
+            this.showToast(`پیام به ${sentCount} دستگاه ارسال شد`, 'success');
+        } else if (this.connectedDevices.size === 0) {
+            this.showToast('هیچ دستگاهی متصل نیست', 'warning');
+        } else {
+            this.showToast('پیام ذخیره شد (دستگاه‌ها آماده دریافت نیستند)', 'info');
+        }
     }
 
     // Handle message input
@@ -410,11 +552,13 @@ class BluetoothMeshMessenger {
         this.connectedDevices.forEach((device, id) => {
             const deviceElement = document.createElement('div');
             deviceElement.className = 'device-item';
+            const statusText = device.status === 'connected' ? 'متصل' : 'قطع شده';
+            const statusClass = device.status === 'connected' ? 'connected' : 'disconnected';
             deviceElement.innerHTML = `
                 <div class="device-avatar">${device.name.charAt(0).toUpperCase()}</div>
                 <div class="device-info">
                     <div class="device-name">${device.name}</div>
-                    <div class="device-status">متصل</div>
+                    <div class="device-status ${statusClass}">${statusText}</div>
                 </div>
             `;
             this.elements.devicesList.appendChild(deviceElement);

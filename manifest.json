@@ -1,7 +1,7 @@
 ﻿{
   "name": "Web Tools",
   "short_name": "ابزارهای وب",
-  "description": "مجموعه ابزارهای آنلاین ساخته شده با هوش مصنوعی",
+  "description": "مجموعه ابزارهای کاربردی",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0f1730",
