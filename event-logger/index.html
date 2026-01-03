@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستندساز رویداد</title>
+    <link rel="stylesheet" href="../Vazirmatn-font-face.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📅 مستندساز رویداد</h1>
+            <p class="subtitle">ثبت و مدیریت رویدادها با امکانات کامل</p>
+        </header>
+
+        <main>
+            <!-- فرم افزودن رویداد -->
+            <section class="add-event-section">
+                <h2>افزودن رویداد جدید</h2>
+                <form id="eventForm">
+                    <div class="form-group">
+                        <label for="eventTitle">عنوان رویداد *</label>
+                        <input type="text" id="eventTitle" required placeholder="عنوان رویداد را وارد کنید">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="eventDate">تاریخ و زمان *</label>
+                        <input type="datetime-local" id="eventDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="eventDescription">توضیحات</label>
+                        <textarea id="eventDescription" rows="4" placeholder="توضیحات رویداد را وارد کنید"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="eventImage">تصویر</label>
+                        <input type="file" id="eventImage" accept="image/*">
+                        <div id="imagePreview" class="image-preview"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="eventLocation">موقعیت مکانی</label>
+                        <div class="location-group">
+                            <input type="text" id="eventLocation" placeholder="آدرس یا نام مکان">
+                            <button type="button" id="getLocationBtn" class="btn-secondary">📍 دریافت موقعیت فعلی</button>
+                        </div>
+                        <div id="coordinates" class="coordinates"></div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">✅ ذخیره رویداد</button>
+                        <button type="button" id="resetForm" class="btn-secondary">🔄 پاک کردن فرم</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- فیلتر و جستجو -->
+            <section class="filter-section">
+                <div class="filter-controls">
+                    <label for="searchInput" class="sr-only">جستجو</label>
+                    <input type="text" id="searchInput" placeholder="🔍 جستجو در رویدادها...">
+                    <label for="sortSelect" class="sr-only">مرتب‌سازی</label>
+                    <select id="sortSelect">
+                        <option value="date-desc">جدیدترین</option>
+                        <option value="date-asc">قدیمی‌ترین</option>
+                        <option value="title-asc">براساس عنوان (الف - ی)</option>
+                        <option value="title-desc">براساس عنوان (ی - الف)</option>
+                    </select>
+                    <button id="exportBtn" class="btn-export">📦 خروجی رمزشده</button>
+                    <button id="importBtn" class="btn-import">📥 وارد کردن</button>
+                    <input type="file" id="importFile" accept=".json" style="display: none;">
+                </div>
+            </section>
+
+            <!-- لیست رویدادها -->
+            <section class="events-section">
+                <div class="events-header">
+                    <h2>رویدادهای ثبت شده</h2>
+                    <span id="eventCount" class="event-count">0 رویداد</span>
+                </div>
+                <div id="eventsList" class="events-list">
+                    <!-- رویدادها اینجا نمایش داده می‌شوند -->
+                </div>
+            </section>
+        </main>
+
+        <!-- مودال نمایش جزئیات -->
+        <div id="eventModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div id="modalBody"></div>
+            </div>
+        </div>
+
+        <!-- مودال رمز عبور -->
+        <div id="passwordModal" class="modal">
+            <div class="modal-content modal-small">
+                <h3>رمز عبور را وارد کنید</h3>
+                <label for="passwordInput" class="sr-only">رمز عبور</label>
+                <input type="password" id="passwordInput" placeholder="رمز عبور">
+                <div class="modal-actions">
+                    <button id="confirmPassword" class="btn-primary">تأیید</button>
+                    <button id="cancelPassword" class="btn-secondary">انصراف</button>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>مستندساز رویداد - تمامی داده‌ها به صورت محلی در مرورگر شما ذخیره می‌شوند</p>
+        </footer>
+    </div>
+
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
+

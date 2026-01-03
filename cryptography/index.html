@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رمزنگاری متن - ارسال امن پیام</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="../Vazirmatn-font-face.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔐 رمزنگاری متن امن</h1>
+            <p class="subtitle">ارسال پیام‌های محرمانه با رمزنگاری قوی AES-256</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-button active" data-tab="encrypt">
+                <span class="icon">🔒</span>
+                رمزنگاری
+            </button>
+            <button class="tab-button" data-tab="decrypt">
+                <span class="icon">🔓</span>
+                رمزگشایی
+            </button>
+            <button class="tab-button" data-tab="history">
+                <span class="icon">📜</span>
+                تاریخچه
+            </button>
+        </div>
+
+        <div class="tab-content active" id="encrypt-tab">
+            <div class="card">
+                <h2>رمزنگاری متن</h2>
+                <form id="encrypt-form">
+                    <div class="form-group">
+                        <label for="plain-text">متن اصلی:</label>
+                        <textarea id="plain-text" rows="6" placeholder="متن خود را وارد کنید..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="encrypt-key">کلید خصوصی:</label>
+                        <div class="key-input-wrapper">
+                            <input type="password" id="encrypt-key" placeholder="کلید خصوصی خود را وارد کنید..." required>
+                            <button type="button" class="toggle-password" data-target="encrypt-key">
+                                <span class="eye-icon">👁️</span>
+                            </button>
+                        </div>
+                        <small class="help-text">حداقل 8 کاراکتر - این کلید را به خاطر بسپارید!</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>نوع کاراکترهای خروجی:</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="charset" value="persian" checked>
+                                <span>فارسی</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="charset" value="english">
+                                <span>English</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="charset" value="numbers">
+                                <span>اعداد (123)</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="charset" value="symbols">
+                                <span>علائم (!@#)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <span class="icon">🔒</span>
+                        رمزنگاری متن
+                    </button>
+                </form>
+
+                <div id="encrypt-result" class="result-box" style="display: none;">
+                    <label>متن رمزنگاری شده:</label>
+                    <div class="output-text" id="encrypted-text"></div>
+                    <div class="button-group">
+                        <button type="button" class="btn btn-secondary" id="copy-encrypted">
+                            <span class="icon">📋</span>
+                            کپی
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="save-encrypted">
+                            <span class="icon">💾</span>
+                            ذخیره در تاریخچه
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="decrypt-tab">
+            <div class="card">
+                <h2>رمزگشایی متن</h2>
+                <form id="decrypt-form">
+                    <div class="form-group">
+                        <label for="cipher-text">متن رمزنگاری شده:</label>
+                        <textarea id="cipher-text" rows="6" placeholder="متن رمزنگاری شده را وارد کنید..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="decrypt-key">کلید خصوصی:</label>
+                        <div class="key-input-wrapper">
+                            <input type="password" id="decrypt-key" placeholder="کلید خصوصی را وارد کنید..." required>
+                            <button type="button" class="toggle-password" data-target="decrypt-key">
+                                <span class="eye-icon">👁️</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <span class="icon">🔓</span>
+                        رمزگشایی متن
+                    </button>
+                </form>
+
+                <div id="decrypt-result" class="result-box" style="display: none;">
+                    <label>متن اصلی:</label>
+                    <div class="output-text" id="decrypted-text"></div>
+                    <button type="button" class="btn btn-secondary" id="copy-decrypted">
+                        <span class="icon">📋</span>
+                        کپی
+                    </button>
+                </div>
+
+                <div id="decrypt-error" class="error-box" style="display: none;">
+                    <span class="icon">❌</span>
+                    <span id="decrypt-error-text"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="history-tab">
+            <div class="card">
+                <div class="history-header">
+                    <h2>تاریخچه رمزنگاری</h2>
+                    <button type="button" class="btn btn-danger" id="clear-history">
+                        <span class="icon">🗑️</span>
+                        پاک کردن همه
+                    </button>
+                </div>
+                <div id="history-list" class="history-list">
+                    <div class="empty-state">
+                        <span class="icon">📭</span>
+                        <p>هنوز هیچ موردی ذخیره نشده است</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>🔒 تمام داده‌ها به صورت محلی در مرورگر شما ذخیره می‌شوند و به سرور ارسال نمی‌شوند</p>
+        </footer>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="assets/js/crypto.js"></script>
+    <script src="assets/js/storage.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
+

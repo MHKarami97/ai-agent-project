@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="تابلوی اعلانات محلی - اشتراک اطلاعات با همسایگان">
+    <title>تابلوی اعلانات محلی</title>
+    <link rel="stylesheet" href="../Vazirmatn-font-face.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">
+                    <span class="icon">📋</span>
+                    تابلوی اعلانات محلی
+                </h1>
+                <p class="subtitle">اشتراک اطلاعات با همسایگان در محدوده نزدیک</p>
+            </div>
+            <button class="btn-notification" id="enableNotifications">
+                <span class="icon">🔔</span>
+                فعال‌سازی اعلان‌ها
+            </button>
+        </header>
+
+        <!-- Add Message Form -->
+        <section class="add-message-section">
+            <h2 class="section-title">پیام جدید</h2>
+            <form id="messageForm" class="message-form">
+                <div class="form-group">
+                    <label for="messageTitle">عنوان پیام</label>
+                    <input type="text" id="messageTitle" class="form-input" placeholder="عنوان پیام خود را وارد کنید" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="messageContent">متن پیام</label>
+                    <textarea id="messageContent" class="form-textarea" rows="4" placeholder="متن پیام خود را بنویسید..." required></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="messageCategory">دسته‌بندی</label>
+                        <select id="messageCategory" class="form-select">
+                            <option value="عمومی">عمومی</option>
+                            <option value="اخبار">اخبار</option>
+                            <option value="خرید و فروش">خرید و فروش</option>
+                            <option value="خدمات">خدمات</option>
+                            <option value="رویداد">رویداد</option>
+                            <option value="اضطراری">اضطراری</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="senderName">نام فرستنده</label>
+                        <input type="text" id="senderName" class="form-input" placeholder="نام شما (اختیاری)">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <span class="icon">✉️</span>
+                    ارسال پیام
+                </button>
+            </form>
+        </section>
+
+        <!-- Filter Section -->
+        <section class="filter-section">
+            <div class="filter-container">
+                <button class="filter-btn active" data-filter="همه">همه پیام‌ها</button>
+                <button class="filter-btn" data-filter="عمومی">عمومی</button>
+                <button class="filter-btn" data-filter="اخبار">اخبار</button>
+                <button class="filter-btn" data-filter="خرید و فروش">خرید و فروش</button>
+                <button class="filter-btn" data-filter="خدمات">خدمات</button>
+                <button class="filter-btn" data-filter="رویداد">رویداد</button>
+                <button class="filter-btn" data-filter="اضطراری">اضطراری</button>
+            </div>
+            <button class="btn-clear" id="clearMessages">
+                <span class="icon">🗑️</span>
+                پاک کردن همه
+            </button>
+        </section>
+
+        <!-- Messages List -->
+        <section class="messages-section">
+            <h2 class="section-title">پیام‌های محلی</h2>
+            <div id="messagesList" class="messages-list">
+                <!-- Messages will be dynamically added here -->
+            </div>
+            <div id="emptyState" class="empty-state">
+                <span class="empty-icon">📭</span>
+                <p>هنوز پیامی ثبت نشده است</p>
+                <p class="empty-subtitle">اولین پیام را شما ارسال کنید!</p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>تابلوی اعلانات محلی - نسخه 1.0.0</p>
+            <p class="footer-note">تمامی پیام‌ها در مرورگر شما ذخیره می‌شوند</p>
+        </footer>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Room Code Modal -->
+    <div id="roomModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" id="closeModal">&times;</span>
+            <h2 class="modal-title" id="modalTitle">کد اتاق</h2>
+            <div class="modal-body">
+                <div id="roomCodeDisplay" class="room-code-display">
+                    <div class="room-code" id="roomCode">در حال ایجاد...</div>
+                    <button class="btn-copy" id="copyRoomCode">
+                        <span class="icon">📋</span>
+                        کپی کد
+                    </button>
+                </div>
+                <div id="joinRoomInput" class="join-room-input" style="display: none;">
+                    <input type="text" id="roomCodeInput" class="form-input" placeholder="کد اتاق را وارد کنید" maxlength="6">
+                    <button class="btn-submit" id="joinRoomBtn">
+                        <span class="icon">🚪</span>
+                        اتصال
+                    </button>
+                </div>
+            </div>
+            <div class="modal-info">
+                <p>این کد را با همسایگان خود به اشتراک بگذارید تا به اتاق شما متصل شوند</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.2/dist/peerjs.min.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
+

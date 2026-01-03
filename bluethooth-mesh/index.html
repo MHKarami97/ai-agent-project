@@ -1,0 +1,167 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پیام‌رسان Bluetooth Mesh</title>
+    <link rel="stylesheet" href="../Vazirmatn-font-face.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <path d="M16 4L22 10L18 14L22 18L16 24V4Z" fill="currentColor"/>
+                        <path d="M16 4L10 10L14 14L10 18L16 24" fill="none" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <h1>پیام‌رسان Mesh</h1>
+                </div>
+                <div class="status-indicator">
+                    <span class="status-dot" id="statusDot"></span>
+                    <span class="status-text" id="statusText">غیرفعال</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Setup Section -->
+            <div class="setup-section" id="setupSection">
+                <div class="setup-card">
+                    <div class="setup-icon">📱</div>
+                    <h2>خوش آمدید!</h2>
+                    <p>برای شروع، نام خود را وارد کنید و Bluetooth را فعال کنید</p>
+                    <div class="input-group">
+                        <label for="usernameInput">نام شما:</label>
+                        <input type="text" id="usernameInput" placeholder="نام خود را وارد کنید" maxlength="20">
+                    </div>
+                    <button class="btn btn-primary" id="startBtn">شروع ارتباط</button>
+                </div>
+            </div>
+
+            <!-- Chat Section -->
+            <div class="chat-section hidden" id="chatSection">
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <div class="sidebar-header">
+                        <h3>دستگاه‌های متصل</h3>
+                        <button class="btn-icon" id="scanBtn" title="جستجوی دستگاه‌ها">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="2"/>
+                                <path d="M10 6V10L13 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="devices-list" id="devicesList">
+                        <div class="empty-state">
+                            <p>هنوز دستگاهی یافت نشد</p>
+                            <small>روی دکمه جستجو کلیک کنید</small>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Chat Area -->
+                <div class="chat-area">
+                    <div class="chat-header">
+                        <div class="chat-info">
+                            <h3 id="chatTitle">پیام‌های عمومی</h3>
+                            <small id="chatSubtitle">پیام‌های رمزنگاری شده</small>
+                        </div>
+                        <div class="chat-actions">
+                            <button class="btn-icon" id="clearBtn" title="پاک کردن پیام‌ها">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M3 5H17M8 9V15M12 9V15M4 5L5 17C5 18 6 19 7 19H13C14 19 15 18 15 17L16 5M7 5V3C7 2 8 1 9 1H11C12 1 13 2 13 3V5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                            <button class="btn-icon" id="settingsBtn" title="تنظیمات">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <circle cx="10" cy="10" r="2" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M10 1V4M10 16V19M19 10H16M4 10H1M16.5 3.5L14.5 5.5M5.5 14.5L3.5 16.5M16.5 16.5L14.5 14.5M5.5 5.5L3.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="messages-container" id="messagesContainer">
+                        <div class="date-divider">
+                            <span>امروز</span>
+                        </div>
+                    </div>
+
+                    <div class="message-input-container">
+                        <div class="encryption-badge" title="رمزنگاری فعال است">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <rect x="4" y="7" width="8" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M6 7V5C6 3.89543 6.89543 3 8 3C9.10457 3 10 3.89543 10 5V7" stroke="currentColor" stroke-width="1.5"/>
+                                <circle cx="8" cy="10.5" r="1" fill="currentColor"/>
+                            </svg>
+                            <span>رمزنگاری شده</span>
+                        </div>
+                        <div class="message-input-wrapper">
+                            <textarea 
+                                id="messageInput" 
+                                placeholder="پیام خود را بنویسید..."
+                                rows="1"
+                                maxlength="500"
+                            ></textarea>
+                            <button class="btn-send" id="sendBtn" disabled>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Toast Notifications -->
+        <div class="toast-container" id="toastContainer"></div>
+
+        <!-- Settings Modal -->
+        <div class="modal hidden" id="settingsModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>تنظیمات</h3>
+                    <button class="btn-close" id="closeSettingsBtn">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="setting-item">
+                        <label>نام کاربری</label>
+                        <div class="input-group">
+                            <input type="text" id="settingsUsername" maxlength="20">
+                            <button class="btn btn-secondary" id="updateUsernameBtn">ذخیره</button>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" id="soundToggle">
+                            <span>صدای اعلان پیام</span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" id="autoConnectToggle">
+                            <span>اتصال خودکار</span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label class="info-label">شناسه دستگاه شما:</label>
+                        <div class="device-id" id="deviceIdDisplay">در حال بارگذاری...</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" id="resetBtn">بازنشانی همه داده‌ها</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
+

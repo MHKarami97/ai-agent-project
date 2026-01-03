@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بررسی فیلترینگ سایت</title>
+    <link rel="stylesheet" href="../Vazirmatn-font-face.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔍 بررسی فیلترینگ و دسترسی سایت</h1>
+            <p class="subtitle">تست DNS و تشخیص نوع مسدودسازی سایت‌ها</p>
+        </header>
+
+        <main>
+            <section class="input-section">
+                <div class="input-group">
+                    <input type="text" id="urlInput" placeholder="آدرس سایت را وارد کنید (مثال: google.com)" autocomplete="off">
+                    <button id="checkBtn" class="btn-primary">
+                        <span>بررسی</span>
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="quick-add">
+                    <button id="addToHistoryBtn" class="btn-secondary">
+                        <svg class="icon-small" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                            <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                            <polyline points="7 3 7 8 15 8"></polyline>
+                        </svg>
+                        افزودن به لیست ذخیره شده
+                    </button>
+                </div>
+            </section>
+
+            <section id="resultSection" class="result-section hidden">
+                <div class="result-card">
+                    <div class="result-header">
+                        <h2 id="resultUrl"></h2>
+                        <span id="resultStatus" class="status-badge"></span>
+                    </div>
+                    <div class="result-body">
+                        <div class="result-item">
+                            <span class="label">وضعیت دسترسی:</span>
+                            <span id="accessStatus" class="value"></span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">نوع مسدودسازی:</span>
+                            <span id="blockType" class="value"></span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">تست DNS:</span>
+                            <span id="dnsStatus" class="value"></span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">تست HTTP:</span>
+                            <span id="httpStatus" class="value"></span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">تست HTTPS:</span>
+                            <span id="httpsStatus" class="value"></span>
+                        </div>
+                        <div id="detailsSection" class="details-section">
+                            <h3>جزئیات بیشتر</h3>
+                            <div id="detailsContent" class="details-content"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="saved-section">
+                <div class="section-header">
+                    <h2>سایت‌های ذخیره شده</h2>
+                    <button id="clearAllBtn" class="btn-danger-small">پاک کردن همه</button>
+                </div>
+                <div id="savedList" class="saved-list">
+                    <div class="empty-state">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M12 16v-4"></path>
+                            <path d="M12 8h.01"></path>
+                        </svg>
+                        <p>هیچ سایتی ذخیره نشده است</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="history-section">
+                <div class="section-header">
+                    <h2>تاریخچه آزمایش‌ها</h2>
+                    <button id="clearHistoryBtn" class="btn-danger-small">پاک کردن تاریخچه</button>
+                </div>
+                <div id="historyList" class="history-list">
+                    <div class="empty-state">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        <p>هیچ آزمایشی انجام نشده است</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>تمامی داده‌ها در مرورگر شما ذخیره می‌شوند و به سرور ارسال نمی‌گردند.</p>
+        </footer>
+    </div>
+
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
+

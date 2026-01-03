@@ -1,6 +1,70 @@
 ﻿// Tools data
 const tools = [
     {
+        path: 'voice-change',
+        faName: 'تغییر صدا',
+        enName: 'Voice Changer',
+        faDesc: 'تغییر صدای ضبط شده',
+        enDesc: 'Change recorded voice',
+        icon: '🎤'
+    },
+    {
+        path: 'survival',
+        faName: 'کیت بقا',
+        enName: 'Survival Kit',
+        faDesc: 'محاسبه نیازهای بقا در شرایط اضطراری',
+        enDesc: 'Calculate survival needs in emergencies',
+        icon: '🧰'
+    },
+    {
+        path: 'site-checker',
+        faName: 'بررسی مسدود بودن سایت',
+        enName: 'Site Block Checker',
+        faDesc: 'بررسی مسدود بودن سایت‌ها در اینترنت',
+        enDesc: 'Check if websites are blocked on the internet',
+        icon: '🌐'
+    },
+    {
+        path: 'safe-zone-map',
+        faName: 'نقاط امن',
+        enName: 'Safe Zone Map',
+        faDesc: 'ثبت و مشاهده نقاط امن در بلایای طبیعی',
+        enDesc: 'Register and view safe zones during natural disasters',
+        icon: '🆘'
+    },
+    {
+        path: 'local-board',
+        faName: 'اعلام رویداد محلی آفلاین',
+        enName: 'Local Event Board',
+        faDesc: 'اعلام و مشاهده رویدادهای محلی به صورت آفلاین',
+        enDesc: 'Announce and view local events offline',
+        icon: '📌'
+    },
+    {
+        path: 'event-logger',
+        faName: 'لاگ رویدادها',
+        enName: 'Event Logger',
+        faDesc: 'ثبت و نمایش رویدادها',
+        enDesc: 'Log and display events',
+        icon: '📝'
+    },
+    {
+        path: 'bluethooth-mesh',
+        faName: 'چت آفلاین بلوتوثی',
+        enName: 'Bluetooth Mesh Chat',
+        faDesc: 'چت آفلاین با دستگاه‌های بلوتوث اطراف',
+        enDesc: 'Offline chat with nearby bluetooth devices',
+        icon: '📳'
+    },
+    {
+        path: 'cryptography',
+        faName: 'رمزنگاری متن',
+        enName: 'Cryptography',
+        faDesc: 'رمزنگاری متن با کلید خصوصی',
+        enDesc: 'Cryptography text',
+        icon: '💀'
+    },
+    {
         path: 'bluethooth-killer',
         faName: 'قطع کردن بلوتوث',
         enName: 'bluethooth Killer',
@@ -653,7 +717,7 @@ if ('serviceWorker' in navigator) {
                     }).then(() => {
                         // Tell the service worker to skip waiting
                         if (newWorker) {
-                            newWorker.postMessage({ type: 'SKIP_WAITING' });
+                            newWorker.postMessage({type: 'SKIP_WAITING'});
                         } else {
                             window.location.reload();
                         }
