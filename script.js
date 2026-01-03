@@ -1,6 +1,22 @@
 ﻿// Tools data
 const tools = [
     {
+        path: 'local-share',
+        faName: 'اشتراک‌گذاری محلی',
+        enName: 'Local Share',
+        faDesc: 'اشتراک‌گذاری فایل‌ها به صورت محلی در یک شبکه اینترنت',
+        enDesc: 'Share files locally over a network',
+        icon: '📁'
+    },
+    {
+        path: 'local-call',
+        faName: 'تماس تصویری و صوتی محلی',
+        enName: 'Local Call',
+        faDesc: 'تماس تصویری و صوتی به صورت محلی در یک شبکه اینترنت',
+        enDesc: 'Make local video and audio calls over a network',
+        icon: '📞'
+    },
+    {
         path: 'planet',
         faName: 'مراقبت از گیاهان',
         enName: 'Plant Care',

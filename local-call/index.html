@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>چت تصویری و صوتی محلی</title>
+    <link rel="stylesheet" href="../Vazirmatn-font-face.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1 class="logo" data-i18n="app_title">چت محلی امن</h1>
+                <div class="header-controls">
+                    <button id="langToggle" class="btn-icon" aria-label="تغییر زبان">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                        </svg>
+                    </button>
+                    <button id="themeToggle" class="btn-icon" aria-label="تغییر تم">
+                        <svg id="themeIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Connection Section -->
+        <section id="connectionSection" class="card">
+            <h2 data-i18n="connection_title">اتصال</h2>
+            <div class="connection-info">
+                <div class="info-item">
+                    <label data-i18n="your_id">شناسه شما:</label>
+                    <div class="id-display">
+                        <code id="myPeerId">در حال دریافت...</code>
+                        <button id="copyIdBtn" class="btn-small" data-i18n="copy">کپی</button>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <label for="remotePeerId" data-i18n="remote_id">شناسه طرف مقابل:</label>
+                    <div class="input-group">
+                        <input type="text" id="remotePeerId" placeholder="شناسه طرف مقابل را وارد کنید">
+                        <button id="connectBtn" class="btn-primary" data-i18n="connect">اتصال</button>
+                    </div>
+                </div>
+            </div>
+            <div id="connectionStatus" class="status-message"></div>
+        </section>
+
+        <!-- Communication Section -->
+        <section id="communicationSection" class="card" style="display: none;">
+            <div class="communication-header">
+                <h2 data-i18n="chat_title">گفتگو</h2>
+                <div class="media-controls">
+                    <button id="toggleVideoBtn" class="btn-icon active" title="دوربین" aria-label="فعال/غیرفعال کردن دوربین">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                        </svg>
+                    </button>
+                    <button id="toggleAudioBtn" class="btn-icon active" title="میکروفون" aria-label="فعال/غیرفعال کردن میکروفون">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                            <line x1="12" y1="19" x2="12" y2="23"></line>
+                            <line x1="8" y1="23" x2="16" y2="23"></line>
+                        </svg>
+                    </button>
+                    <button id="disconnectBtn" class="btn-danger" data-i18n="disconnect">قطع اتصال</button>
+                </div>
+            </div>
+
+            <!-- Video Section -->
+            <div class="video-container">
+                <div class="video-wrapper">
+                    <video id="remoteVideo" autoplay playsinline></video>
+                    <div class="video-label" data-i18n="remote_video">تصویر طرف مقابل</div>
+                </div>
+                <div class="video-wrapper local">
+                    <video id="localVideo" autoplay playsinline muted></video>
+                    <div class="video-label" data-i18n="local_video">تصویر شما</div>
+                </div>
+            </div>
+
+            <!-- Chat Messages -->
+            <div class="chat-section">
+                <div id="chatMessages" class="chat-messages"></div>
+                <div class="chat-input">
+                    <input type="text" id="messageInput" data-i18n-placeholder="type_message" placeholder="پیام خود را بنویسید...">
+                    <button id="sendBtn" class="btn-primary" data-i18n="send">ارسال</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p data-i18n="footer_text">چت تصویری و صوتی محلی امن - بدون سرور، کاملاً خصوصی</p>
+        </div>
+    </footer>
+
+    <!-- PeerJS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
+    <script src="assets/translations.js"></script>
+    <script src="assets/app.js"></script>
+</body>
+</html>
+
