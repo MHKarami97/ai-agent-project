@@ -1,116 +1,96 @@
 ﻿<!doctype html>
-<html lang="fa"
-      dir="rtl">
+<html lang="fa" dir="rtl">
+
 <head>
     <title>Web Tools</title>
-    <meta charset="utf-8"/>
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1"/>
-    <meta name="theme-color"
-          content="#7c5cff"/>
-    <meta name="description"
-          content="مجموعه ابزارهای آنلاین کاربردی - Web Tools Collection"/>
-    <meta name="apple-mobile-web-app-capable"
-          content="yes"/>
-    <meta name="apple-mobile-web-app-status-bar-style"
-          content="black-translucent"/>
-    <meta name="apple-mobile-web-app-title"
-          content="Web Tools"/>
-    <link rel="icon"
-          type="image/x-icon"
-          href="/favicon.ico">
-    <link rel="shortcut icon"
-          type="image/x-icon"
-          href="/favicon.ico">
-    <link rel="apple-touch-icon"
-          href="/favicon.ico"/>
-    <link rel="manifest"
-          href="/manifest.json"/>
-    <link rel="stylesheet"
-          href="/Vazirmatn-font-face.css">
-    <link rel="stylesheet"
-          href="/style.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#7c5cff" />
+    <meta name="description" content="مجموعه ابزارهای آنلاین کاربردی - Web Tools Collection" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Web Tools" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="stylesheet" href="/Vazirmatn-font-face.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
+
 <body>
-<!-- Update Notification -->
-<div id="updateNotification" class="update-notification hidden">
-    <div class="update-content">
-        <span class="update-icon">🔄</span>
-        <div class="update-text">
-            <strong>نسخه جدید موجود است!</strong>
-            <p>برای استفاده از آخرین نسخه، صفحه را به‌روزرسانی کنید.</p>
+    <!-- Update Notification -->
+    <div id="updateNotification" class="update-notification hidden">
+        <div class="update-content">
+            <span class="update-icon">🔄</span>
+            <div class="update-text">
+                <strong>نسخه جدید موجود است!</strong>
+                <p>برای استفاده از آخرین نسخه، صفحه را به‌روزرسانی کنید.</p>
+            </div>
+            <button id="updateButton" class="update-button">به‌روزرسانی</button>
+            <button id="dismissUpdate" class="dismiss-button" title="بستن">✕</button>
         </div>
-        <button id="updateButton" class="update-button">به‌روزرسانی</button>
-        <button id="dismissUpdate" class="dismiss-button" title="بستن">✕</button>
     </div>
-</div>
 
-<div class="wrap">
-    <header>
-        <div class="header-content">
-            <h1>ابزارهای کاربردی</h1>
-            <p class="hint">
-                مجموعه
-                ابزارهای
-                کاربردی</p>
-        </div>
-        <div style="display: flex; gap: 12px; align-items: center;">
-            <div class="search-box">
-                <span class="search-icon">🔍</span>
-                <input type="text"
-                       class="search-input"
-                       id="searchInput"
-                       placeholder="جستجوی ابزار..."/>
+    <div class="wrap">
+        <header>
+            <div class="header-content">
+                <h1>ابزارهای کاربردی</h1>
+                <p class="hint">
+                    مجموعه
+                    ابزارهای
+                    کاربردی</p>
             </div>
-            <button class="theme-toggle"
-                    id="themeToggle"
-                    title="تغییر تم"
-                    aria-label="Toggle theme">
-                <span id="themeIcon">🌙</span>
-            </button>
-        </div>
-    </header>
-
-    <section
-            class="card"
-            aria-label="Tools list">
-        <div class="stats-bar">
-            <span>تعداد ابزارها: <span
-                    class="count"
-                    id="totalCount">0</span></span>
-            <span id="filteredInfo"></span>
-        </div>
-        <nav aria-label="Tools">
-            <ul id="toolsList">
-            </ul>
-            <div id="noResults"
-                 class="no-results hidden">
-                <div class="no-results-icon">
-                    🔍
+            <div style="display: flex; gap: 12px; align-items: center;">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" id="searchInput" placeholder="جستجوی ابزار..." />
                 </div>
-                <p>
-                    هیچ
-                    ابزاری
-                    یافت
-                    نشد</p>
-                <p style="font-size: 13px;">
-                    لطفاً
-                    کلمات
-                    دیگری
-                    را
-                    امتحان
-                    کنید</p>
+                <button class="theme-toggle" id="themeToggle" title="تغییر تم" aria-label="Toggle theme">
+                    <span id="themeIcon">🌙</span>
+                </button>
             </div>
-        </nav>
-    </section>
+        </header>
 
-    <footer>
-        <span>طراحی توسط <a href="https://mhkarami97.ir">محمد حسین کرمی</a> </span>
-        <span><a href="https://mhkarami97.ir">mhkarami97.ir</a></span>
-    </footer>
-</div>
+        <section class="card" aria-label="Tools list">
+            <div class="stats-bar">
+                <span>تعداد ابزارها: <span class="count" id="totalCount">0</span></span>
+                <span id="filteredInfo"></span>
+            </div>
+            <nav aria-label="Tools">
+                <ul id="toolsList">
+                </ul>
+                <div id="noResults" class="no-results hidden">
+                    <div class="no-results-icon">
+                        🔍
+                    </div>
+                    <p>
+                        هیچ
+                        ابزاری
+                        یافت
+                        نشد</p>
+                    <p style="font-size: 13px;">
+                        لطفاً
+                        کلمات
+                        دیگری
+                        را
+                        امتحان
+                        کنید</p>
+                </div>
+            </nav>
+        </section>
 
-<script src="script.js"></script>
+        <footer>
+            <span>طراحی توسط <a href="https://mhkarami97.ir">محمد حسین کرمی</a> </span>
+            <span><a href="https://mhkarami97.ir">mhkarami97.ir</a></span>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
 </body>
-</html>
 
+</html>

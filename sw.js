@@ -1,4 +1,4 @@
-﻿const CACHE_NAME = 'web-tools-v1.1.1';
+﻿const CACHE_NAME = 'web-tools-v1.1.2';
 const urlsToCache = [
     '/',
     '/index.html',
@@ -18,7 +18,6 @@ self.addEventListener('install', (event) => {
                 return cache.addAll(urlsToCache);
             })
     );
-    // Don't skip waiting - let the controlling event handle it
 });
 
 // Send message to all clients when new version is ready
@@ -57,6 +56,7 @@ self.addEventListener('message', (event) => {
     }
 });
 
+// Fetch and cache strategy
 self.addEventListener('fetch', (event) => {
     event.respondWith(
         caches.match(event.request)
@@ -85,17 +85,19 @@ self.addEventListener('fetch', (event) => {
     );
 });
 
-
+// Background sync event
 self.addEventListener('sync', (event) => {
     if (event.tag === 'sync-data') {
         event.waitUntil(syncData());
     }
 });
 
+// Example function to sync data
 async function syncData() {
     console.log('Syncing data...');
 }
 
+// Push notification event
 self.addEventListener('push', (event) => {
     const options = {
         body: event.data ? event.data.text() : 'اعلان جدید',
@@ -113,6 +115,7 @@ self.addEventListener('push', (event) => {
     );
 });
 
+// Notification click event
 self.addEventListener('notificationclick', (event) => {
     event.notification.close();
 

@@ -1,14 +1,19 @@
 ﻿{
+  "id": "/",
+  "scope": "/",
   "name": "Web Tools",
   "short_name": "ابزارهای وب",
   "description": "مجموعه ابزارهای کاربردی",
   "start_url": "/",
-  "display": "standalone",
+  "display": "fullscreen",
   "background_color": "#0f1730",
   "theme_color": "#7c5cff",
   "orientation": "portrait-primary",
   "lang": "fa",
   "dir": "rtl",
+  "display_override": ["fullscreen", "standalone"],
+  "prefer_related_applications": false,
+  "related_applications": [],
   "icons": [
     {
       "src": "/favicon.png",
@@ -33,7 +38,43 @@
     "productivity",
     "tools"
   ],
-  "screenshots": [],
+  "screenshots": [
+    {
+      "src": "/screenshots/01.jpg",
+      "sizes": "1280x720",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "صفحه اصلی"
+    },
+    {
+      "src": "/screenshots/02.jpg",
+      "sizes": "540x720",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "لیست ابزارها"
+    },
+    {
+      "src": "/screenshots/03.jpg",
+      "sizes": "540x720",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "جزئیات ابزار"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "ابزارهای کاربردی",
+      "short_name": "ابزارها",
+      "description": "دسترسی سریع به ابزارهای کاربردی",
+      "url": "/",
+      "icons": [
+        {
+          "src": "/favicon.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
   "share_target": {
     "action": "/",
     "method": "GET",
