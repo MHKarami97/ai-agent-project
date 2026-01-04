@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opportunity Canvas</title>
+    <link rel="stylesheet" href="../Vazirmatn-font-face.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1 class="app-title" data-i18n="app.title">Opportunity Canvas</h1>
+            <div class="header-controls">
+                <select id="boardSelector" class="board-selector">
+                    <option value="" data-i18n="board.selectBoard">انتخاب بورد</option>
+                </select>
+                <button id="newBoardBtn" class="icon-btn" data-i18n-title="board.new">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                </button>
+                <button id="renameBoardBtn" class="icon-btn" data-i18n-title="board.rename">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                </button>
+                <button id="deleteBoardBtn" class="icon-btn" data-i18n-title="board.delete">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                </button>
+                <div class="divider"></div>
+                <button id="exportBtn" class="icon-btn" data-i18n-title="board.export">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                </button>
+                <button id="importBtn" class="icon-btn" data-i18n-title="board.import">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                </button>
+                <input type="file" id="importFile" accept=".json" style="display: none;">
+                <button id="clearBoardBtn" class="icon-btn danger" data-i18n-title="board.clear">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="15" y1="9" x2="9" y2="15"></line>
+                        <line x1="9" y1="9" x2="15" y2="15"></line>
+                    </svg>
+                </button>
+                <div class="divider"></div>
+                <button id="themeToggle" class="icon-btn" data-i18n-title="settings.theme">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+                <button id="langToggle" class="icon-btn" data-i18n-title="settings.language">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="canvasContainer">
+        <div class="canvas-grid">
+            <div class="canvas-section" data-section="problems">
+                <div class="section-header">
+                    <h2 data-i18n="canvas.problems">مشکلات و نیازها</h2>
+                    <button class="add-item-btn" data-section="problems">+</button>
+                </div>
+                <div class="items-container" data-section="problems"></div>
+            </div>
+
+            <div class="canvas-section" data-section="solution">
+                <div class="section-header">
+                    <h2 data-i18n="canvas.solution">راه‌حل پیشنهادی</h2>
+                    <button class="add-item-btn" data-section="solution">+</button>
+                </div>
+                <div class="items-container" data-section="solution"></div>
+            </div>
+
+            <div class="canvas-section" data-section="benefits">
+                <div class="section-header">
+                    <h2 data-i18n="canvas.benefits">مزایا و ارزش‌ها</h2>
+                    <button class="add-item-btn" data-section="benefits">+</button>
+                </div>
+                <div class="items-container" data-section="benefits"></div>
+            </div>
+
+            <div class="canvas-section" data-section="users">
+                <div class="section-header">
+                    <h2 data-i18n="canvas.users">کاربران و مشتریان</h2>
+                    <button class="add-item-btn" data-section="users">+</button>
+                </div>
+                <div class="items-container" data-section="users"></div>
+            </div>
+
+            <div class="canvas-section" data-section="metrics">
+                <div class="section-header">
+                    <h2 data-i18n="canvas.metrics">معیارهای موفقیت</h2>
+                    <button class="add-item-btn" data-section="metrics">+</button>
+                </div>
+                <div class="items-container" data-section="metrics"></div>
+            </div>
+
+            <div class="canvas-section" data-section="channels">
+                <div class="section-header">
+                    <h2 data-i18n="canvas.channels">کانال‌های دسترسی</h2>
+                    <button class="add-item-btn" data-section="channels">+</button>
+                </div>
+                <div class="items-container" data-section="channels"></div>
+            </div>
+
+            <div class="canvas-section" data-section="costs">
+                <div class="section-header">
+                    <h2 data-i18n="canvas.costs">هزینه‌ها</h2>
+                    <button class="add-item-btn" data-section="costs">+</button>
+                </div>
+                <div class="items-container" data-section="costs"></div>
+            </div>
+
+            <div class="canvas-section" data-section="revenue">
+                <div class="section-header">
+                    <h2 data-i18n="canvas.revenue">منابع درآمد</h2>
+                    <button class="add-item-btn" data-section="revenue">+</button>
+                </div>
+                <div class="items-container" data-section="revenue"></div>
+            </div>
+        </div>
+    </main>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle"></h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="modalInput" placeholder="">
+            </div>
+            <div class="modal-footer">
+                <button id="modalCancel" class="btn-secondary" data-i18n="common.cancel">لغو</button>
+                <button id="modalConfirm" class="btn-primary" data-i18n="common.confirm">تایید</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="assets/script.js"></script>
+</body>
+</html>
+

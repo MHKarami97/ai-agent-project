@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Story Map</title>
+    <link rel="stylesheet" href="../Vazirmatn-font-face.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+    <div id="app">
+        <header class="header">
+            <div class="header-content">
+                <h1 class="app-title" data-i18n="appTitle">Story Map</h1>
+                <div class="header-actions">
+                    <select id="viewModeSelector" class="view-mode-selector">
+                        <option value="storymap" data-i18n="viewStoryMap">Story Map</option>
+                        <option value="roadmap" data-i18n="viewRoadmap">Product Roadmap</option>
+                    </select>
+                    <select id="boardSelector" class="board-selector">
+                        <option value="" data-i18n="selectBoard">انتخاب برد</option>
+                    </select>
+                    <button id="newBoardBtn" class="btn btn-primary" data-i18n="newBoard">برد جدید</button>
+                    <button id="exportBtn" class="btn btn-secondary" data-i18n="export">خروجی</button>
+                    <button id="importBtn" class="btn btn-secondary" data-i18n="import">ورودی</button>
+                    <button id="clearBoardBtn" class="btn btn-danger" data-i18n="clearBoard">پاک‌سازی برد</button>
+                    <button id="themeToggle" class="btn btn-icon" title="تغییر تم">
+                        <span class="theme-icon">🌙</span>
+                    </button>
+                    <button id="langToggle" class="btn btn-icon" title="تغییر زبان">
+                        <span class="lang-text">EN</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div id="boardContainer" class="board-container">
+                <div class="empty-state">
+                    <div class="empty-icon">📋</div>
+                    <h2 data-i18n="emptyStateTitle">هیچ بردی انتخاب نشده</h2>
+                    <p data-i18n="emptyStateText">یک برد جدید ایجاد کنید یا برد موجود را انتخاب کنید</p>
+                </div>
+            </div>
+        </main>
+
+        <div id="addColumnBtn" class="add-column-btn" style="display: none;">
+            <button class="btn btn-add" data-i18n="addColumn">+ افزودن ستون</button>
+        </div>
+    </div>
+
+    <div id="modalOverlay" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="modalTitle" class="modal-title"></h2>
+                <button id="modalClose" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="modalContent"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="modalCancel" class="btn btn-secondary" data-i18n="cancel">انصراف</button>
+                <button id="modalConfirm" class="btn btn-primary" data-i18n="confirm">تأیید</button>
+            </div>
+        </div>
+    </div>
+
+    <input type="file" id="fileInput" accept=".json" style="display: none;">
+
+    <script src="assets/script.js"></script>
+</body>
+</html>
+

@@ -1,6 +1,30 @@
 ﻿// Tools data
 const tools = [
     {
+        path: 'story-map',
+        faName: 'نقشه داستان',
+        enName: 'Story Map',
+        faDesc: 'ساخت نقشه داستان برای پروژه‌ها',
+        enDesc: 'Create story maps for projects',
+        icon: '🗂️'
+    },
+    {
+        path: 'planning-poker',
+        faName: 'پوکر برنامه‌ریزی',
+        enName: 'Planning Poker',
+        faDesc: 'ابزار تخمین زمان و تلاش پروژه‌ها',
+        enDesc: 'Estimate project time and effort',
+        icon: '🃏'
+    },
+    {
+        path: 'opportunity-canvas',
+        faName: 'بوم فرصت',
+        enName: 'Opportunity Canvas',
+        faDesc: 'ابزار تحلیل فرصت‌ها و ایده‌ها',
+        enDesc: 'Tool for analyzing opportunities and ideas',
+        icon: '📊'
+    },
+    {
         path: 'local-share',
         faName: 'اشتراک‌گذاری محلی',
         enName: 'Local Share',

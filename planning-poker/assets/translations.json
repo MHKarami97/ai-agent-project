@@ -1,0 +1,137 @@
+﻿{
+  "fa": {
+    "app": {
+      "title": "Planning Poker"
+    },
+    "home": {
+      "welcome": "خوش آمدید",
+      "description": "Planning Poker برای تیم‌های چابک",
+      "createRoom": "ایجاد اتاق جدید",
+      "joinRoom": "پیوستن به اتاق"
+    },
+    "create": {
+      "title": "ایجاد اتاق جدید",
+      "yourName": "نام شما:",
+      "yourNamePlaceholder": "نام خود را وارد کنید",
+      "roomName": "نام اتاق:",
+      "roomNamePlaceholder": "نام اتاق را وارد کنید",
+      "create": "ایجاد"
+    },
+    "join": {
+      "title": "پیوستن به اتاق",
+      "yourName": "نام شما:",
+      "yourNamePlaceholder": "نام خود را وارد کنید",
+      "roomId": "شناسه اتاق:",
+      "roomIdPlaceholder": "شناسه اتاق را وارد کنید",
+      "join": "پیوستن"
+    },
+    "room": {
+      "roomId": "شناسه اتاق:",
+      "leave": "خروج از اتاق",
+      "currentStory": "داستان فعلی",
+      "reveal": "نمایش آرا",
+      "reset": "ریست",
+      "update": "بروزرسانی",
+      "storyPlaceholder": "عنوان داستان را وارد کنید...",
+      "votingInProgress": "در حال رای‌گیری...",
+      "selectCard": "کارت خود را انتخاب کنید",
+      "participants": "شرکت‌کنندگان",
+      "results": "نتایج رای‌گیری",
+      "host": "میزبان",
+      "participant": "شرکت‌کننده",
+      "voted": "رای داده",
+      "notVoted": "رای نداده",
+      "average": "میانگین:",
+      "median": "میانه:",
+      "mode": "پرتکرارترین:",
+      "consensus": "اجماع:",
+      "yes": "بله",
+      "no": "خیر"
+    },
+    "common": {
+      "cancel": "لغو",
+      "close": "بستن",
+      "copy": "کپی"
+    },
+    "toast": {
+      "roomCreated": "اتاق با موفقیت ایجاد شد",
+      "joinedRoom": "با موفقیت به اتاق پیوستید",
+      "leftRoom": "از اتاق خارج شدید",
+      "voteCast": "رای شما ثبت شد",
+      "roomIdCopied": "شناسه اتاق کپی شد",
+      "storyUpdated": "داستان بروزرسانی شد",
+      "votesRevealed": "آرا نمایش داده شد",
+      "votingReset": "رای‌گیری ریست شد",
+      "roomNotFound": "اتاق یافت نشد",
+      "error": "خطایی رخ داد"
+    }
+  },
+  "en": {
+    "app": {
+      "title": "Planning Poker"
+    },
+    "home": {
+      "welcome": "Welcome",
+      "description": "Planning Poker for Agile Teams",
+      "createRoom": "Create New Room",
+      "joinRoom": "Join Room"
+    },
+    "create": {
+      "title": "Create New Room",
+      "yourName": "Your Name:",
+      "yourNamePlaceholder": "Enter your name",
+      "roomName": "Room Name:",
+      "roomNamePlaceholder": "Enter room name",
+      "create": "Create"
+    },
+    "join": {
+      "title": "Join Room",
+      "yourName": "Your Name:",
+      "yourNamePlaceholder": "Enter your name",
+      "roomId": "Room ID:",
+      "roomIdPlaceholder": "Enter room ID",
+      "join": "Join"
+    },
+    "room": {
+      "roomId": "Room ID:",
+      "leave": "Leave Room",
+      "currentStory": "Current Story",
+      "reveal": "Reveal Votes",
+      "reset": "Reset",
+      "update": "Update",
+      "storyPlaceholder": "Enter story title...",
+      "votingInProgress": "Voting in progress...",
+      "selectCard": "Select Your Card",
+      "participants": "Participants",
+      "results": "Voting Results",
+      "host": "Host",
+      "participant": "Participant",
+      "voted": "Voted",
+      "notVoted": "Not Voted",
+      "average": "Average:",
+      "median": "Median:",
+      "mode": "Mode:",
+      "consensus": "Consensus:",
+      "yes": "Yes",
+      "no": "No"
+    },
+    "common": {
+      "cancel": "Cancel",
+      "close": "Close",
+      "copy": "Copy"
+    },
+    "toast": {
+      "roomCreated": "Room created successfully",
+      "joinedRoom": "Joined room successfully",
+      "leftRoom": "Left the room",
+      "voteCast": "Your vote has been cast",
+      "roomIdCopied": "Room ID copied",
+      "storyUpdated": "Story updated",
+      "votesRevealed": "Votes revealed",
+      "votingReset": "Voting reset",
+      "roomNotFound": "Room not found",
+      "error": "An error occurred"
+    }
+  }
+}
+
