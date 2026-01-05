@@ -1,15 +1,9 @@
-﻿/**
- * Tool Wrapper Script
- * Automatically injects a mobile app-like header with back button and contact form
- * Usage: Add this script to any tool page
- */
-
-(function() {
+﻿(function() {
     'use strict';
 
     // Configuration
     const CONFIG = {
-        homeUrl: '/index.html',
+        homeUrl: '/',
         emailServiceUrl: 'https://formspree.io/f/mpzbwnop', // Replace with your Formspree endpoint
         toolName: document.title || 'ابزار'
     };
@@ -26,15 +20,21 @@
         injectContactModal();
         setupEventListeners();
         adjustBodyPadding();
+        applyDarkMode();
     }
 
     function injectToolWrapper() {
         // Create wrapper element
         const wrapper = document.createElement('div');
         wrapper.className = 'tool-wrapper';
+        
+        // Detect direction for arrow icon
+        const isRTL = document.documentElement.dir === 'rtl' || document.documentElement.lang === 'fa';
+        const arrowIcon = isRTL ? '→' : '←';
+        
         wrapper.innerHTML = `
             <div class="tool-header">
-                <button class="tool-back-btn" id="toolBackBtn" title="بازگشت به صفحه اصلی" aria-label="Back to home"></button>
+                <button class="tool-back-btn" id="toolBackBtn" title="بازگشت به صفحه اصلی" aria-label="Back to home">${arrowIcon}</button>
                 <h1 class="tool-header-title">${CONFIG.toolName}</h1>
                 <button class="tool-contact-btn" id="toolContactBtn" title="تماس با ما / گزارش مشکل" aria-label="Contact us">
                     ✉️
@@ -44,6 +44,34 @@
 
         // Insert at the beginning of body
         document.body.insertBefore(wrapper, document.body.firstChild);
+    }
+
+    function applyDarkMode() {
+        // Check localStorage for dark mode preference
+        const isDarkMode = localStorage.getItem('theme') === 'dark';
+        const wrapper = document.querySelector('.tool-wrapper');
+        const modal = document.querySelector('.contact-modal');
+        
+        if (wrapper && isDarkMode) {
+            wrapper.classList.add('dark-mode');
+        }
+        
+        if (modal && isDarkMode) {
+            modal.classList.add('dark-mode');
+        }
+        
+        // Listen for storage changes (if user changes theme in another tab)
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'theme') {
+                if (e.newValue === 'dark') {
+                    if (wrapper) wrapper.classList.add('dark-mode');
+                    if (modal) modal.classList.add('dark-mode');
+                } else {
+                    if (wrapper) wrapper.classList.remove('dark-mode');
+                    if (modal) modal.classList.remove('dark-mode');
+                }
+            }
+        });
     }
 
     function injectContactModal() {
