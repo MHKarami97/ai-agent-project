@@ -22,6 +22,25 @@ const urlsToCache = [
     '/assets/fonts/webfonts/Vazirmatn[wght].woff2'
 ];
 
+// Helper function to determine if a URL should be cached
+function shouldCache(url) {
+    const urlObj = new URL(url);
+    const pathname = urlObj.pathname;
+    
+    // Cache static assets
+    if (pathname.match(/\.(css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/)) {
+        return true;
+    }
+    
+    // Cache HTML pages from the same origin
+    if (urlObj.origin === self.location.origin && 
+        (pathname.endsWith('/') || pathname.endsWith('.html'))) {
+        return true;
+    }
+    
+    return false;
+}
+
 // Installation of caching patterns
 self.addEventListener('install', (event) => {
     event.waitUntil(
