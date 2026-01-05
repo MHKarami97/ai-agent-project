@@ -80,6 +80,13 @@
       "type": "image/jpeg",
       "form_factor": "narrow",
       "label": "جزئیات ابزار"
+    },
+    {
+      "src": "/assets/screenshots/04.jpg",
+      "sizes": "1853x897",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "جزئیات ابزار"
     }
   ],
   "shortcuts": [
