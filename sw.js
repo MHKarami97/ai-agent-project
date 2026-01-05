@@ -10,16 +10,16 @@ const urlsToCache = [
     '/Vazirmatn-font-face.css',
     '/assets/tool-wrapper.js',
     '/assets/tool-wrapper.css',
-    '/fonts/webfonts/Vazirmatn-Black.woff2',
-    '/fonts/webfonts/Vazirmatn-Bold.woff2',
-    '/fonts/webfonts/Vazirmatn-ExtraBold.woff2',
-    '/fonts/webfonts/Vazirmatn-ExtraLight.woff2',
-    '/fonts/webfonts/Vazirmatn-Light.woff2',
-    '/fonts/webfonts/Vazirmatn-Medium.woff2',
-    '/fonts/webfonts/Vazirmatn-Regular.woff2',
-    '/fonts/webfonts/Vazirmatn-SemiBold.woff2',
-    '/fonts/webfonts/Vazirmatn-Thin.woff2',
-    '/fonts/webfonts/Vazirmatn[wght].woff2'
+    '/assets/fonts/webfonts/Vazirmatn-Black.woff2',
+    '/assets/fonts/webfonts/Vazirmatn-Bold.woff2',
+    '/assets/fonts/webfonts/Vazirmatn-ExtraBold.woff2',
+    '/assets/fonts/webfonts/Vazirmatn-ExtraLight.woff2',
+    '/assets/fonts/webfonts/Vazirmatn-Light.woff2',
+    '/assets/fonts/webfonts/Vazirmatn-Medium.woff2',
+    '/assets/fonts/webfonts/Vazirmatn-Regular.woff2',
+    '/assets/fonts/webfonts/Vazirmatn-SemiBold.woff2',
+    '/assets/fonts/webfonts/Vazirmatn-Thin.woff2',
+    '/assets/fonts/webfonts/Vazirmatn[wght].woff2'
 ];
 
 // Installation of caching patterns
