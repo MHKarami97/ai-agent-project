@@ -11,7 +11,7 @@
   "orientation": "portrait-primary",
   "lang": "fa",
   "dir": "rtl",
-  "display_override": ["fullscreen", "standalone"],
+  "display_override": ["fullscreen", "standalone", "window-controls-overlay"],
   "prefer_related_applications": false,
   "related_applications": [],
   "icons": [
