@@ -1,7 +1,10 @@
-﻿const CACHE_NAME = 'web-tools-v1.3.0';
+﻿const CACHE_NAME = 'web-tools-v1.4.0';
+const OFFLINE_PAGE = '/offline.html';
+
 const urlsToCache = [
     '/',
     '/index.html',
+    '/offline.html',
     '/style.css',
     '/script.js',
     '/favicon.png',
@@ -10,6 +13,8 @@ const urlsToCache = [
     '/Vazirmatn-font-face.css',
     '/assets/tool-wrapper.js',
     '/assets/tool-wrapper.css',
+    '/assets/contact-form.css',
+    '/assets/contact-form.js',
     '/assets/fonts/webfonts/Vazirmatn-Black.woff2',
     '/assets/fonts/webfonts/Vazirmatn-Bold.woff2',
     '/assets/fonts/webfonts/Vazirmatn-ExtraBold.woff2',
@@ -88,11 +93,17 @@ self.addEventListener('message', (event) => {
     }
 });
 
-// Fetch and cache strategy with pattern matching
+// Fetch and cache strategy with offline fallback
 self.addEventListener('fetch', (event) => {
+    // Skip non-GET requests
+    if (event.request.method !== 'GET') {
+        return;
+    }
+
     event.respondWith(
         caches.match(event.request)
             .then((response) => {
+                // Return cached response if found
                 if (response) {
                     return response;
                 }
@@ -101,11 +112,11 @@ self.addEventListener('fetch', (event) => {
 
                 return fetch(fetchRequest).then((response) => {
                     // Don't cache if response is not valid
-                    if (!response || response.status !== 200) {
+                    if (!response || response.status !== 200 || response.type === 'error') {
                         return response;
                     }
 
-                    // Check if this URL should be cached based on patterns
+                    // Check if this URL should be cached
                     if (shouldCache(event.request.url)) {
                         const responseToCache = response.clone();
 
@@ -118,7 +129,19 @@ self.addEventListener('fetch', (event) => {
                     return response;
                 }).catch((error) => {
                     console.log('Fetch failed:', error);
-                    throw error;
+                    
+                    // Return offline page for navigation requests
+                    if (event.request.mode === 'navigate') {
+                        return caches.match(OFFLINE_PAGE);
+                    }
+                    
+                    // For other requests, try to return cached version or reject
+                    return caches.match(event.request).then((cachedResponse) => {
+                        if (cachedResponse) {
+                            return cachedResponse;
+                        }
+                        throw error;
+                    });
                 });
             })
     );
