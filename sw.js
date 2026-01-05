@@ -1,4 +1,4 @@
-﻿const CACHE_NAME = 'web-tools-v1.2.0';
+﻿const CACHE_NAME = 'web-tools-v1.3.0';
 const urlsToCache = [
     '/',
     '/index.html',
@@ -7,9 +7,22 @@ const urlsToCache = [
     '/favicon.png',
     '/favicon.ico',
     '/manifest.json',
-    '/Vazirmatn-font-face.css'
+    '/Vazirmatn-font-face.css',
+    '/assets/tool-wrapper.js',
+    '/assets/tool-wrapper.css',
+    '/fonts/webfonts/Vazirmatn-Black.woff2',
+    '/fonts/webfonts/Vazirmatn-Bold.woff2',
+    '/fonts/webfonts/Vazirmatn-ExtraBold.woff2',
+    '/fonts/webfonts/Vazirmatn-ExtraLight.woff2',
+    '/fonts/webfonts/Vazirmatn-Light.woff2',
+    '/fonts/webfonts/Vazirmatn-Medium.woff2',
+    '/fonts/webfonts/Vazirmatn-Regular.woff2',
+    '/fonts/webfonts/Vazirmatn-SemiBold.woff2',
+    '/fonts/webfonts/Vazirmatn-Thin.woff2',
+    '/fonts/webfonts/Vazirmatn[wght].woff2'
 ];
 
+// Installation of caching patterns
 self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME)
@@ -56,7 +69,7 @@ self.addEventListener('message', (event) => {
     }
 });
 
-// Fetch and cache strategy
+// Fetch and cache strategy with pattern matching
 self.addEventListener('fetch', (event) => {
     event.respondWith(
         caches.match(event.request)
@@ -68,18 +81,25 @@ self.addEventListener('fetch', (event) => {
                 const fetchRequest = event.request.clone();
 
                 return fetch(fetchRequest).then((response) => {
-                    if (!response || response.status !== 200 || response.type !== 'basic') {
+                    // Don't cache if response is not valid
+                    if (!response || response.status !== 200) {
                         return response;
                     }
 
-                    const responseToCache = response.clone();
+                    // Check if this URL should be cached based on patterns
+                    if (shouldCache(event.request.url)) {
+                        const responseToCache = response.clone();
 
-                    caches.open(CACHE_NAME)
-                        .then((cache) => {
-                            cache.put(event.request, responseToCache);
-                        });
+                        caches.open(CACHE_NAME)
+                            .then((cache) => {
+                                cache.put(event.request, responseToCache);
+                            });
+                    }
 
                     return response;
+                }).catch((error) => {
+                    console.log('Fetch failed:', error);
+                    throw error;
                 });
             })
     );

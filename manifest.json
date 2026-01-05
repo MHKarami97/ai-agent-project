@@ -40,21 +40,21 @@
   ],
   "screenshots": [
     {
-      "src": "/screenshots/01.jpg",
+      "src": "/assets/screenshots/01.jpg",
       "sizes": "1280x720",
       "type": "image/jpeg",
       "form_factor": "wide",
       "label": "صفحه اصلی"
     },
     {
-      "src": "/screenshots/02.jpg",
+      "src": "/assets/screenshots/02.jpg",
       "sizes": "540x720",
       "type": "image/jpeg",
       "form_factor": "narrow",
       "label": "لیست ابزارها"
     },
     {
-      "src": "/screenshots/03.jpg",
+      "src": "/assets/screenshots/03.jpg",
       "sizes": "540x720",
       "type": "image/jpeg",
       "form_factor": "narrow",

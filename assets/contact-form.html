@@ -1,0 +1,49 @@
+﻿<!-- Contact Form Modal -->
+<div id="contactModal" class="contact-modal hidden">
+    <div class="contact-modal-overlay"></div>
+    <div class="contact-modal-content">
+        <div class="contact-modal-header">
+            <h2>📧 تماس با ما / گزارش مشکل</h2>
+            <button class="contact-modal-close" id="closeContactModal" aria-label="بستن">✕</button>
+        </div>
+        <form id="contactForm" class="contact-form">
+            <div class="form-group">
+                <label for="contactName">نام و نام خانوادگی</label>
+                <input type="text" id="contactName" name="name" required placeholder="نام خود را وارد کنید">
+            </div>
+            
+            <div class="form-group">
+                <label for="contactEmail">ایمیل</label>
+                <input type="email" id="contactEmail" name="email" required placeholder="example@email.com">
+            </div>
+            
+            <div class="form-group">
+                <label for="contactType">نوع پیام</label>
+                <select id="contactType" name="type" required>
+                    <option value="">انتخاب کنید...</option>
+                    <option value="bug">🐛 گزارش مشکل</option>
+                    <option value="feature">💡 پیشنهاد ویژگی جدید</option>
+                    <option value="question">❓ سوال</option>
+                    <option value="feedback">💬 بازخورد</option>
+                    <option value="other">📝 سایر موارد</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="contactMessage">پیام</label>
+                <textarea id="contactMessage" name="message" required rows="5" placeholder="پیام خود را بنویسید..."></textarea>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">
+                    <span class="btn-text">ارسال پیام</span>
+                    <span class="btn-loading hidden">در حال ارسال...</span>
+                </button>
+                <button type="button" class="btn-cancel" id="cancelContactForm">انصراف</button>
+            </div>
+            
+            <div id="formMessage" class="form-message hidden"></div>
+        </form>
+    </div>
+</div>
+

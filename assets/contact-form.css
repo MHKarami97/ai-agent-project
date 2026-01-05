@@ -1,0 +1,334 @@
+﻿/* Contact Form Modal Styles */
+.contact-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.contact-modal.hidden {
+    display: none;
+    opacity: 0;
+}
+
+.contact-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.3s ease;
+}
+
+.contact-modal-content {
+    position: relative;
+    background: var(--bg1);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    z-index: 1;
+    animation: slideUp 0.3s ease;
+}
+
+.contact-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 24px 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.contact-modal-header h2 {
+    margin: 0;
+    font-size: 20px;
+    color: var(--text);
+}
+
+.contact-modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 8px;
+    transition: all 0.2s;
+    line-height: 1;
+}
+
+.contact-modal-close:hover {
+    background: var(--card);
+    color: var(--text);
+}
+
+.contact-form {
+    padding: 24px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text);
+    font-family: 'Vazirmatn', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-size: 15px;
+    transition: all 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: rgba(124, 92, 255, 0.08);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-group select {
+    cursor: pointer;
+    /* Ensure text is visible in dark mode */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.6)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: left 12px center;
+    background-size: 16px;
+    padding-left: 40px;
+}
+
+.form-group select option {
+    background-color: #1a1f3a;
+    color: #ffffff;
+    padding: 10px;
+    font-size: 15px;
+}
+
+/* Light mode support for options */
+@media (prefers-color-scheme: light) {
+    .form-group select option {
+        background-color: #ffffff;
+        color: #1a1f3a;
+    }
+    
+    .form-group select {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgba(0,0,0,0.6)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    }
+}
+
+/* Firefox specific fix for select dropdown */
+@-moz-document url-prefix() {
+    .form-group select option {
+        background-color: #1a1f3a;
+        color: #ffffff;
+    }
+}
+
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.btn-submit,
+.btn-cancel {
+    flex: 1;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Vazirmatn', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-submit {
+    background: var(--accent);
+    color: white;
+}
+
+.btn-submit:hover:not(:disabled) {
+    background: #6b4ee6;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(124, 92, 255, 0.3);
+}
+
+.btn-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-cancel {
+    background: var(--card);
+    color: var(--text);
+}
+
+.btn-cancel:hover {
+    background: var(--border);
+}
+
+.btn-loading {
+    display: none;
+}
+
+.btn-submit:disabled .btn-text {
+    display: none;
+}
+
+.btn-submit:disabled .btn-loading {
+    display: inline;
+}
+
+.form-message {
+    margin-top: 16px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.form-message.hidden {
+    display: none;
+}
+
+.form-message.success {
+    background: rgba(46, 233, 166, 0.15);
+    color: var(--accent2);
+    border: 1px solid rgba(46, 233, 166, 0.3);
+}
+
+.form-message.error {
+    background: rgba(255, 82, 82, 0.15);
+    color: #ff5252;
+    border: 1px solid rgba(255, 82, 82, 0.3);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Footer Contact Button */
+.footer-contact-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-family: 'Vazirmatn', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.footer-contact-btn:hover {
+    background: #6b4ee6;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(124, 92, 255, 0.4);
+}
+
+.footer-contact-btn:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+    .contact-modal-content {
+        max-height: 95vh;
+    }
+    
+    .contact-modal-header {
+        padding: 20px 20px 12px;
+    }
+    
+    .contact-modal-header h2 {
+        font-size: 18px;
+    }
+    
+    .contact-form {
+        padding: 20px;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .btn-submit,
+    .btn-cancel {
+        width: 100%;
+    }
+}
+
+/* Scrollbar styles for modal content */
+.contact-modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.contact-modal-content::-webkit-scrollbar-track {
+    background: var(--card);
+    border-radius: 10px;
+}
+
+.contact-modal-content::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 10px;
+}
+
+.contact-modal-content::-webkit-scrollbar-thumb:hover {
+    background: var(--muted);
+}
+
