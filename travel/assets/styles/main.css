@@ -234,3 +234,43 @@ button:hover {
   color: var(--muted);
   margin: 0;
 }
+
+/* Dark Mode Styles */
+body[data-theme="dark"] {
+    background: linear-gradient(135deg, #0d1b2a 0%, #1b2838 100%);
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] h1,
+body[data-theme="dark"] .dark-text {
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .panel {
+    background: var(--panel-bg);
+}
+
+body[data-theme="dark"] .card,
+body[data-theme="dark"] .destination-card {
+    background: var(--card-bg);
+}
+
+body[data-theme="dark"] input,
+body[data-theme="dark"] textarea,
+body[data-theme="dark"] select {
+    background: var(--panel-bg);
+    border-color: var(--border);
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] input:focus,
+body[data-theme="dark"] textarea:focus,
+body[data-theme="dark"] select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(255, 159, 28, 0.2);
+}
+
+body[data-theme="dark"] .footer {
+    color: var(--muted);
+}
+

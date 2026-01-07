@@ -1,4 +1,4 @@
-/* Vazirmatn font (Persian/Arabic script) */
+﻿/* Vazirmatn font (Persian/Arabic script) */
 /* Using local font instead */
 
 :root {
@@ -71,3 +71,74 @@ body {
 .progress > div { height: 100%; background: var(--accent); width: 0%; transition: width 0.2s ease; }
 .footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; }
 .small { font-size: 12px; }
+
+
+/* Dark Mode Styles */
+body[data-theme="dark"] {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .container {
+    background: #0f3460;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+body[data-theme="dark"] header {
+    background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+}
+
+body[data-theme="dark"] .main-content,
+body[data-theme="dark"] main {
+    background: #0f3460;
+}
+
+body[data-theme="dark"] input,
+body[data-theme="dark"] textarea,
+body[data-theme="dark"] select {
+    background: #16213e;
+    border-color: #533483;
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] input:focus,
+body[data-theme="dark"] textarea:focus,
+body[data-theme="dark"] select:focus {
+    border-color: #764ba2;
+    box-shadow: 0 0 0 3px rgba(118, 75, 162, 0.2);
+}
+
+body[data-theme="dark"] label,
+body[data-theme="dark"] h1,
+body[data-theme="dark"] h2,
+body[data-theme="dark"] h3,
+body[data-theme="dark"] h4,
+body[data-theme="dark"] h5,
+body[data-theme="dark"] h6 {
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .card,
+body[data-theme="dark"] .box,
+body[data-theme="dark"] .panel {
+    background: #16213e;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+body[data-theme="dark"] footer {
+    background: #1a1a2e;
+    border-top-color: #533483;
+    color: #a0a0a0;
+}
+
+body[data-theme="dark"] ::-webkit-scrollbar-track {
+    background: #1a1a2e;
+}
+
+body[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: #533483;
+}
+
+body[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: #764ba2;
+}

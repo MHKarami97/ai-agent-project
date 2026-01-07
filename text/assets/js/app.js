@@ -1,4 +1,43 @@
-﻿const loremFragments = [
+﻿// Theme Manager
+class ThemeManager {
+    constructor() {
+        this.currentTheme = localStorage.getItem('theme') || 'light';
+        this.applyTheme();
+    }
+
+    applyTheme() {
+        document.body.setAttribute('data-theme', this.currentTheme);
+    }
+
+    toggleTheme() {
+        this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+        localStorage.setItem('theme', this.currentTheme);
+        this.applyTheme();
+    }
+
+    getTheme() {
+        return this.currentTheme;
+    }
+}
+
+const themeManager = new ThemeManager();
+
+// Listen to tool-wrapper theme changes
+window.addEventListener('themeChanged', (e) => {
+    themeManager.currentTheme = e.detail;
+    themeManager.applyTheme();
+});
+
+// Listen to tool-wrapper language changes
+window.addEventListener('languageChanged', (e) => {
+    const newLang = e.detail;
+    localStorage.setItem('lang', newLang);
+    // Reload page to apply language changes
+    location.reload();
+});
+
+
+const loremFragments = [
   "خورشید بلند و طلایی در افق می‌درخشید، نوید صبحی تازه را می‌داد.",
   "کلمات نرم و روان روی صفحه می‌لغزیدند تا چیدمانی آرام ایجاد کنند.",
   "پرنده‌ها در باغچه آواز محبت می‌خواندند و نسیمی خنک می‌گذشت.",

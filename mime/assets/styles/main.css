@@ -181,3 +181,40 @@ button:active {
     flex-direction: column;
   }
 }
+
+/* Dark Mode Styles */
+body[data-theme="dark"] {
+    background: radial-gradient(circle at 20% -10%, #0f172a, transparent 40%), #1e293b;
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .meme-preview,
+body[data-theme="dark"] .controls {
+    background: #1e293b;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+body[data-theme="dark"] input,
+body[data-theme="dark"] textarea,
+body[data-theme="dark"] select {
+    background: #0f172a;
+    border-color: #475569;
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] input:focus,
+body[data-theme="dark"] textarea:focus,
+body[data-theme="dark"] select:focus {
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+}
+
+body[data-theme="dark"] label {
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .preview-hint,
+body[data-theme="dark"] .status-message {
+    color: #94a3b8;
+}
+

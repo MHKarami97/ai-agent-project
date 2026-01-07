@@ -1,4 +1,43 @@
-﻿// Simple client-only social media media extractor + downloader
+﻿// Theme Manager
+class ThemeManager {
+    constructor() {
+        this.currentTheme = localStorage.getItem('theme') || 'light';
+        this.applyTheme();
+    }
+
+    applyTheme() {
+        document.body.setAttribute('data-theme', this.currentTheme);
+    }
+
+    toggleTheme() {
+        this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+        localStorage.setItem('theme', this.currentTheme);
+        this.applyTheme();
+    }
+
+    getTheme() {
+        return this.currentTheme;
+    }
+}
+
+const themeManager = new ThemeManager();
+
+// Listen to tool-wrapper theme changes
+window.addEventListener('themeChanged', (e) => {
+    themeManager.currentTheme = e.detail;
+    themeManager.applyTheme();
+});
+
+// Listen to tool-wrapper language changes
+window.addEventListener('languageChanged', (e) => {
+    const newLang = e.detail;
+    localStorage.setItem('lang', newLang);
+    // Reload page to apply language changes
+    location.reload();
+});
+
+
+// Simple client-only social media media extractor + downloader
 // Supports: Instagram, Twitter (X), Telegram, LinkedIn via HTML parsing using public CORS proxies
 
 const form = document.getElementById('fetchForm');

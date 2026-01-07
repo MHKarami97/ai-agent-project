@@ -1,10 +1,34 @@
 ﻿// Bluetooth Speaker Jammer - Main Script
 
+// Theme Manager
+class ThemeManager {
+    constructor() {
+        this.currentTheme = localStorage.getItem('theme') || 'light';
+        this.applyTheme();
+    }
+
+    applyTheme() {
+        document.body.setAttribute('data-theme', this.currentTheme);
+    }
+
+    toggleTheme() {
+        this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+        localStorage.setItem('theme', this.currentTheme);
+        this.applyTheme();
+    }
+
+    getTheme() {
+        return this.currentTheme;
+    }
+}
+
+const themeManager = new ThemeManager();
+
 // I18n System
 class I18n {
     constructor() {
         this.translations = {};
-        this.currentLang = localStorage.getItem('language') || 'fa';
+        this.currentLang = localStorage.getItem('lang') || 'fa';
         this.loadTranslations();
     }
 
@@ -69,7 +93,7 @@ class I18n {
 
     switchLanguage() {
         this.currentLang = this.currentLang === 'fa' ? 'en' : 'fa';
-        localStorage.setItem('language', this.currentLang);
+        localStorage.setItem('lang', this.currentLang);
         this.applyTranslations();
         
         // Reload jammer to update logs
@@ -130,14 +154,17 @@ class BluetoothJammer {
         this.elements.clearLogsBtn.addEventListener('click', () => this.clearLogs());
         this.elements.showLogs.addEventListener('change', (e) => this.toggleLogs(e.target.checked));
         
-        // Language toggle
-        const langToggle = document.getElementById('languageToggle');
-        if (langToggle) {
-            langToggle.addEventListener('click', () => {
-                i18n.switchLanguage();
-                this.renderDevices();
-            });
-        }
+        // Listen to tool-wrapper events
+        window.addEventListener('themeChanged', (e) => {
+            themeManager.currentTheme = e.detail;
+            themeManager.applyTheme();
+        });
+        
+        window.addEventListener('languageChanged', (e) => {
+            i18n.currentLang = e.detail;
+            i18n.applyTranslations();
+            this.renderDevices();
+        });
     }
 
     checkBluetoothSupport() {

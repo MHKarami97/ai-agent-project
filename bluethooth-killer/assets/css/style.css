@@ -52,38 +52,6 @@ header h1 {
     opacity: 0.9;
 }
 
-/* Language Toggle Button */
-.language-toggle {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: rgba(255, 255, 255, 0.2);
-    border: 2px solid rgba(255, 255, 255, 0.5);
-    color: white;
-    padding: 8px 16px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s;
-    backdrop-filter: blur(10px);
-    font-size: 0.9em;
-}
-
-body[dir="rtl"] .language-toggle {
-    right: auto;
-    left: 20px;
-}
-
-.language-toggle:hover {
-    background: rgba(255, 255, 255, 0.3);
-    border-color: rgba(255, 255, 255, 0.8);
-    transform: scale(1.05);
-}
-
-.language-toggle:active {
-    transform: scale(0.98);
-}
-
 .main-content {
     padding: 30px;
 }
@@ -426,6 +394,119 @@ footer p {
 
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
+}
+
+/* Dark Mode Styles */
+body[data-theme="dark"] {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .container {
+    background: #0f3460;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+body[data-theme="dark"] header {
+    background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+}
+
+body[data-theme="dark"] .main-content {
+    background: #0f3460;
+}
+
+body[data-theme="dark"] .control-panel {
+    background: #1a1a2e;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+body[data-theme="dark"] .control-group label {
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .control-group input[type="number"] {
+    background: #16213e;
+    border-color: #533483;
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .control-group input[type="number"]:focus {
+    border-color: #764ba2;
+    box-shadow: 0 0 0 3px rgba(118, 75, 162, 0.2);
+}
+
+body[data-theme="dark"] .info-text {
+    color: #a0a0a0;
+}
+
+body[data-theme="dark"] .devices-section h2,
+body[data-theme="dark"] .stats-section h2,
+body[data-theme="dark"] .logs-section h2 {
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .devices-list {
+    background: #1a1a2e;
+}
+
+body[data-theme="dark"] .empty-state {
+    color: #a0a0a0;
+}
+
+body[data-theme="dark"] .device-item {
+    background: #16213e;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+body[data-theme="dark"] .device-item.attacking {
+    border-color: #e63946;
+    background: #2a1a1f;
+}
+
+body[data-theme="dark"] .device-name {
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .device-id {
+    color: #a0a0a0;
+}
+
+body[data-theme="dark"] .status-connected {
+    background: #1b4332;
+    color: #95d5b2;
+}
+
+body[data-theme="dark"] .status-attacking {
+    background: #590d22;
+    color: #ff758f;
+}
+
+body[data-theme="dark"] .status-disconnected {
+    background: #1d3557;
+    color: #a8dadc;
+}
+
+body[data-theme="dark"] .logs-container {
+    background: #000000;
+    color: #d4d4d4;
+}
+
+body[data-theme="dark"] footer {
+    background: #1a1a2e;
+    border-top-color: #533483;
+    color: #a0a0a0;
+}
+
+body[data-theme="dark"] ::-webkit-scrollbar-track {
+    background: #1a1a2e;
+}
+
+body[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: #533483;
+}
+
+body[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: #764ba2;
 }
 
 /* Responsive Design */
