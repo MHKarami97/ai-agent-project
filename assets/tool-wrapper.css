@@ -1,7 +1,4 @@
-﻿/* Mobile-first Tool Wrapper Styles */
-/* This file provides a consistent mobile app-like structure for all tools */
-
-.tool-wrapper {
+﻿.tool-wrapper {
     position: fixed;
     top: 0;
     left: 0;
@@ -72,6 +69,54 @@
 
 .tool-wrapper.dark-mode .tool-header-title {
     color: rgba(255, 255, 255, 0.92);
+}
+
+.tool-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.tool-theme-btn,
+.tool-lang-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    border: none;
+    background: rgba(124, 92, 255, 0.1);
+    color: #7c5cff;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    padding: 0 8px;
+    font-weight: 600;
+}
+
+.tool-theme-btn:hover,
+.tool-lang-btn:hover {
+    background: rgba(124, 92, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.tool-theme-btn:active,
+.tool-lang-btn:active {
+    transform: scale(0.95);
+}
+
+.tool-wrapper.dark-mode .tool-theme-btn,
+.tool-wrapper.dark-mode .tool-lang-btn {
+    background: rgba(124, 92, 255, 0.2);
+    color: #9b7dff;
+}
+
+.tool-wrapper.dark-mode .tool-theme-btn:hover,
+.tool-wrapper.dark-mode .tool-lang-btn:hover {
+    background: rgba(124, 92, 255, 0.3);
 }
 
 .tool-contact-btn {

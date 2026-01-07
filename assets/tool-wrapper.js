@@ -4,7 +4,7 @@
     // Configuration
     const CONFIG = {
         homeUrl: '/',
-        emailServiceUrl: 'https://formspree.io/f/mpzbwnop', // Replace with your Formspree endpoint
+        emailServiceUrl: 'https://formspree.io/f/mpzbwnop',
         toolName: document.title || 'ابزار'
     };
 
@@ -21,14 +21,13 @@
         setupEventListeners();
         adjustBodyPadding();
         applyDarkMode();
+        initializeThemeAndLanguage();
     }
 
     function injectToolWrapper() {
-        // Create wrapper element
         const wrapper = document.createElement('div');
         wrapper.className = 'tool-wrapper';
         
-        // Detect direction for arrow icon
         const isRTL = document.documentElement.dir === 'rtl' || document.documentElement.lang === 'fa';
         const arrowIcon = isRTL ? '→' : '←';
         
@@ -36,18 +35,24 @@
             <div class="tool-header">
                 <button class="tool-back-btn" id="toolBackBtn" title="بازگشت به صفحه اصلی" aria-label="Back to home">${arrowIcon}</button>
                 <h1 class="tool-header-title">${CONFIG.toolName}</h1>
-                <button class="tool-contact-btn" id="toolContactBtn" title="تماس با ما / گزارش مشکل" aria-label="Contact us">
-                    ✉️
-                </button>
+                <div class="tool-header-actions">
+                    <button class="tool-theme-btn" id="toolThemeBtn" title="تغییر تم" aria-label="Toggle theme">
+                        <span id="toolThemeIcon">🌙</span>
+                    </button>
+                    <button class="tool-lang-btn" id="toolLangBtn" title="تغییر زبان" aria-label="Toggle language">
+                        <span id="toolLangText">EN</span>
+                    </button>
+                    <button class="tool-contact-btn" id="toolContactBtn" title="تماس با ما / گزارش مشکل" aria-label="Contact us">
+                        ✉️
+                    </button>
+                </div>
             </div>
         `;
 
-        // Insert at the beginning of body
         document.body.insertBefore(wrapper, document.body.firstChild);
     }
 
     function applyDarkMode() {
-        // Check localStorage for dark mode preference
         const isDarkMode = localStorage.getItem('theme') === 'dark';
         const wrapper = document.querySelector('.tool-wrapper');
         const modal = document.querySelector('.contact-modal');
@@ -60,7 +65,6 @@
             modal.classList.add('dark-mode');
         }
         
-        // Listen for storage changes (if user changes theme in another tab)
         window.addEventListener('storage', (e) => {
             if (e.key === 'theme') {
                 if (e.newValue === 'dark') {
@@ -113,7 +117,6 @@
     }
 
     function setupEventListeners() {
-        // Back button
         const backBtn = document.getElementById('toolBackBtn');
         if (backBtn) {
             backBtn.addEventListener('click', () => {
@@ -121,7 +124,6 @@
             });
         }
 
-        // Contact button
         const contactBtn = document.getElementById('toolContactBtn');
         const modal = document.getElementById('contactModal');
         if (contactBtn && modal) {
@@ -130,7 +132,6 @@
             });
         }
 
-        // Close modal button
         const closeBtn = document.getElementById('contactModalClose');
         if (closeBtn && modal) {
             closeBtn.addEventListener('click', () => {
@@ -138,7 +139,6 @@
             });
         }
 
-        // Close modal on backdrop click
         if (modal) {
             modal.addEventListener('click', (e) => {
                 if (e.target === modal) {
@@ -147,18 +147,28 @@
             });
         }
 
-        // Handle form submission
         const form = document.getElementById('contactForm');
         if (form) {
             form.addEventListener('submit', handleFormSubmit);
         }
 
-        // Close modal on Escape key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && modal && modal.classList.contains('active')) {
                 modal.classList.remove('active');
             }
         });
+
+        // Theme toggle button
+        const themeBtn = document.getElementById('toolThemeBtn');
+        if (themeBtn) {
+            themeBtn.addEventListener('click', toggleTheme);
+        }
+
+        // Language toggle button
+        const langBtn = document.getElementById('toolLangBtn');
+        if (langBtn) {
+            langBtn.addEventListener('click', toggleLanguage);
+        }
     }
 
     async function handleFormSubmit(e) {
@@ -168,16 +178,13 @@
         const submitBtn = document.getElementById('contactFormSubmit');
         const messageDiv = document.getElementById('contactFormMessage');
         
-        // Disable submit button
         submitBtn.disabled = true;
         submitBtn.textContent = 'در حال ارسال...';
         messageDiv.style.display = 'none';
 
         try {
-            // Get form data
             const formData = new FormData(form);
             
-            // Send to Formspree (or your preferred email service)
             const response = await fetch(CONFIG.emailServiceUrl, {
                 method: 'POST',
                 body: formData,
@@ -187,13 +194,11 @@
             });
 
             if (response.ok) {
-                // Success
                 messageDiv.textContent = 'پیام شما با موفقیت ارسال شد. به زودی با شما تماس می‌گیریم.';
                 messageDiv.className = 'contact-form-message success';
                 messageDiv.style.display = 'block';
                 form.reset();
                 
-                // Close modal after 2 seconds
                 setTimeout(() => {
                     const modal = document.getElementById('contactModal');
                     if (modal) {
@@ -205,20 +210,82 @@
                 throw new Error('خطا در ارسال پیام');
             }
         } catch (error) {
-            // Error
             messageDiv.textContent = 'خطا در ارسال پیام. لطفاً دوباره تلاش کنید.';
             messageDiv.className = 'contact-form-message error';
             messageDiv.style.display = 'block';
         } finally {
-            // Re-enable submit button
             submitBtn.disabled = false;
             submitBtn.textContent = 'ارسال پیام';
         }
     }
 
     function adjustBodyPadding() {
-        // Add class to body to adjust padding
         document.body.classList.add('has-tool-wrapper');
+    }
+
+    function initializeThemeAndLanguage() {
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        applyTheme(currentTheme);
+        updateThemeButton(currentTheme);
+
+        const currentLang = localStorage.getItem('lang') || 'fa';
+        applyLanguage(currentLang);
+        updateLanguageButton(currentLang);
+    }
+
+    function toggleTheme() {
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        localStorage.setItem('theme', newTheme);
+        applyTheme(newTheme);
+        updateThemeButton(newTheme);
+        
+        window.dispatchEvent(new CustomEvent('themeChanged', { detail: newTheme }));
+    }
+
+    function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        const wrapper = document.querySelector('.tool-wrapper');
+        const modal = document.querySelector('.contact-modal');
+        
+        if (theme === 'dark') {
+            if (wrapper) wrapper.classList.add('dark-mode');
+            if (modal) modal.classList.add('dark-mode');
+        } else {
+            if (wrapper) wrapper.classList.remove('dark-mode');
+            if (modal) modal.classList.remove('dark-mode');
+        }
+    }
+
+    function updateThemeButton(theme) {
+        const themeIcon = document.getElementById('toolThemeIcon');
+        if (themeIcon) {
+            themeIcon.textContent = theme === 'light' ? '🌙' : '☀️';
+        }
+    }
+
+    function toggleLanguage() {
+        const currentLang = localStorage.getItem('lang') || 'fa';
+        const newLang = currentLang === 'fa' ? 'en' : 'fa';
+        localStorage.setItem('lang', newLang);
+        applyLanguage(newLang);
+        updateLanguageButton(newLang);
+        
+        window.dispatchEvent(new CustomEvent('languageChanged', { detail: newLang }));
+    }
+
+    function applyLanguage(lang) {
+        const html = document.documentElement;
+        html.setAttribute('lang', lang);
+        html.setAttribute('dir', lang === 'fa' ? 'rtl' : 'ltr');
+        document.body.style.direction = lang === 'fa' ? 'rtl' : 'ltr';
+    }
+
+    function updateLanguageButton(lang) {
+        const langText = document.getElementById('toolLangText');
+        if (langText) {
+            langText.textContent = lang === 'fa' ? 'EN' : 'FA';
+        }
     }
 
     // Export for potential external use
@@ -234,6 +301,14 @@
             if (modal) {
                 modal.classList.remove('active');
             }
+        },
+        toggleTheme: toggleTheme,
+        toggleLanguage: toggleLanguage,
+        getCurrentTheme: function() {
+            return localStorage.getItem('theme') || 'light';
+        },
+        getCurrentLanguage: function() {
+            return localStorage.getItem('lang') || 'fa';
         }
     };
 })();
