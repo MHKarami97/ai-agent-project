@@ -3,7 +3,9 @@ class StorageManager {
     static KEYS = {
         PLANTS: 'plants',
         REMINDERS: 'reminders',
-        COMPLETED_TASKS: 'completedTasks'
+        COMPLETED_TASKS: 'completedTasks',
+        THEME: 'theme',
+        LANG: 'lang'
     };
 
     static save(key, data) {
@@ -32,6 +34,106 @@ class StorageManager {
 
     static clear() {
         localStorage.clear();
+    }
+}
+
+// ===== Theme Manager =====
+class ThemeManager {
+    constructor() {
+        this.currentTheme = StorageManager.load(StorageManager.KEYS.THEME, 'light');
+        this.applyTheme(this.currentTheme);
+    }
+
+    toggleTheme() {
+        this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+        this.applyTheme(this.currentTheme);
+        StorageManager.save(StorageManager.KEYS.THEME, this.currentTheme);
+    }
+
+    applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        const themeIcon = document.getElementById('themeIcon');
+        if (themeIcon) {
+            themeIcon.textContent = theme === 'light' ? '🌙' : '☀️';
+        }
+    }
+
+    getCurrentTheme() {
+        return this.currentTheme;
+    }
+}
+
+// ===== Language Manager =====
+class LanguageManager {
+    constructor() {
+        this.currentLang = StorageManager.load(StorageManager.KEYS.LANG, 'fa');
+        this.translations = {};
+        this.loadTranslations();
+    }
+
+    async loadTranslations() {
+        try {
+            const response = await fetch('assets/translations.json');
+            this.translations = await response.json();
+            this.applyLanguage(this.currentLang);
+        } catch (e) {
+            console.error('خطا در بارگذاری ترجمه‌ها:', e);
+        }
+    }
+
+    toggleLanguage() {
+        this.currentLang = this.currentLang === 'fa' ? 'en' : 'fa';
+        this.applyLanguage(this.currentLang);
+        StorageManager.save(StorageManager.KEYS.LANG, this.currentLang);
+    }
+
+    applyLanguage(lang) {
+        document.documentElement.setAttribute('lang', lang);
+        document.documentElement.setAttribute('dir', lang === 'fa' ? 'rtl' : 'ltr');
+        document.body.style.direction = lang === 'fa' ? 'rtl' : 'ltr';
+        
+        const langText = document.getElementById('langText');
+        if (langText) {
+            langText.textContent = lang === 'fa' ? 'EN' : 'FA';
+        }
+
+        this.updateTexts();
+    }
+
+    updateTexts() {
+        if (!this.translations[this.currentLang]) return;
+
+        const elements = document.querySelectorAll('[data-i18n]');
+        elements.forEach(element => {
+            const key = element.getAttribute('data-i18n');
+            if (this.translations[this.currentLang][key]) {
+                element.textContent = this.translations[this.currentLang][key];
+            }
+        });
+
+        const placeholders = document.querySelectorAll('[data-i18n-placeholder]');
+        placeholders.forEach(element => {
+            const key = element.getAttribute('data-i18n-placeholder');
+            if (this.translations[this.currentLang][key]) {
+                element.placeholder = this.translations[this.currentLang][key];
+            }
+        });
+
+        const titles = document.querySelectorAll('[data-i18n-title]');
+        titles.forEach(element => {
+            const key = element.getAttribute('data-i18n-title');
+            if (this.translations[this.currentLang][key]) {
+                element.title = this.translations[this.currentLang][key];
+            }
+        });
+    }
+
+    translate(key) {
+        return this.translations[this.currentLang]?.[key] || key;
+    }
+
+    getCurrentLang() {
+        return this.currentLang;
     }
 }
 
@@ -362,15 +464,28 @@ class StatisticsManager {
 
 // ===== UI Manager =====
 class UIManager {
-    constructor(plantManager, reminderManager, statisticsManager) {
+    constructor(plantManager, reminderManager, statisticsManager, themeManager, languageManager) {
         this.plantManager = plantManager;
         this.reminderManager = reminderManager;
         this.statisticsManager = statisticsManager;
+        this.themeManager = themeManager;
+        this.languageManager = languageManager;
         this.initializeEventListeners();
         this.currentView = 'plants';
     }
 
     initializeEventListeners() {
+        // Theme toggle
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            this.themeManager.toggleTheme();
+        });
+
+        // Language toggle
+        document.getElementById('langToggle').addEventListener('click', () => {
+            this.languageManager.toggleLanguage();
+            this.renderCurrentView();
+        });
+
         // Navigation
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -430,7 +545,7 @@ class UIManager {
         document.getElementById('clearCompletedBtn').addEventListener('click', () => {
             this.reminderManager.clearCompletedTasks();
             this.renderReminders();
-            this.showToast('وظایف انجام شده پاک شدند', 'success');
+            this.showToast(this.languageManager.translate('tasks_cleared'), 'success');
         });
 
         // Close modals on outside click
@@ -457,13 +572,17 @@ class UIManager {
         this.currentView = viewName;
 
         // Render content based on view
-        if (viewName === 'plants') {
+        this.renderCurrentView();
+    }
+
+    renderCurrentView() {
+        if (this.currentView === 'plants') {
             this.renderPlants();
-        } else if (viewName === 'reminders') {
+        } else if (this.currentView === 'reminders') {
             this.renderReminders();
-        } else if (viewName === 'guide') {
+        } else if (this.currentView === 'guide') {
             // Guide is static, no need to render
-        } else if (viewName === 'statistics') {
+        } else if (this.currentView === 'statistics') {
             this.renderStatistics();
         }
     }
@@ -620,7 +739,7 @@ class UIManager {
         today.setHours(0, 0, 0, 0);
 
         if (!plant.lastWatered) {
-            return { text: 'امروز', overdue: true };
+            return { text: this.languageManager.translate('today'), overdue: true };
         }
 
         const lastWatered = new Date(plant.lastWatered);
@@ -631,13 +750,13 @@ class UIManager {
         const diffDays = Math.ceil((nextWater - today) / (1000 * 60 * 60 * 24));
 
         if (diffDays < 0) {
-            return { text: `${Math.abs(diffDays)} روز قبل`, overdue: true };
+            return { text: `${Math.abs(diffDays)} ${this.languageManager.translate('days_ago')}`, overdue: true };
         } else if (diffDays === 0) {
-            return { text: 'امروز', overdue: true };
+            return { text: this.languageManager.translate('today'), overdue: true };
         } else if (diffDays === 1) {
-            return { text: 'فردا', overdue: false };
+            return { text: this.languageManager.translate('tomorrow'), overdue: false };
         } else {
-            return { text: `${diffDays} روز دیگر`, overdue: false };
+            return { text: `${diffDays} ${this.languageManager.translate('days_later')}`, overdue: false };
         }
     }
 
@@ -648,7 +767,7 @@ class UIManager {
         today.setHours(0, 0, 0, 0);
 
         if (!plant.lastFertilized) {
-            return { text: 'امروز', overdue: true };
+            return { text: this.languageManager.translate('today'), overdue: true };
         }
 
         const lastFertilized = new Date(plant.lastFertilized);
@@ -659,13 +778,13 @@ class UIManager {
         const diffDays = Math.ceil((nextFertilize - today) / (1000 * 60 * 60 * 24));
 
         if (diffDays < 0) {
-            return { text: `${Math.abs(diffDays)} روز قبل`, overdue: true };
+            return { text: `${Math.abs(diffDays)} ${this.languageManager.translate('days_ago')}`, overdue: true };
         } else if (diffDays === 0) {
-            return { text: 'امروز', overdue: true };
+            return { text: this.languageManager.translate('today'), overdue: true };
         } else if (diffDays === 1) {
-            return { text: 'فردا', overdue: false };
+            return { text: this.languageManager.translate('tomorrow'), overdue: false };
         } else {
-            return { text: `${diffDays} روز دیگر`, overdue: false };
+            return { text: `${diffDays} ${this.languageManager.translate('days_later')}`, overdue: false };
         }
     }
 
@@ -676,7 +795,7 @@ class UIManager {
         // Today's reminders
         const todayContainer = document.getElementById('todayReminders');
         if (todayReminders.length === 0) {
-            todayContainer.innerHTML = '<p style="color: var(--text-secondary); text-align: center; padding: 2rem;">یادآوری برای امروز وجود ندارد! 🎉</p>';
+            todayContainer.innerHTML = `<p style="color: var(--text-secondary); text-align: center; padding: 2rem;">${this.languageManager.translate('no_reminders_today')}</p>`;
         } else {
             todayContainer.innerHTML = todayReminders.map(reminder => 
                 this.createReminderCard(reminder)
@@ -686,7 +805,7 @@ class UIManager {
         // Upcoming reminders
         const upcomingContainer = document.getElementById('upcomingReminders');
         if (upcomingReminders.length === 0) {
-            upcomingContainer.innerHTML = '<p style="color: var(--text-secondary); text-align: center; padding: 2rem;">یادآوری آینده وجود ندارد</p>';
+            upcomingContainer.innerHTML = `<p style="color: var(--text-secondary); text-align: center; padding: 2rem;">${this.languageManager.translate('no_reminders_upcoming')}</p>`;
         } else {
             upcomingContainer.innerHTML = upcomingReminders.map(reminder => 
                 this.createReminderCard(reminder)
@@ -704,7 +823,7 @@ class UIManager {
                 if (e.target.checked) {
                     card.classList.add('completed');
                     this.reminderManager.completeTask(reminderId, plantId, type);
-                    this.showToast('وظیفه انجام شد! ✅', 'success');
+                    this.showToast(this.languageManager.translate('task_completed'), 'success');
                     setTimeout(() => this.renderReminders(), 500);
                 }
             });
@@ -719,6 +838,8 @@ class UIManager {
 
         const isOverdue = dueDate < today;
         const dateText = this.formatReminderDate(reminder.dueDate);
+        
+        const typeLabel = reminder.type === 'water' ? this.languageManager.translate('watering') : this.languageManager.translate('fertilizing_task');
 
         return `
             <div class="reminder-card ${isOverdue ? 'overdue' : ''} ${reminder.isCompleted ? 'completed' : ''}" 
@@ -727,8 +848,8 @@ class UIManager {
                  data-type="${reminder.type}">
                 <input type="checkbox" class="reminder-checkbox" ${reminder.isCompleted ? 'checked' : ''}>
                 <div class="reminder-content">
-                    <div class="reminder-title">${reminder.icon} ${reminder.typeLabel} - ${reminder.plantName}</div>
-                    <div class="reminder-subtitle">هر ${this.getIntervalText(reminder)} یکبار</div>
+                    <div class="reminder-title">${reminder.icon} ${typeLabel} - ${reminder.plantName}</div>
+                    <div class="reminder-subtitle">${this.languageManager.translate('water_every')} ${this.getIntervalText(reminder)} ${this.languageManager.translate('once')}</div>
                 </div>
                 <div class="reminder-date">${dateText}</div>
             </div>
@@ -740,9 +861,9 @@ class UIManager {
         if (!plant) return '';
         
         if (reminder.type === 'water') {
-            return `${plant.waterInterval} روز`;
+            return `${plant.waterInterval} ${this.languageManager.translate('every_days')}`;
         } else if (reminder.type === 'fertilize') {
-            return `${plant.fertilizeInterval} روز`;
+            return `${plant.fertilizeInterval} ${this.languageManager.translate('every_days')}`;
         }
         return '';
     }
@@ -756,13 +877,13 @@ class UIManager {
         const diffTime = targetDate - today;
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-        if (diffDays === 0) return 'امروز';
-        if (diffDays === 1) return 'فردا';
-        if (diffDays === -1) return 'دیروز';
-        if (diffDays < 0) return `${Math.abs(diffDays)} روز قبل`;
-        if (diffDays < 7) return `${diffDays} روز دیگر`;
+        if (diffDays === 0) return this.languageManager.translate('today');
+        if (diffDays === 1) return this.languageManager.translate('tomorrow');
+        if (diffDays === -1) return this.languageManager.translate('yesterday');
+        if (diffDays < 0) return `${Math.abs(diffDays)} ${this.languageManager.translate('days_ago')}`;
+        if (diffDays < 7) return `${diffDays} ${this.languageManager.translate('days_later')}`;
         
-        return new Date(date).toLocaleDateString('fa-IR');
+        return new Date(date).toLocaleDateString(this.languageManager.getCurrentLang() === 'fa' ? 'fa-IR' : 'en-US');
     }
 
     renderStatistics() {
@@ -772,10 +893,24 @@ class UIManager {
         document.getElementById('completedTasks').textContent = this.statisticsManager.getCompletedTasksThisMonth();
         document.getElementById('totalLocations').textContent = this.statisticsManager.getTotalLocations();
 
-        // Render charts
+        // Render charts with translated labels
+        const waterDist = this.statisticsManager.getWaterNeedsDistribution();
+        const waterDistTranslated = {
+            [this.languageManager.translate('low')]: waterDist['کم'],
+            [this.languageManager.translate('medium')]: waterDist['متوسط'],
+            [this.languageManager.translate('high')]: waterDist['زیاد']
+        };
+
+        const lightDist = this.statisticsManager.getLightNeedsDistribution();
+        const lightDistTranslated = {
+            [this.languageManager.translate('low')]: lightDist['کم'],
+            [this.languageManager.translate('medium')]: lightDist['متوسط'],
+            [this.languageManager.translate('high')]: lightDist['زیاد']
+        };
+
         this.renderChart('locationChart', this.statisticsManager.getLocationDistribution());
-        this.renderChart('waterChart', this.statisticsManager.getWaterNeedsDistribution());
-        this.renderChart('lightChart', this.statisticsManager.getLightNeedsDistribution());
+        this.renderChart('waterChart', waterDistTranslated);
+        this.renderChart('lightChart', lightDistTranslated);
     }
 
     renderChart(containerId, data) {
@@ -783,7 +918,7 @@ class UIManager {
         const total = Object.values(data).reduce((sum, val) => sum + val, 0);
 
         if (total === 0) {
-            container.innerHTML = '<p style="color: var(--text-secondary); text-align: center; padding: 2rem;">داده‌ای برای نمایش وجود ندارد</p>';
+            container.innerHTML = `<p style="color: var(--text-secondary); text-align: center; padding: 2rem;">${this.languageManager.translate('no_data')}</p>`;
             return;
         }
 
@@ -817,7 +952,7 @@ class UIManager {
             const plant = this.plantManager.getPlant(plantId);
             if (!plant) return;
 
-            title.textContent = 'ویرایش گیاه';
+            title.textContent = this.languageManager.translate('edit_plant');
             this.plantManager.currentEditId = plantId;
 
             document.getElementById('plantName').value = plant.name;
@@ -837,7 +972,7 @@ class UIManager {
             }
         } else {
             // Add mode
-            title.textContent = 'افزودن گیاه جدید';
+            title.textContent = this.languageManager.translate('add_new_plant');
             this.plantManager.currentEditId = null;
         }
 
@@ -904,11 +1039,11 @@ class UIManager {
             plantData.lastFertilized = plant.lastFertilized;
             
             this.plantManager.updatePlant(this.plantManager.currentEditId, plantData);
-            this.showToast('گیاه با موفقیت بروزرسانی شد', 'success');
+            this.showToast(this.languageManager.translate('plant_saved'), 'success');
         } else {
             // Add new plant
             this.plantManager.addPlant(plantData);
-            this.showToast('گیاه جدید اضافه شد', 'success');
+            this.showToast(this.languageManager.translate('plant_added'), 'success');
         }
 
         this.closePlantModal();
@@ -916,9 +1051,9 @@ class UIManager {
     }
 
     deletePlant(plantId) {
-        if (confirm('آیا از حذف این گیاه اطمینان دارید؟')) {
+        if (confirm(this.languageManager.translate('delete_confirm'))) {
             this.plantManager.deletePlant(plantId);
-            this.showToast('گیاه حذف شد', 'success');
+            this.showToast(this.languageManager.translate('plant_deleted'), 'success');
             this.renderPlants();
         }
     }
@@ -927,8 +1062,8 @@ class UIManager {
         const reminderId = `${plantId}-${type}`;
         this.reminderManager.completeTask(reminderId, plantId, type);
         
-        const taskLabel = type === 'water' ? 'آبیاری' : 'کوددهی';
-        this.showToast(`${taskLabel} انجام شد! ✅`, 'success');
+        const taskLabel = type === 'water' ? this.languageManager.translate('watering') : this.languageManager.translate('fertilizing_task');
+        this.showToast(`${taskLabel} ${this.languageManager.translate('task_completed')}`, 'success');
         
         this.renderPlants();
     }
@@ -948,70 +1083,70 @@ class UIManager {
 
         const tagsHtml = plant.tags && plant.tags.length > 0
             ? plant.tags.map(tag => `<span class="tag">${tag}</span>`).join('')
-            : '<span style="color: var(--text-light)">بدون برچسب</span>';
+            : `<span style="color: var(--text-light)">${this.languageManager.translate('no_tags')}</span>`;
 
         content.innerHTML = `
             ${imageHtml}
             
             <div class="details-section">
-                <h3>اطلاعات اصلی</h3>
+                <h3>${this.languageManager.translate('main_info')}</h3>
                 <div class="details-grid">
                     <div class="detail-item">
-                        <div class="detail-label">نام گیاه</div>
+                        <div class="detail-label">${this.languageManager.translate('plant_name')}</div>
                         <div class="detail-value">${plant.name}</div>
                     </div>
                     ${plant.scientificName ? `
                         <div class="detail-item">
-                            <div class="detail-label">نام علمی</div>
+                            <div class="detail-label">${this.languageManager.translate('scientific_name')}</div>
                             <div class="detail-value">${plant.scientificName}</div>
                         </div>
                     ` : ''}
                     <div class="detail-item">
-                        <div class="detail-label">مکان</div>
+                        <div class="detail-label">${this.languageManager.translate('location')}</div>
                         <div class="detail-value">📍 ${plant.location}</div>
                     </div>
                     <div class="detail-item">
-                        <div class="detail-label">تاریخ افزودن</div>
-                        <div class="detail-value">${new Date(plant.createdAt).toLocaleDateString('fa-IR')}</div>
+                        <div class="detail-label">${this.languageManager.translate('date_added')}</div>
+                        <div class="detail-value">${new Date(plant.createdAt).toLocaleDateString(this.languageManager.getCurrentLang() === 'fa' ? 'fa-IR' : 'en-US')}</div>
                     </div>
                 </div>
             </div>
 
             <div class="details-section">
-                <h3>نیازهای گیاه</h3>
+                <h3>${this.languageManager.translate('plant_needs')}</h3>
                 <div class="details-grid">
                     <div class="detail-item">
-                        <div class="detail-label">نیاز آبی</div>
+                        <div class="detail-label">${this.languageManager.translate('water_needs')}</div>
                         <div class="detail-value">💧 ${this.getWaterNeedsLabel(plant.waterNeeds)}</div>
                     </div>
                     <div class="detail-item">
-                        <div class="detail-label">نیاز نوری</div>
+                        <div class="detail-label">${this.languageManager.translate('light_needs')}</div>
                         <div class="detail-value">☀️ ${this.getLightNeedsLabel(plant.lightNeeds)}</div>
                     </div>
                     <div class="detail-item">
-                        <div class="detail-label">بازه آبیاری</div>
-                        <div class="detail-value">هر ${plant.waterInterval} روز یکبار</div>
+                        <div class="detail-label">${this.languageManager.translate('water_interval')}</div>
+                        <div class="detail-value">${this.languageManager.translate('water_every')} ${plant.waterInterval} ${this.languageManager.translate('every_days')} ${this.languageManager.translate('once')}</div>
                     </div>
                     ${plant.fertilizeInterval ? `
                         <div class="detail-item">
-                            <div class="detail-label">بازه کوددهی</div>
-                            <div class="detail-value">هر ${plant.fertilizeInterval} روز یکبار</div>
+                            <div class="detail-label">${this.languageManager.translate('fertilize_interval')}</div>
+                            <div class="detail-value">${this.languageManager.translate('water_every')} ${plant.fertilizeInterval} ${this.languageManager.translate('every_days')} ${this.languageManager.translate('once')}</div>
                         </div>
                     ` : ''}
                 </div>
             </div>
 
             <div class="details-section">
-                <h3>آخرین مراقبت‌ها</h3>
+                <h3>${this.languageManager.translate('last_care')}</h3>
                 <div class="details-grid">
                     <div class="detail-item">
-                        <div class="detail-label">آخرین آبیاری</div>
-                        <div class="detail-value">${plant.lastWatered ? new Date(plant.lastWatered).toLocaleDateString('fa-IR') : 'هنوز آبیاری نشده'}</div>
+                        <div class="detail-label">${this.languageManager.translate('last_watering')}</div>
+                        <div class="detail-value">${plant.lastWatered ? new Date(plant.lastWatered).toLocaleDateString(this.languageManager.getCurrentLang() === 'fa' ? 'fa-IR' : 'en-US') : this.languageManager.translate('not_watered_yet')}</div>
                     </div>
                     ${plant.lastFertilized ? `
                         <div class="detail-item">
-                            <div class="detail-label">آخرین کوددهی</div>
-                            <div class="detail-value">${new Date(plant.lastFertilized).toLocaleDateString('fa-IR')}</div>
+                            <div class="detail-label">${this.languageManager.translate('last_fertilizing')}</div>
+                            <div class="detail-value">${new Date(plant.lastFertilized).toLocaleDateString(this.languageManager.getCurrentLang() === 'fa' ? 'fa-IR' : 'en-US')}</div>
                         </div>
                     ` : ''}
                 </div>
@@ -1019,21 +1154,21 @@ class UIManager {
 
             ${plant.tags && plant.tags.length > 0 ? `
                 <div class="details-section">
-                    <h3>برچسب‌ها</h3>
+                    <h3>${this.languageManager.translate('tags')}</h3>
                     <div class="plant-tags">${tagsHtml}</div>
                 </div>
             ` : ''}
 
             ${plant.notes ? `
                 <div class="details-section">
-                    <h3>یادداشت‌ها</h3>
+                    <h3>${this.languageManager.translate('notes')}</h3>
                     <p style="color: var(--text-secondary); line-height: 1.8;">${plant.notes}</p>
                 </div>
             ` : ''}
 
             <div class="details-actions">
-                <button class="btn btn-outline" onclick="ui.closeDetailsModal()">بستن</button>
-                <button class="btn btn-primary" onclick="ui.openPlantModal('${plant.id}'); ui.closeDetailsModal();">ویرایش</button>
+                <button class="btn btn-outline" onclick="ui.closeDetailsModal()">${this.languageManager.translate('close')}</button>
+                <button class="btn btn-primary" onclick="ui.openPlantModal('${plant.id}'); ui.closeDetailsModal();">${this.languageManager.translate('edit')}</button>
             </div>
         `;
 
@@ -1053,7 +1188,7 @@ class UIManager {
         a.download = `plant-data-${new Date().toISOString().split('T')[0]}.json`;
         a.click();
         URL.revokeObjectURL(url);
-        this.showToast('اطلاعات با موفقیت صادر شد', 'success');
+        this.showToast(this.languageManager.translate('export_success'), 'success');
     }
 
     importData(e) {
@@ -1064,10 +1199,10 @@ class UIManager {
         reader.onload = (event) => {
             const success = this.plantManager.importData(event.target.result);
             if (success) {
-                this.showToast('اطلاعات با موفقیت وارد شد', 'success');
+                this.showToast(this.languageManager.translate('import_success'), 'success');
                 this.renderPlants();
             } else {
-                this.showToast('خطا در وارد کردن اطلاعات', 'error');
+                this.showToast(this.languageManager.translate('import_error'), 'error');
             }
         };
         reader.readAsText(file);
@@ -1086,39 +1221,45 @@ class UIManager {
 
     getWaterNeedsLabel(value) {
         const labels = {
-            'low': 'کم (هر 7-14 روز)',
-            'medium': 'متوسط (هر 3-5 روز)',
-            'high': 'زیاد (هر 1-2 روز)'
+            'low': this.languageManager.translate('water_low'),
+            'medium': this.languageManager.translate('water_medium'),
+            'high': this.languageManager.translate('water_high')
         };
         return labels[value] || value;
     }
 
     getLightNeedsLabel(value) {
         const labels = {
-            'low': 'کم (نیمه‌سایه)',
-            'medium': 'متوسط (نور غیرمستقیم)',
-            'high': 'زیاد (نور مستقیم)'
+            'low': this.languageManager.translate('light_low'),
+            'medium': this.languageManager.translate('light_medium'),
+            'high': this.languageManager.translate('light_high')
         };
         return labels[value] || value;
     }
 
     getTagLabel(tag) {
-        if (tag === 'all') return 'همه';
-        if (tag === 'low') return 'نیاز کم';
-        if (tag === 'medium') return 'نیاز متوسط';
-        if (tag === 'high') return 'نیاز زیاد';
+        if (tag === 'all') return this.languageManager.translate('all');
+        if (tag === 'low') return this.languageManager.translate('low_need');
+        if (tag === 'medium') return this.languageManager.translate('medium_need');
+        if (tag === 'high') return this.languageManager.translate('high_need');
         return tag;
     }
 }
 
 // ===== Initialize App =====
-let plantManager, reminderManager, statisticsManager, ui;
+let plantManager, reminderManager, statisticsManager, themeManager, languageManager, ui;
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    themeManager = new ThemeManager();
+    languageManager = new LanguageManager();
+    
+    // Wait for translations to load
+    await languageManager.loadTranslations();
+    
     plantManager = new PlantManager();
     reminderManager = new ReminderManager(plantManager);
     statisticsManager = new StatisticsManager(plantManager, reminderManager);
-    ui = new UIManager(plantManager, reminderManager, statisticsManager);
+    ui = new UIManager(plantManager, reminderManager, statisticsManager, themeManager, languageManager);
 
     // Initial render
     ui.renderPlants();
@@ -1127,7 +1268,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const todayReminders = reminderManager.getTodayReminders().filter(r => !r.isCompleted);
     if (todayReminders.length > 0) {
         setTimeout(() => {
-            ui.showToast(`شما ${todayReminders.length} یادآوری برای امروز دارید! 🔔`, 'warning');
+            ui.showToast(`${todayReminders.length} ${languageManager.translate('reminders_alert')}`, 'warning');
         }, 1000);
     }
 });

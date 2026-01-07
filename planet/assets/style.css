@@ -35,6 +35,33 @@
     --spacing-xl: 32px;
 }
 
+/* ===== Dark Mode Variables ===== */
+[data-theme="dark"] {
+    --primary-color: #2ecc71;
+    --primary-dark: #27ae60;
+    --primary-light: #1e5a3a;
+    
+    --secondary-color: #3498db;
+    --secondary-dark: #2980b9;
+    
+    --danger-color: #e74c3c;
+    --warning-color: #f39c12;
+    --success-color: #2ecc71;
+    
+    --bg-color: #1a1a1a;
+    --surface-color: #2d2d2d;
+    --surface-hover: #3a3a3a;
+    
+    --text-primary: #e8e8e8;
+    --text-secondary: #b0b0b0;
+    --text-light: #808080;
+    
+    --border-color: #404040;
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
 /* ===== Reset & Base ===== */
 * {
     margin: 0;
