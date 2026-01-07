@@ -1,0 +1,38 @@
+{
+  "fa": {
+    "title": "فرمت Json",
+    "heading_0": "فرمت‌دهی، اعتبارسنجی و نمایش درختی JSON در مرورگر",
+    "heading_1": "متن یا فایل JSON خود را وارد کنید",
+    "heading_2": "ساختار را از نزدیک ببینید",
+    "button_0": "فرمت کردن",
+    "button_1": "اعتبارسنجی",
+    "button_2": "پاک کردن",
+    "button_3": "آبجکت\n              ساده",
+    "button_4": "آرایه",
+    "button_5": "چند\n              لایه",
+    "button_6": "نمایش/پنهان ساختار",
+    "text_hero__eyebrow_0": "JSON Formatter و Validator",
+    "text_hero__lead_1": "همه چیز بدون بک‌اند، فقط با مرورگر شما انجام می‌شود؛ متن را وارد کنید، فرمت\n          کنید، درخت را ببینید و نتیجه را در حافظه مرورگر نگه دارید.",
+    "text_panel__eyebrow_2": "ورودی JSON",
+    "text_panel__side_note_3": "بر اساس داده‌های شما در همان مرورگر می‌ماند.",
+    "text_panel__eyebrow_5": "درخت JSON"
+  },
+  "en": {
+    "title": "فرمت Json",
+    "heading_0": "فرمت‌دهی، اعتبارسنجی و نمایش درختی JSON در مرورگر",
+    "heading_1": "متن یا فایل JSON خود را وارد کنید",
+    "heading_2": "ساختار را از نزدیک ببینید",
+    "button_0": "فرمت کردن",
+    "button_1": "Validation",
+    "button_2": "پاک کردن",
+    "button_3": "آبجکت\n              ساده",
+    "button_4": "Array",
+    "button_5": "چند\n              لایه",
+    "button_6": "نمایش/پنهان ساختار",
+    "text_hero__eyebrow_0": "JSON Formatter and Validator",
+    "text_hero__lead_1": "همه چیز بدون بک‌اند، فقط با مرورگر شما انجام می‌شود؛ متن را وارد کنید، فرمت\n          کنید، درخت را ببینید و نتیجه را در حافظه مرورگر نگه دارید.",
+    "text_panel__eyebrow_2": "ورودی JSON",
+    "text_panel__side_note_3": "Your data stays in the same browser.",
+    "text_panel__eyebrow_5": "درخت JSON"
+  }
+}

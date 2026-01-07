@@ -1,0 +1,26 @@
+{
+  "fa": {
+    "title": "تمرین تایپ",
+    "heading_0": "تمرین تایپ",
+    "heading_1": "نمودار پیشرفت",
+    "heading_2": "تاریخچه تمرین‌ها",
+    "button_0": "فارسی",
+    "button_1": "English",
+    "button_2": "شروع مجدد",
+    "button_3": "مشاهده تاریخچه",
+    "button_4": "بستن",
+    "label_0": "انتخاب متن:"
+  },
+  "en": {
+    "title": "Typing Practice",
+    "heading_0": "Typing Practice",
+    "heading_1": "نمودار پیشرفت",
+    "heading_2": "تاریخچه تمرین‌ها",
+    "button_0": "Persian",
+    "button_1": "English",
+    "button_2": "شروع مجدد",
+    "button_3": "مشاهده تاریخچه",
+    "button_4": "بستن",
+    "label_0": "Select Text:"
+  }
+}

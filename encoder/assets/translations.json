@@ -1,0 +1,36 @@
+{
+  "fa": {
+    "title": "دیکدر base64",
+    "heading_0": "Base64 Encoder/Decoder",
+    "heading_1": "متن",
+    "heading_2": "تصویر",
+    "button_0": "رمزنگاری",
+    "button_1": "بازگشایی",
+    "button_2": "کپی خروجی",
+    "button_3": "کپی Base64",
+    "button_4": "پاک کردن",
+    "label_0": "ورودی متن",
+    "label_1": "خروجی",
+    "label_2": "انتخاب تصویر",
+    "label_3": "خروجی تصویر",
+    "text_hero_label_0": "تبدیل متن و تصویر به Base64 و بالعکس",
+    "text_hero_description_1": "با یک ابزار ساده تمام متن‌ها و تصویرهای کوچک را روی مرورگر به شکل امن و فوری تبدیل کنید."
+  },
+  "en": {
+    "title": "دیکدر base64",
+    "heading_0": "Base64 Encoder/Decoder",
+    "heading_1": "متن",
+    "heading_2": "تصویر",
+    "button_0": "رمزنگاری",
+    "button_1": "Open",
+    "button_2": "کپی خروجی",
+    "button_3": "کپی Base64",
+    "button_4": "پاک کردن",
+    "label_0": "ورودی متن",
+    "label_1": "خروجی",
+    "label_2": "Select Image",
+    "label_3": "خروجی تصویر",
+    "text_hero_label_0": "تبدیل متن و تصویر به Base64 و بالعکس",
+    "text_hero_description_1": "Convert all texts and small images securely and instantly in your browser with a simple tool."
+  }
+}

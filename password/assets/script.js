@@ -1,4 +1,4 @@
-﻿// Theme Manager
+// Theme Manager
 class ThemeManager {
     constructor() {
         this.currentTheme = localStorage.getItem('theme') || 'light';
@@ -22,6 +22,74 @@ class ThemeManager {
 
 const themeManager = new ThemeManager();
 
+// I18n System
+class I18n {
+    constructor() {
+        this.translations = {};
+        this.currentLang = localStorage.getItem('lang') || 'fa';
+        this.loadTranslations();
+    }
+
+    async loadTranslations() {
+        try {
+            const response = await fetch('assets/translations.json');
+            this.translations = await response.json();
+            this.applyTranslations();
+        } catch (error) {
+            console.error('Failed to load translations:', error);
+        }
+    }
+
+    t(key) {
+        const keys = key.split('.');
+        let value = this.translations[this.currentLang];
+        
+        for (const k of keys) {
+            if (value && value[k]) {
+                value = value[k];
+            } else {
+                return key;
+            }
+        }
+        
+        return value;
+    }
+
+    applyTranslations() {
+        const html = document.documentElement;
+        html.setAttribute('lang', this.currentLang);
+        html.setAttribute('dir', this.currentLang === 'fa' ? 'rtl' : 'ltr');
+        
+        // Update all elements with data-i18n
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+            const key = element.getAttribute('data-i18n');
+            const translation = this.t(key);
+            
+            if (element.tagName === 'INPUT' && element.type !== 'checkbox') {
+                element.placeholder = translation;
+            } else {
+                element.textContent = translation;
+            }
+        });
+        
+        // Update document title
+        const titleKey = document.querySelector('title')?.getAttribute('data-i18n');
+        if (titleKey) {
+            document.title = this.t(titleKey);
+        }
+    }
+
+    switchLanguage() {
+        this.currentLang = this.currentLang === 'fa' ? 'en' : 'fa';
+        localStorage.setItem('lang', this.currentLang);
+        this.applyTranslations();
+    }
+}
+
+const i18n = new I18n();
+
+
+
 // Listen to tool-wrapper theme changes
 window.addEventListener('themeChanged', (e) => {
     themeManager.currentTheme = e.detail;
@@ -32,8 +100,10 @@ window.addEventListener('themeChanged', (e) => {
 window.addEventListener('languageChanged', (e) => {
     const newLang = e.detail;
     localStorage.setItem('lang', newLang);
-    // Reload page to apply language changes
-    location.reload();
+    if (typeof i18n !== 'undefined') {
+        i18n.currentLang = newLang;
+        i18n.applyTranslations();
+    }
 });
 
 

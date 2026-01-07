@@ -1,0 +1,38 @@
+{
+  "fa": {
+    "title": "تبدیل واحد",
+    "heading_0": "تبدیل واحد",
+    "heading_1": "علاقه‌مندی‌ها",
+    "button_0": "طول",
+    "button_1": "وزن",
+    "button_2": "دما",
+    "button_3": "سرعت",
+    "button_5": "تبدیل",
+    "button_6": "ذخیره در علاقه‌مندی‌ها",
+    "button_7": "پاک کردن همه",
+    "label_0": "از واحد:",
+    "label_1": "مقدار:",
+    "label_2": "به واحد:",
+    "label_3": "نتیجه:",
+    "text_subtitle_0": "تبدیل سریع و آسان واحدها",
+    "text_empty_message_1": "هیچ موردی در علاقه‌مندی‌ها وجود ندارد"
+  },
+  "en": {
+    "title": "Unit Conversion",
+    "heading_0": "Unit Conversion",
+    "heading_1": "علاقه‌مندی‌ها",
+    "button_0": "طول",
+    "button_1": "وزن",
+    "button_2": "دما",
+    "button_3": "سرعت",
+    "button_5": "تبدیل",
+    "button_6": "ذخیره در علاقه‌مندی‌ها",
+    "button_7": "پاک کردن همه",
+    "label_0": "From unit:",
+    "label_1": "Value:",
+    "label_2": "به واحد:",
+    "label_3": "نتیجه:",
+    "text_subtitle_0": "تبدیل سریع و آسان واحدها",
+    "text_empty_message_1": "هیچ موردی در علاقه‌مندی‌ها وجود ندارد"
+  }
+}

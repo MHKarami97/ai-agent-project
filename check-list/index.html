@@ -1,77 +1,77 @@
-﻿<!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<!DOCTYPE html>
+
+<html dir="rtl" lang="fa">
 <head>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>چک لیست</title>
-  <link rel="stylesheet" href="../Vazirmatn-font-face.css">
-  <link rel="stylesheet" href="assets/css/styles.css" />
-    <link rel="stylesheet" href="../assets/tool-wrapper.css">
-</head>
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-i18n="title">چک لیست</title>
+<link href="../Vazirmatn-font-face.css" rel="stylesheet"/>
+<link href="assets/css/styles.css" rel="stylesheet">
+<link href="../assets/tool-wrapper.css" rel="stylesheet"/>
+</link></head>
 <body>
-  <div class="app-shell">
-    <header class="hero">
-      <p class="eyebrow">ابزاری برای پیگیری کارهای روزانه</p>
-      <h1>چک لیست با دسته بندی</h1>
-      <p class="lede">برای هر دسته بندی، آیتم ها را اضافه، ویرایش و ریست کنید و در صورت نیاز فهرست کامل را جا‌به‌جا کنید.</p>
-    </header>
-    <main>
-      <section class="panel list-manager" aria-label="مدیریت دسته بندی ها">
-        <div class="panel-header">
-          <h2>دسته بندی ها</h2>
-        </div>
-        <div class="list-tabs" id="listTabs"></div>
-        <form id="newListForm" class="inline-form">
-          <input id="listTitleInput" type="text" placeholder="نام دسته جدید" required />
-          <button type="submit">افزودن دسته</button>
-        </form>
-      </section>
-      <section class="panel item-manager" aria-label="مدیریت آیتم ها">
-        <div class="panel-header">
-          <div>
-            <p class="subhead">در حال نمایش:</p>
-            <h2 id="activeListTitle">یک دسته را انتخاب کنید</h2>
-          </div>
-          <div class="panel-actions">
-            <button id="resetListButton" type="button">پاک کردن آیتم‌ها</button>
-            <button id="revertCompletedButton" type="button" class="ghost">بازگرداندن انجام‌شده‌ها</button>
-          </div>
-        </div>
-        <form id="newItemForm" class="inline-form">
-          <input id="newItemInput" type="text" placeholder="عنوان آیتم" required />
-          <button type="submit">افزودن آیتم</button>
-        </form>
-        <ul id="itemsList" class="item-list" aria-live="polite"></ul>
-        <p class="empty-state" id="emptyState">در این دسته هنوز آیتمی ثبت نشده است.</p>
-      </section>
-      <section class="panel export-panel" aria-label="صدور و واردسازی لیست">
-        <div class="panel-header">
-          <div>
-            <h2>صدور و واردسازی</h2>
-            <p class="subhead">لیست فعلی را دانلود کنید یا فایل ذخیره شده را بارگذاری کنید.</p>
-          </div>
-        </div>
-        <div class="export-import-row">
-          <div class="export-controls">
-            <button id="downloadListButton" type="button">ذخیره لیست فعلی</button>
-            <p class="muted">فایل JSON دسته فعال بلافاصله دانلود می‌شود.</p>
-          </div>
-          <div class="import-controls">
-            <p class="muted">فایل صادر شده را برای واردسازی انتخاب کنید.</p>
-            <div class="file-row">
-              <input id="listFileInput" type="file" accept="application/json" />
-              <button id="uploadFileButton" type="button">وارد کردن فایل</button>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-  </div>
-  <div class="toast" id="toast" role="status" aria-live="assertive"></div>
-  <script src="assets/js/app.js" defer></script>
-    <script src="../assets/tool-wrapper.js"></script>
+<div class="app-shell">
+<header class="hero">
+<p class="eyebrow" data-i18n="text_eyebrow_0">ابزاری برای پیگیری کارهای روزانه</p>
+<h1 data-i18n="heading_0">چک لیست با دسته بندی</h1>
+<p class="lede" data-i18n="text_lede_1">برای هر دسته بندی، آیتم ها را اضافه، ویرایش و ریست کنید و در صورت نیاز فهرست کامل را جا‌به‌جا کنید.</p>
+</header>
+<main>
+<section aria-label="مدیریت دسته بندی ها" class="panel list-manager">
+<div class="panel-header">
+<h2 data-i18n="heading_1">دسته بندی ها</h2>
+</div>
+<div class="list-tabs" id="listTabs"></div>
+<form class="inline-form" id="newListForm">
+<input id="listTitleInput" placeholder="نام دسته جدید" required="" type="text"/>
+<button data-i18n="button_0" type="submit">افزودن دسته</button>
+</form>
+</section>
+<section aria-label="مدیریت آیتم ها" class="panel item-manager">
+<div class="panel-header">
+<div>
+<p class="subhead" data-i18n="text_subhead_2">در حال نمایش:</p>
+<h2 data-i18n="heading_2" id="activeListTitle">یک دسته را انتخاب کنید</h2>
+</div>
+<div class="panel-actions">
+<button data-i18n="button_1" id="resetListButton" type="button">پاک کردن آیتم‌ها</button>
+<button class="ghost" data-i18n="button_2" id="revertCompletedButton" type="button">بازگرداندن انجام‌شده‌ها</button>
+</div>
+</div>
+<form class="inline-form" id="newItemForm">
+<input id="newItemInput" placeholder="عنوان آیتم" required="" type="text"/>
+<button data-i18n="button_3" type="submit">افزودن آیتم</button>
+</form>
+<ul aria-live="polite" class="item-list" id="itemsList"></ul>
+<p class="empty-state" data-i18n="text_empty_state_3" id="emptyState">در این دسته هنوز آیتمی ثبت نشده است.</p>
+</section>
+<section aria-label="صدور و واردسازی لیست" class="panel export-panel">
+<div class="panel-header">
+<div>
+<h2 data-i18n="heading_3">صدور و واردسازی</h2>
+<p class="subhead" data-i18n="text_subhead_4">لیست فعلی را دانلود کنید یا فایل ذخیره شده را بارگذاری کنید.</p>
+</div>
+</div>
+<div class="export-import-row">
+<div class="export-controls">
+<button data-i18n="button_4" id="downloadListButton" type="button">ذخیره لیست فعلی</button>
+<p class="muted" data-i18n="text_muted_5">فایل JSON دسته فعال بلافاصله دانلود می‌شود.</p>
+</div>
+<div class="import-controls">
+<p class="muted" data-i18n="text_muted_6">فایل صادر شده را برای واردسازی انتخاب کنید.</p>
+<div class="file-row">
+<input accept="application/json" id="listFileInput" type="file"/>
+<button data-i18n="button_5" id="uploadFileButton" type="button">وارد کردن فایل</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+<div aria-live="assertive" class="toast" id="toast" role="status"></div>
+<script defer="" src="assets/js/app.js"></script>
+<script src="../assets/tool-wrapper.js"></script>
 </body>
 </html>
-

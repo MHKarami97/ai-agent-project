@@ -1,219 +1,207 @@
-﻿<!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<!DOCTYPE html>
+
+<html dir="rtl" lang="fa">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نقشه نقاط امن</title>
-    <link rel="stylesheet" href="../Vazirmatn-font-face.css">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="../assets/tool-wrapper.css">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-i18n="title">نقشه نقاط امن</title>
+<link href="../Vazirmatn-font-face.css" rel="stylesheet"/>
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="assets/css/style.css" rel="stylesheet"/>
+<link href="../assets/tool-wrapper.css" rel="stylesheet"/>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🗺️ نقشه نقاط امن</h1>
-            <p class="subtitle">ذخیره و مدیریت موقعیت‌های مهم - کاملاً آفلاین</p>
-        </header>
-
-        <main>
-            <section class="actions-section">
-                <div class="action-buttons">
-                    <button id="addLocationBtn" class="btn btn-primary">
-                        <span class="icon">➕</span>
+<div class="container">
+<header>
+<h1 data-i18n="heading_0">🗺️ نقشه نقاط امن</h1>
+<p class="subtitle" data-i18n="text_subtitle_0">ذخیره و مدیریت موقعیت‌های مهم - کاملاً آفلاین</p>
+</header>
+<main>
+<section class="actions-section">
+<div class="action-buttons">
+<button class="btn btn-primary" data-i18n="button_0" id="addLocationBtn">
+<span class="icon">➕</span>
                         افزودن نقطه جدید
                     </button>
-                    <button id="exportBtn" class="btn btn-secondary">
-                        <span class="icon">📤</span>
+<button class="btn btn-secondary" data-i18n="button_1" id="exportBtn">
+<span class="icon">📤</span>
                         خروجی JSON
                     </button>
-                    <button id="importBtn" class="btn btn-secondary">
-                        <span class="icon">📥</span>
+<button class="btn btn-secondary" data-i18n="button_2" id="importBtn">
+<span class="icon">📥</span>
                         ورودی JSON
                     </button>
-                    <input type="file" id="importFile" accept=".json" style="display: none;">
-                </div>
-            </section>
-
-            <section class="filter-section">
-                <div class="filter-group">
-                    <label for="filterType">فیلتر بر اساس نوع:</label>
-                    <select id="filterType" class="filter-select">
-                        <option value="all">همه موارد</option>
-                        <option value="hospital">🏥 بیمارستان</option>
-                        <option value="pharmacy">💊 داروخانه</option>
-                        <option value="shelter">🏠 پناهگاه</option>
-                        <option value="emergency">🚑 اورژانس</option>
-                        <option value="fire-station">🚒 آتش‌نشانی</option>
-                        <option value="police">👮 پلیس</option>
-                        <option value="store">🏪 فروشگاه</option>
-                        <option value="gas-station">⛽ پمپ بنزین</option>
-                        <option value="bank">🏦 بانک</option>
-                        <option value="bakery">🍞 نانوایی</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label for="searchInput">جستجو:</label>
-                    <input type="text" id="searchInput" class="search-input" placeholder="نام یا توضیحات...">
-                </div>
-            </section>
-
-            <section class="stats-section">
-                <div class="stat-card hospital">
-                    <div class="stat-icon">🏥</div>
-                    <div class="stat-info">
-                        <div class="stat-value" id="hospitalCount">0</div>
-                        <div class="stat-label">بیمارستان</div>
-                    </div>
-                </div>
-                <div class="stat-card pharmacy">
-                    <div class="stat-icon">💊</div>
-                    <div class="stat-info">
-                        <div class="stat-value" id="pharmacyCount">0</div>
-                        <div class="stat-label">داروخانه</div>
-                    </div>
-                </div>
-                <div class="stat-card shelter">
-                    <div class="stat-icon">🏠</div>
-                    <div class="stat-info">
-                        <div class="stat-value" id="shelterCount">0</div>
-                        <div class="stat-label">پناهگاه</div>
-                    </div>
-                </div>
-                <div class="stat-card emergency">
-                    <div class="stat-icon">🚑</div>
-                    <div class="stat-info">
-                        <div class="stat-value" id="emergencyCount">0</div>
-                        <div class="stat-label">اورژانس</div>
-                    </div>
-                </div>
-                <div class="stat-card fire-station">
-                    <div class="stat-icon">🚒</div>
-                    <div class="stat-info">
-                        <div class="stat-value" id="fireStationCount">0</div>
-                        <div class="stat-label">آتش‌نشانی</div>
-                    </div>
-                </div>
-                <div class="stat-card police">
-                    <div class="stat-icon">👮</div>
-                    <div class="stat-info">
-                        <div class="stat-value" id="policeCount">0</div>
-                        <div class="stat-label">پلیس</div>
-                    </div>
-                </div>
-                <div class="stat-card store">
-                    <div class="stat-icon">🏪</div>
-                    <div class="stat-info">
-                        <div class="stat-value" id="storeCount">0</div>
-                        <div class="stat-label">فروشگاه</div>
-                    </div>
-                </div>
-                <div class="stat-card gas-station">
-                    <div class="stat-icon">⛽</div>
-                    <div class="stat-info">
-                        <div class="stat-value" id="gasStationCount">0</div>
-                        <div class="stat-label">پمپ بنزین</div>
-                    </div>
-                </div>
-                <div class="stat-card bank">
-                    <div class="stat-icon">🏦</div>
-                    <div class="stat-info">
-                        <div class="stat-value" id="bankCount">0</div>
-                        <div class="stat-label">بانک</div>
-                    </div>
-                </div>
-                <div class="stat-card bakery">
-                    <div class="stat-icon">🍞</div>
-                    <div class="stat-info">
-                        <div class="stat-value" id="bakeryCount">0</div>
-                        <div class="stat-label">نانوایی</div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="locations-section">
-                <div id="locationsList" class="locations-list">
-                    <div class="empty-state">
-                        <div class="empty-icon">📍</div>
-                        <p>هنوز نقطه‌ای اضافه نشده است</p>
-                        <p class="empty-hint">برای شروع، روی دکمه "افزودن نقطه جدید" کلیک کنید</p>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </div>
-
-    <!-- Modal for Adding/Editing Location -->
-    <div id="locationModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="modalTitle">افزودن نقطه جدید</h2>
-                <button class="close-btn" id="closeModal">&times;</button>
-            </div>
-            <form id="locationForm">
-                <div class="form-group">
-                    <label for="locationName">نام مکان <span class="required">*</span></label>
-                    <input type="text" id="locationName" required placeholder="مثال: بیمارستان امام خمینی">
-                </div>
-
-                <div class="form-group">
-                    <label for="locationType">نوع <span class="required">*</span></label>
-                    <select id="locationType" required>
-                        <option value="">انتخاب کنید...</option>
-                        <option value="hospital">🏥 بیمارستان</option>
-                        <option value="pharmacy">💊 داروخانه</option>
-                        <option value="shelter">🏠 پناهگاه</option>
-                        <option value="emergency">🚑 اورژانس</option>
-                        <option value="fire-station">🚒 آتش‌نشانی</option>
-                        <option value="police">👮 پلیس</option>
-                        <option value="store">🏪 فروشگاه</option>
-                        <option value="gas-station">⛽ پمپ بنزین</option>
-                        <option value="bank">🏦 بانک</option>
-                        <option value="bakery">🍞 نانوایی</option>
-                    </select>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="locationLat">عرض جغرافیایی <span class="required">*</span></label>
-                        <input type="number" id="locationLat" step="any" required placeholder="35.6892">
-                    </div>
-                    <div class="form-group">
-                        <label for="locationLng">طول جغرافیایی <span class="required">*</span></label>
-                        <input type="number" id="locationLng" step="any" required placeholder="51.3890">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="locationAddress">آدرس</label>
-                    <textarea id="locationAddress" rows="2" placeholder="آدرس کامل مکان..."></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="locationPhone">شماره تماس</label>
-                    <input type="tel" id="locationPhone" placeholder="021-12345678">
-                </div>
-
-                <div class="form-group">
-                    <label for="locationDescription">توضیحات</label>
-                    <textarea id="locationDescription" rows="3" placeholder="توضیحات تکمیلی..."></textarea>
-                </div>
-
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">
-                        <span class="icon">💾</span>
+<input accept=".json" id="importFile" style="display: none;" type="file"/>
+</div>
+</section>
+<section class="filter-section">
+<div class="filter-group">
+<label data-i18n="label_0" for="filterType">فیلتر بر اساس نوع:</label>
+<select class="filter-select" id="filterType">
+<option value="all">همه موارد</option>
+<option value="hospital">🏥 بیمارستان</option>
+<option value="pharmacy">💊 داروخانه</option>
+<option value="shelter">🏠 پناهگاه</option>
+<option value="emergency">🚑 اورژانس</option>
+<option value="fire-station">🚒 آتش‌نشانی</option>
+<option value="police">👮 پلیس</option>
+<option value="store">🏪 فروشگاه</option>
+<option value="gas-station">⛽ پمپ بنزین</option>
+<option value="bank">🏦 بانک</option>
+<option value="bakery">🍞 نانوایی</option>
+</select>
+</div>
+<div class="filter-group">
+<label data-i18n="label_1" for="searchInput">جستجو:</label>
+<input class="search-input" id="searchInput" placeholder="نام یا توضیحات..." type="text"/>
+</div>
+</section>
+<section class="stats-section">
+<div class="stat-card hospital">
+<div class="stat-icon">🏥</div>
+<div class="stat-info">
+<div class="stat-value" id="hospitalCount">0</div>
+<div class="stat-label">بیمارستان</div>
+</div>
+</div>
+<div class="stat-card pharmacy">
+<div class="stat-icon">💊</div>
+<div class="stat-info">
+<div class="stat-value" id="pharmacyCount">0</div>
+<div class="stat-label">داروخانه</div>
+</div>
+</div>
+<div class="stat-card shelter">
+<div class="stat-icon">🏠</div>
+<div class="stat-info">
+<div class="stat-value" id="shelterCount">0</div>
+<div class="stat-label">پناهگاه</div>
+</div>
+</div>
+<div class="stat-card emergency">
+<div class="stat-icon">🚑</div>
+<div class="stat-info">
+<div class="stat-value" id="emergencyCount">0</div>
+<div class="stat-label">اورژانس</div>
+</div>
+</div>
+<div class="stat-card fire-station">
+<div class="stat-icon">🚒</div>
+<div class="stat-info">
+<div class="stat-value" id="fireStationCount">0</div>
+<div class="stat-label">آتش‌نشانی</div>
+</div>
+</div>
+<div class="stat-card police">
+<div class="stat-icon">👮</div>
+<div class="stat-info">
+<div class="stat-value" id="policeCount">0</div>
+<div class="stat-label">پلیس</div>
+</div>
+</div>
+<div class="stat-card store">
+<div class="stat-icon">🏪</div>
+<div class="stat-info">
+<div class="stat-value" id="storeCount">0</div>
+<div class="stat-label">فروشگاه</div>
+</div>
+</div>
+<div class="stat-card gas-station">
+<div class="stat-icon">⛽</div>
+<div class="stat-info">
+<div class="stat-value" id="gasStationCount">0</div>
+<div class="stat-label">پمپ بنزین</div>
+</div>
+</div>
+<div class="stat-card bank">
+<div class="stat-icon">🏦</div>
+<div class="stat-info">
+<div class="stat-value" id="bankCount">0</div>
+<div class="stat-label">بانک</div>
+</div>
+</div>
+<div class="stat-card bakery">
+<div class="stat-icon">🍞</div>
+<div class="stat-info">
+<div class="stat-value" id="bakeryCount">0</div>
+<div class="stat-label">نانوایی</div>
+</div>
+</div>
+</section>
+<section class="locations-section">
+<div class="locations-list" id="locationsList">
+<div class="empty-state">
+<div class="empty-icon">📍</div>
+<p>هنوز نقطه‌ای اضافه نشده است</p>
+<p class="empty-hint" data-i18n="text_empty_hint_4">برای شروع، روی دکمه "افزودن نقطه جدید" کلیک کنید</p>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- Modal for Adding/Editing Location -->
+<div class="modal" id="locationModal">
+<div class="modal-content">
+<div class="modal-header">
+<h2 data-i18n="heading_1" id="modalTitle">افزودن نقطه جدید</h2>
+<button class="close-btn" data-i18n="button_3" id="closeModal">×</button>
+</div>
+<form id="locationForm">
+<div class="form-group">
+<label data-i18n="label_2" for="locationName">نام مکان <span class="required">*</span></label>
+<input id="locationName" placeholder="مثال: بیمارستان امام خمینی" required="" type="text"/>
+</div>
+<div class="form-group">
+<label data-i18n="label_3" for="locationType">نوع <span class="required">*</span></label>
+<select id="locationType" required="">
+<option value="">انتخاب کنید...</option>
+<option value="hospital">🏥 بیمارستان</option>
+<option value="pharmacy">💊 داروخانه</option>
+<option value="shelter">🏠 پناهگاه</option>
+<option value="emergency">🚑 اورژانس</option>
+<option value="fire-station">🚒 آتش‌نشانی</option>
+<option value="police">👮 پلیس</option>
+<option value="store">🏪 فروشگاه</option>
+<option value="gas-station">⛽ پمپ بنزین</option>
+<option value="bank">🏦 بانک</option>
+<option value="bakery">🍞 نانوایی</option>
+</select>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label data-i18n="label_4" for="locationLat">عرض جغرافیایی <span class="required">*</span></label>
+<input id="locationLat" placeholder="35.6892" required="" step="any" type="number"/>
+</div>
+<div class="form-group">
+<label data-i18n="label_5" for="locationLng">طول جغرافیایی <span class="required">*</span></label>
+<input id="locationLng" placeholder="51.3890" required="" step="any" type="number"/>
+</div>
+</div>
+<div class="form-group">
+<label data-i18n="label_6" for="locationAddress">آدرس</label>
+<textarea id="locationAddress" placeholder="آدرس کامل مکان..." rows="2"></textarea>
+</div>
+<div class="form-group">
+<label data-i18n="label_7" for="locationPhone">شماره تماس</label>
+<input id="locationPhone" placeholder="021-12345678" type="tel"/>
+</div>
+<div class="form-group">
+<label data-i18n="label_8" for="locationDescription">توضیحات</label>
+<textarea id="locationDescription" placeholder="توضیحات تکمیلی..." rows="3"></textarea>
+</div>
+<div class="form-actions">
+<button class="btn btn-primary" data-i18n="button_4" type="submit">
+<span class="icon">💾</span>
                         ذخیره
                     </button>
-                    <button type="button" class="btn btn-cancel" id="cancelBtn">
+<button class="btn btn-cancel" data-i18n="button_5" id="cancelBtn" type="button">
                         انصراف
                     </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <script src="assets/js/app.js"></script>
-    <script src="../assets/tool-wrapper.js"></script>
+</div>
+</form>
+</div>
+</div>
+<script src="assets/js/app.js"></script>
+<script src="../assets/tool-wrapper.js"></script>
 </body>
 </html>
-

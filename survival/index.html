@@ -1,113 +1,105 @@
-﻿<!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<!DOCTYPE html>
+
+<html dir="rtl" lang="fa">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محاسبه‌گر بقا</title>
-    <link rel="stylesheet" href="../Vazirmatn-font-face.css">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="../assets/tool-wrapper.css">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-i18n="title">محاسبه‌گر بقا</title>
+<link href="../Vazirmatn-font-face.css" rel="stylesheet"/>
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="assets/css/style.css" rel="stylesheet"/>
+<link href="../assets/tool-wrapper.css" rel="stylesheet"/>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🎯 محاسبه‌گر بقا</h1>
-            <p class="subtitle">برآورد منابع برای مدت زمان مشخص</p>
-        </header>
-
-        <main>
-            <section class="calculator-section">
-                <div class="card">
-                    <h2>📊 اطلاعات پایه</h2>
-                    <div class="form-group">
-                        <label for="people">تعداد افراد:</label>
-                        <input type="number" id="people" min="1" value="1" placeholder="تعداد افراد">
-                    </div>
-                    <div class="form-group">
-                        <label for="days">مدت زمان (روز):</label>
-                        <input type="number" id="days" min="1" value="7" placeholder="تعداد روزها">
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h2>💧 مصرف روزانه هر فرد</h2>
-                    <div class="form-group">
-                        <label for="waterPerDay">آب (لیتر):</label>
-                        <input type="number" id="waterPerDay" min="0" step="0.1" value="3" placeholder="لیتر در روز">
-                    </div>
-                    <div class="form-group">
-                        <label for="foodPerDay">غذا (کیلوگرم):</label>
-                        <input type="number" id="foodPerDay" min="0" step="0.1" value="0.5" placeholder="کیلوگرم در روز">
-                    </div>
-                    <div class="form-group">
-                        <label for="medicinePerDay">دارو (واحد):</label>
-                        <input type="number" id="medicinePerDay" min="0" step="0.1" value="1" placeholder="واحد در روز">
-                    </div>
-                </div>
-
-                <button class="btn-calculate" onclick="calculate()">محاسبه منابع</button>
-            </section>
-
-            <section class="results-section" id="resultsSection" style="display: none;">
-                <div class="card result-card">
-                    <h2>📈 نتایج محاسبات</h2>
-                    <div class="result-grid">
-                        <div class="result-item water">
-                            <div class="result-icon">💧</div>
-                            <div class="result-content">
-                                <h3>آب</h3>
-                                <p class="result-value" id="waterResult">0</p>
-                                <span class="result-unit">لیتر</span>
-                            </div>
-                        </div>
-                        <div class="result-item food">
-                            <div class="result-icon">🍞</div>
-                            <div class="result-content">
-                                <h3>غذا</h3>
-                                <p class="result-value" id="foodResult">0</p>
-                                <span class="result-unit">کیلوگرم</span>
-                            </div>
-                        </div>
-                        <div class="result-item medicine">
-                            <div class="result-icon">💊</div>
-                            <div class="result-content">
-                                <h3>دارو</h3>
-                                <p class="result-value" id="medicineResult">0</p>
-                                <span class="result-unit">واحد</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h2>💾 ذخیره محاسبات</h2>
-                    <div class="form-group">
-                        <label for="calculationName">نام محاسبه:</label>
-                        <input type="text" id="calculationName" placeholder="مثلاً: سفر کوهستان">
-                    </div>
-                    <button class="btn-save" onclick="saveCalculation()">ذخیره محاسبه</button>
-                </div>
-            </section>
-
-            <section class="history-section">
-                <div class="card">
-                    <div class="history-header">
-                        <h2>📜 تاریخچه محاسبات</h2>
-                        <button class="btn-clear" onclick="clearHistory()">پاک کردن همه</button>
-                    </div>
-                    <div id="historyList" class="history-list"></div>
-                </div>
-            </section>
-        </main>
-
-        <footer>
-            <p>جعبه ابزار</p>
-        </footer>
-    </div>
-
-    <script src="assets/js/script.js"></script>
-    <script src="../assets/tool-wrapper.js"></script>
+<div class="container">
+<header>
+<h1 data-i18n="heading_0">🎯 محاسبه‌گر بقا</h1>
+<p class="subtitle" data-i18n="text_subtitle_0">برآورد منابع برای مدت زمان مشخص</p>
+</header>
+<main>
+<section class="calculator-section">
+<div class="card">
+<h2 data-i18n="heading_1">📊 اطلاعات پایه</h2>
+<div class="form-group">
+<label data-i18n="label_0" for="people">تعداد افراد:</label>
+<input id="people" min="1" placeholder="تعداد افراد" type="number" value="1"/>
+</div>
+<div class="form-group">
+<label data-i18n="label_1" for="days">مدت زمان (روز):</label>
+<input id="days" min="1" placeholder="تعداد روزها" type="number" value="7"/>
+</div>
+</div>
+<div class="card">
+<h2 data-i18n="heading_2">💧 مصرف روزانه هر فرد</h2>
+<div class="form-group">
+<label data-i18n="label_2" for="waterPerDay">آب (لیتر):</label>
+<input id="waterPerDay" min="0" placeholder="لیتر در روز" step="0.1" type="number" value="3"/>
+</div>
+<div class="form-group">
+<label data-i18n="label_3" for="foodPerDay">غذا (کیلوگرم):</label>
+<input id="foodPerDay" min="0" placeholder="کیلوگرم در روز" step="0.1" type="number" value="0.5"/>
+</div>
+<div class="form-group">
+<label data-i18n="label_4" for="medicinePerDay">دارو (واحد):</label>
+<input id="medicinePerDay" min="0" placeholder="واحد در روز" step="0.1" type="number" value="1"/>
+</div>
+</div>
+<button class="btn-calculate" data-i18n="button_0" onclick="calculate()">محاسبه منابع</button>
+</section>
+<section class="results-section" id="resultsSection" style="display: none;">
+<div class="card result-card">
+<h2 data-i18n="heading_3">📈 نتایج محاسبات</h2>
+<div class="result-grid">
+<div class="result-item water">
+<div class="result-icon">💧</div>
+<div class="result-content">
+<h3 data-i18n="heading_4">آب</h3>
+<p class="result-value" id="waterResult">0</p>
+<span class="result-unit" data-i18n="text_result_unit_2">لیتر</span>
+</div>
+</div>
+<div class="result-item food">
+<div class="result-icon">🍞</div>
+<div class="result-content">
+<h3 data-i18n="heading_5">غذا</h3>
+<p class="result-value" id="foodResult">0</p>
+<span class="result-unit" data-i18n="text_result_unit_4">کیلوگرم</span>
+</div>
+</div>
+<div class="result-item medicine">
+<div class="result-icon">💊</div>
+<div class="result-content">
+<h3 data-i18n="heading_6">دارو</h3>
+<p class="result-value" id="medicineResult">0</p>
+<span class="result-unit" data-i18n="text_result_unit_6">واحد</span>
+</div>
+</div>
+</div>
+</div>
+<div class="card">
+<h2 data-i18n="heading_7">💾 ذخیره محاسبات</h2>
+<div class="form-group">
+<label data-i18n="label_5" for="calculationName">نام محاسبه:</label>
+<input id="calculationName" placeholder="مثلاً: سفر کوهستان" type="text"/>
+</div>
+<button class="btn-save" data-i18n="button_1" onclick="saveCalculation()">ذخیره محاسبه</button>
+</div>
+</section>
+<section class="history-section">
+<div class="card">
+<div class="history-header">
+<h2 data-i18n="heading_8">📜 تاریخچه محاسبات</h2>
+<button class="btn-clear" data-i18n="button_2" onclick="clearHistory()">پاک کردن همه</button>
+</div>
+<div class="history-list" id="historyList"></div>
+</div>
+</section>
+</main>
+<footer>
+<p>جعبه ابزار</p>
+</footer>
+</div>
+<script src="assets/js/script.js"></script>
+<script src="../assets/tool-wrapper.js"></script>
 </body>
 </html>
-

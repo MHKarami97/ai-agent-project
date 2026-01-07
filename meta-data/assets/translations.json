@@ -1,0 +1,22 @@
+{
+  "fa": {
+    "title": "پاکسازی متادیتای تصویر",
+    "heading_0": "پاکسازی متادیتای تصاویر",
+    "heading_1": "بارگذاری تصویر",
+    "heading_2": "متادیتای شناسایی‌شده",
+    "heading_3": "چرا متادیتا مهم است؟",
+    "button_0": "حذف متادیتا و ساخت نسخه جدید",
+    "label_0": "انتخاب فایل تصویر",
+    "text_meta_placeholder_0": "ابتدا تصویر را بارگذاری کنید تا اطلاعات آن نمایش داده شود."
+  },
+  "en": {
+    "title": "پاکسازی متادیتای تصویر",
+    "heading_0": "پاکسازی متادیتای تصاویر",
+    "heading_1": "Upload Image",
+    "heading_2": "متادیتای شناسایی‌شده",
+    "heading_3": "چرا متادیتا مهم است؟",
+    "button_0": "حذف متادیتا و ساخت نسخه جدید",
+    "label_0": "Select Image File",
+    "text_meta_placeholder_0": "Upload an image first to display its information."
+  }
+}

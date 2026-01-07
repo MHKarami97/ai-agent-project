@@ -1,142 +1,125 @@
-﻿<!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<!DOCTYPE html>
+
+<html dir="rtl" lang="fa">
 <head>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مترونوم و تمرین موسیقی</title>
-    <link rel="stylesheet" href="../Vazirmatn-font-face.css">
-    <link rel="stylesheet" href="assets/style.css">
-    <link rel="stylesheet" href="../assets/tool-wrapper.css">
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-i18n="title">مترونوم و تمرین موسیقی</title>
+<link href="../Vazirmatn-font-face.css" rel="stylesheet"/>
+<link href="assets/style.css" rel="stylesheet"/>
+<link href="../assets/tool-wrapper.css" rel="stylesheet"/>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🎵 مترونوم و تمرین موسیقی</h1>
-        </header>
-
-        <main>
-            <!-- کنترل‌های مترونوم -->
-            <section class="metronome-section">
-                <div class="bpm-display">
-                    <div class="bpm-value" id="bpmValue">120</div>
-                    <div class="bpm-label">BPM</div>
-                </div>
-
-                <div class="bpm-control">
-                    <button class="btn-bpm" id="decreaseBpm">-</button>
-                    <input type="range" id="bpmSlider" min="40" max="240" value="120" step="1" aria-label="تنظیم سرعت BPM">
-                    <button class="btn-bpm" id="increaseBpm">+</button>
-                </div>
-
-                <div class="quick-bpm">
-                    <button class="btn-quick" data-bpm="60">60</button>
-                    <button class="btn-quick" data-bpm="80">80</button>
-                    <button class="btn-quick" data-bpm="100">100</button>
-                    <button class="btn-quick" data-bpm="120">120</button>
-                    <button class="btn-quick" data-bpm="140">140</button>
-                    <button class="btn-quick" data-bpm="160">160</button>
-                </div>
-
-                <!-- کنترل ضربات -->
-                <div class="beats-control">
-                    <label>تعداد ضربات در هر میزان:</label>
-                    <div class="beats-selector">
-                        <button class="btn-beats" data-beats="2">2/4</button>
-                        <button class="btn-beats" data-beats="3">3/4</button>
-                        <button class="btn-beats active" data-beats="4">4/4</button>
-                        <button class="btn-beats" data-beats="5">5/4</button>
-                        <button class="btn-beats" data-beats="6">6/8</button>
-                    </div>
-                </div>
-
-                <!-- تنظیمات accent -->
-                <div class="accent-control">
-                    <label>
-                        <input type="checkbox" id="accentFirst" checked>
+<div class="container">
+<header>
+<h1 data-i18n="heading_0">🎵 مترونوم و تمرین موسیقی</h1>
+</header>
+<main>
+<!-- کنترل‌های مترونوم -->
+<section class="metronome-section">
+<div class="bpm-display">
+<div class="bpm-value" id="bpmValue">120</div>
+<div class="bpm-label">BPM</div>
+</div>
+<div class="bpm-control">
+<button class="btn-bpm" data-i18n="button_0" id="decreaseBpm">-</button>
+<input aria-label="تنظیم سرعت BPM" id="bpmSlider" max="240" min="40" step="1" type="range" value="120"/>
+<button class="btn-bpm" data-i18n="button_1" id="increaseBpm">+</button>
+</div>
+<div class="quick-bpm">
+<button class="btn-quick" data-bpm="60" data-i18n="button_2">60</button>
+<button class="btn-quick" data-bpm="80" data-i18n="button_3">80</button>
+<button class="btn-quick" data-bpm="100" data-i18n="button_4">100</button>
+<button class="btn-quick" data-bpm="120" data-i18n="button_5">120</button>
+<button class="btn-quick" data-bpm="140" data-i18n="button_6">140</button>
+<button class="btn-quick" data-bpm="160" data-i18n="button_7">160</button>
+</div>
+<!-- کنترل ضربات -->
+<div class="beats-control">
+<label data-i18n="label_0">تعداد ضربات در هر میزان:</label>
+<div class="beats-selector">
+<button class="btn-beats" data-beats="2" data-i18n="button_8">2/4</button>
+<button class="btn-beats" data-beats="3" data-i18n="button_9">3/4</button>
+<button class="btn-beats active" data-beats="4" data-i18n="button_10">4/4</button>
+<button class="btn-beats" data-beats="5" data-i18n="button_11">5/4</button>
+<button class="btn-beats" data-beats="6" data-i18n="button_12">6/8</button>
+</div>
+</div>
+<!-- تنظیمات accent -->
+<div class="accent-control">
+<label data-i18n="label_1">
+<input checked="" id="accentFirst" type="checkbox"/>
                         تأکید روی ضربه اول
                     </label>
-                </div>
-
-                <!-- دکمه پلی/استاپ -->
-                <div class="play-control">
-                    <button class="btn-play" id="playBtn">
-                        <span class="play-icon">▶</span>
-                        <span class="play-text">شروع</span>
-                    </button>
-                </div>
-
-                <!-- نشانگر ضربه -->
-                <div class="beat-indicator">
-                    <div class="beat-dots" id="beatDots"></div>
-                </div>
-            </section>
-
-            <!-- تایمر تمرین -->
-            <section class="timer-section">
-                <h2>⏱️ تایمر تمرین</h2>
-                
-                <div class="timer-display" id="timerDisplay">00:00</div>
-                
-                <div class="timer-presets">
-                    <button class="btn-preset" data-minutes="5">5 دقیقه</button>
-                    <button class="btn-preset" data-minutes="10">10 دقیقه</button>
-                    <button class="btn-preset" data-minutes="15">15 دقیقه</button>
-                    <button class="btn-preset" data-minutes="20">20 دقیقه</button>
-                    <button class="btn-preset" data-minutes="30">30 دقیقه</button>
-                </div>
-
-                <div class="timer-custom">
-                    <input type="number" id="customMinutes" min="1" max="180" placeholder="دقیقه" class="input-time" aria-label="دقیقه تمرین">
-                    <button class="btn-set-timer" id="setCustomTimer">تنظیم</button>
-                </div>
-
-                <div class="timer-controls">
-                    <button class="btn-timer" id="startTimer">شروع تایمر</button>
-                    <button class="btn-timer" id="pauseTimer" disabled>توقف</button>
-                    <button class="btn-timer" id="resetTimer">ریست</button>
-                </div>
-
-                <div class="session-note">
-                    <input type="text" id="sessionNote" placeholder="یادداشت تمرین (اختیاری)" class="input-note" aria-label="یادداشت جلسه تمرین">
-                </div>
-            </section>
-
-            <!-- تاریخچه تمرین -->
-            <section class="history-section">
-                <div class="history-header">
-                    <h2>📊 تاریخچه تمرین</h2>
-                    <button class="btn-clear-history" id="clearHistory">پاک کردن تاریخچه</button>
-                </div>
-
-                <div class="stats">
-                    <div class="stat-item">
-                        <div class="stat-label">کل زمان تمرین امروز</div>
-                        <div class="stat-value" id="todayTotal">0 دقیقه</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-label">کل زمان تمرین</div>
-                        <div class="stat-value" id="totalTime">0 دقیقه</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-label">تعداد جلسات</div>
-                        <div class="stat-value" id="sessionCount">0</div>
-                    </div>
-                </div>
-
-                <div class="history-list" id="historyList">
-                    <div class="empty-state">هنوز تمرینی ثبت نشده است</div>
-                </div>
-            </section>
-        </main>
-
-        <footer>
-            <p>جعبه ابزار</p>
-        </footer>
-    </div>
-
-    <script src="assets/script.js"></script>
-    <script src="../assets/tool-wrapper.js"></script>
+</div>
+<!-- دکمه پلی/استاپ -->
+<div class="play-control">
+<button class="btn-play" data-i18n="button_13" id="playBtn">
+<span class="play-icon">▶</span>
+<span class="play-text" data-i18n="text_play_text_1">شروع</span>
+</button>
+</div>
+<!-- نشانگر ضربه -->
+<div class="beat-indicator">
+<div class="beat-dots" id="beatDots"></div>
+</div>
+</section>
+<!-- تایمر تمرین -->
+<section class="timer-section">
+<h2 data-i18n="heading_1">⏱️ تایمر تمرین</h2>
+<div class="timer-display" id="timerDisplay">00:00</div>
+<div class="timer-presets">
+<button class="btn-preset" data-i18n="button_14" data-minutes="5">5 دقیقه</button>
+<button class="btn-preset" data-i18n="button_15" data-minutes="10">10 دقیقه</button>
+<button class="btn-preset" data-i18n="button_16" data-minutes="15">15 دقیقه</button>
+<button class="btn-preset" data-i18n="button_17" data-minutes="20">20 دقیقه</button>
+<button class="btn-preset" data-i18n="button_18" data-minutes="30">30 دقیقه</button>
+</div>
+<div class="timer-custom">
+<input aria-label="دقیقه تمرین" class="input-time" id="customMinutes" max="180" min="1" placeholder="دقیقه" type="number"/>
+<button class="btn-set-timer" data-i18n="button_19" id="setCustomTimer">تنظیم</button>
+</div>
+<div class="timer-controls">
+<button class="btn-timer" data-i18n="button_20" id="startTimer">شروع تایمر</button>
+<button class="btn-timer" data-i18n="button_21" disabled="" id="pauseTimer">توقف</button>
+<button class="btn-timer" data-i18n="button_22" id="resetTimer">ریست</button>
+</div>
+<div class="session-note">
+<input aria-label="یادداشت جلسه تمرین" class="input-note" id="sessionNote" placeholder="یادداشت تمرین (اختیاری)" type="text"/>
+</div>
+</section>
+<!-- تاریخچه تمرین -->
+<section class="history-section">
+<div class="history-header">
+<h2 data-i18n="heading_2">📊 تاریخچه تمرین</h2>
+<button class="btn-clear-history" data-i18n="button_23" id="clearHistory">پاک کردن تاریخچه</button>
+</div>
+<div class="stats">
+<div class="stat-item">
+<div class="stat-label">کل زمان تمرین امروز</div>
+<div class="stat-value" id="todayTotal">0 دقیقه</div>
+</div>
+<div class="stat-item">
+<div class="stat-label">کل زمان تمرین</div>
+<div class="stat-value" id="totalTime">0 دقیقه</div>
+</div>
+<div class="stat-item">
+<div class="stat-label">تعداد جلسات</div>
+<div class="stat-value" id="sessionCount">0</div>
+</div>
+</div>
+<div class="history-list" id="historyList">
+<div class="empty-state">هنوز تمرینی ثبت نشده است</div>
+</div>
+</section>
+</main>
+<footer>
+<p>جعبه ابزار</p>
+</footer>
+</div>
+<script src="assets/script.js"></script>
+<script src="../assets/tool-wrapper.js"></script>
 </body>
 </html>

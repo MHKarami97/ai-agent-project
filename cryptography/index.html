@@ -1,171 +1,156 @@
-﻿<!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<!DOCTYPE html>
+
+<html dir="rtl" lang="fa">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رمزنگاری و ارسال متن</title>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="stylesheet" href="../Vazirmatn-font-face.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="../assets/tool-wrapper.css">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-i18n="title">رمزنگاری و ارسال متن</title>
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="../Vazirmatn-font-face.css" rel="stylesheet"/>
+<link href="assets/css/style.css" rel="stylesheet"/>
+<link href="../assets/tool-wrapper.css" rel="stylesheet"/>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🔐 رمزنگاری متن امن</h1>
-            <p class="subtitle">ارسال پیام‌های محرمانه با رمزنگاری قوی AES-256</p>
-        </header>
-
-        <div class="tabs">
-            <button class="tab-button active" data-tab="encrypt">
-                <span class="icon">🔒</span>
+<div class="container">
+<header>
+<h1 data-i18n="heading_0">🔐 رمزنگاری متن امن</h1>
+<p class="subtitle" data-i18n="text_subtitle_0">ارسال پیام‌های محرمانه با رمزنگاری قوی AES-256</p>
+</header>
+<div class="tabs">
+<button class="tab-button active" data-i18n="button_0" data-tab="encrypt">
+<span class="icon">🔒</span>
                 رمزنگاری
             </button>
-            <button class="tab-button" data-tab="decrypt">
-                <span class="icon">🔓</span>
+<button class="tab-button" data-i18n="button_1" data-tab="decrypt">
+<span class="icon">🔓</span>
                 رمزگشایی
             </button>
-            <button class="tab-button" data-tab="history">
-                <span class="icon">📜</span>
+<button class="tab-button" data-i18n="button_2" data-tab="history">
+<span class="icon">📜</span>
                 تاریخچه
             </button>
-        </div>
-
-        <div class="tab-content active" id="encrypt-tab">
-            <div class="card">
-                <h2>رمزنگاری متن</h2>
-                <form id="encrypt-form">
-                    <div class="form-group">
-                        <label for="plain-text">متن اصلی:</label>
-                        <textarea id="plain-text" rows="6" placeholder="متن خود را وارد کنید..." required></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="encrypt-key">کلید خصوصی:</label>
-                        <div class="key-input-wrapper">
-                            <input type="password" id="encrypt-key" placeholder="کلید خصوصی خود را وارد کنید..." required>
-                            <button type="button" class="toggle-password" data-target="encrypt-key">
-                                <span class="eye-icon">👁️</span>
-                            </button>
-                        </div>
-                        <small class="help-text">حداقل 8 کاراکتر - این کلید را به خاطر بسپارید!</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label>نوع کاراکترهای خروجی:</label>
-                        <div class="checkbox-group">
-                            <label class="checkbox-label">
-                                <input type="checkbox" name="charset" value="persian" checked>
-                                <span>فارسی</span>
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" name="charset" value="english">
-                                <span>English</span>
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" name="charset" value="numbers">
-                                <span>اعداد (123)</span>
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" name="charset" value="symbols">
-                                <span>علائم (!@#)</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">
-                        <span class="icon">🔒</span>
+</div>
+<div class="tab-content active" id="encrypt-tab">
+<div class="card">
+<h2 data-i18n="heading_1">رمزنگاری متن</h2>
+<form id="encrypt-form">
+<div class="form-group">
+<label data-i18n="label_0" for="plain-text">متن اصلی:</label>
+<textarea id="plain-text" placeholder="متن خود را وارد کنید..." required="" rows="6"></textarea>
+</div>
+<div class="form-group">
+<label data-i18n="label_1" for="encrypt-key">کلید خصوصی:</label>
+<div class="key-input-wrapper">
+<input id="encrypt-key" placeholder="کلید خصوصی خود را وارد کنید..." required="" type="password"/>
+<button class="toggle-password" data-i18n="button_3" data-target="encrypt-key" type="button">
+<span class="eye-icon">👁️</span>
+</button>
+</div>
+<small class="help-text">حداقل 8 کاراکتر - این کلید را به خاطر بسپارید!</small>
+</div>
+<div class="form-group">
+<label data-i18n="label_2">نوع کاراکترهای خروجی:</label>
+<div class="checkbox-group">
+<label class="checkbox-label" data-i18n="label_3">
+<input checked="" name="charset" type="checkbox" value="persian"/>
+<span>فارسی</span>
+</label>
+<label class="checkbox-label" data-i18n="label_4">
+<input name="charset" type="checkbox" value="english"/>
+<span>English</span>
+</label>
+<label class="checkbox-label" data-i18n="label_5">
+<input name="charset" type="checkbox" value="numbers"/>
+<span>اعداد (123)</span>
+</label>
+<label class="checkbox-label" data-i18n="label_6">
+<input name="charset" type="checkbox" value="symbols"/>
+<span>علائم (!@#)</span>
+</label>
+</div>
+</div>
+<button class="btn btn-primary" data-i18n="button_4" type="submit">
+<span class="icon">🔒</span>
                         رمزنگاری متن
                     </button>
-                </form>
-
-                <div id="encrypt-result" class="result-box" style="display: none;">
-                    <label>متن رمزنگاری شده:</label>
-                    <div class="output-text" id="encrypted-text"></div>
-                    <div class="button-group">
-                        <button type="button" class="btn btn-secondary" id="copy-encrypted">
-                            <span class="icon">📋</span>
+</form>
+<div class="result-box" id="encrypt-result" style="display: none;">
+<label data-i18n="label_7">متن رمزنگاری شده:</label>
+<div class="output-text" id="encrypted-text"></div>
+<div class="button-group">
+<button class="btn btn-secondary" data-i18n="button_5" id="copy-encrypted" type="button">
+<span class="icon">📋</span>
                             کپی
                         </button>
-                        <button type="button" class="btn btn-secondary" id="save-encrypted">
-                            <span class="icon">💾</span>
+<button class="btn btn-secondary" data-i18n="button_6" id="save-encrypted" type="button">
+<span class="icon">💾</span>
                             ذخیره در تاریخچه
                         </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="tab-content" id="decrypt-tab">
-            <div class="card">
-                <h2>رمزگشایی متن</h2>
-                <form id="decrypt-form">
-                    <div class="form-group">
-                        <label for="cipher-text">متن رمزنگاری شده:</label>
-                        <textarea id="cipher-text" rows="6" placeholder="متن رمزنگاری شده را وارد کنید..." required></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="decrypt-key">کلید خصوصی:</label>
-                        <div class="key-input-wrapper">
-                            <input type="password" id="decrypt-key" placeholder="کلید خصوصی را وارد کنید..." required>
-                            <button type="button" class="toggle-password" data-target="decrypt-key">
-                                <span class="eye-icon">👁️</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">
-                        <span class="icon">🔓</span>
+</div>
+</div>
+</div>
+</div>
+<div class="tab-content" id="decrypt-tab">
+<div class="card">
+<h2 data-i18n="heading_2">رمزگشایی متن</h2>
+<form id="decrypt-form">
+<div class="form-group">
+<label data-i18n="label_8" for="cipher-text">متن رمزنگاری شده:</label>
+<textarea id="cipher-text" placeholder="متن رمزنگاری شده را وارد کنید..." required="" rows="6"></textarea>
+</div>
+<div class="form-group">
+<label data-i18n="label_9" for="decrypt-key">کلید خصوصی:</label>
+<div class="key-input-wrapper">
+<input id="decrypt-key" placeholder="کلید خصوصی را وارد کنید..." required="" type="password"/>
+<button class="toggle-password" data-i18n="button_7" data-target="decrypt-key" type="button">
+<span class="eye-icon">👁️</span>
+</button>
+</div>
+</div>
+<button class="btn btn-primary" data-i18n="button_8" type="submit">
+<span class="icon">🔓</span>
                         رمزگشایی متن
                     </button>
-                </form>
-
-                <div id="decrypt-result" class="result-box" style="display: none;">
-                    <label>متن اصلی:</label>
-                    <div class="output-text" id="decrypted-text"></div>
-                    <button type="button" class="btn btn-secondary" id="copy-decrypted">
-                        <span class="icon">📋</span>
+</form>
+<div class="result-box" id="decrypt-result" style="display: none;">
+<label data-i18n="label_10">متن اصلی:</label>
+<div class="output-text" id="decrypted-text"></div>
+<button class="btn btn-secondary" data-i18n="button_9" id="copy-decrypted" type="button">
+<span class="icon">📋</span>
                         کپی
                     </button>
-                </div>
-
-                <div id="decrypt-error" class="error-box" style="display: none;">
-                    <span class="icon">❌</span>
-                    <span id="decrypt-error-text"></span>
-                </div>
-            </div>
-        </div>
-
-        <div class="tab-content" id="history-tab">
-            <div class="card">
-                <div class="history-header">
-                    <h2>تاریخچه رمزنگاری</h2>
-                    <button type="button" class="btn btn-danger" id="clear-history">
-                        <span class="icon">🗑️</span>
+</div>
+<div class="error-box" id="decrypt-error" style="display: none;">
+<span class="icon">❌</span>
+<span id="decrypt-error-text"></span>
+</div>
+</div>
+</div>
+<div class="tab-content" id="history-tab">
+<div class="card">
+<div class="history-header">
+<h2 data-i18n="heading_3">تاریخچه رمزنگاری</h2>
+<button class="btn btn-danger" data-i18n="button_10" id="clear-history" type="button">
+<span class="icon">🗑️</span>
                         پاک کردن همه
                     </button>
-                </div>
-                <div id="history-list" class="history-list">
-                    <div class="empty-state">
-                        <span class="icon">📭</span>
-                        <p>هنوز هیچ موردی ذخیره نشده است</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <footer>
-            <p>جعبه ابزار</p>
-        </footer>
-    </div>
-
-    <div id="toast" class="toast"></div>
-
-    <script src="assets/js/crypto.js"></script>
-    <script src="assets/js/storage.js"></script>
-    <script src="assets/js/app.js"></script>
-    <script src="../assets/tool-wrapper.js"></script>
+</div>
+<div class="history-list" id="history-list">
+<div class="empty-state">
+<span class="icon">📭</span>
+<p>هنوز هیچ موردی ذخیره نشده است</p>
+</div>
+</div>
+</div>
+</div>
+<footer>
+<p>جعبه ابزار</p>
+</footer>
+</div>
+<div class="toast" id="toast"></div>
+<script src="assets/js/crypto.js"></script>
+<script src="assets/js/storage.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="../assets/tool-wrapper.js"></script>
 </body>
 </html>
-

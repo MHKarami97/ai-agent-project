@@ -1,0 +1,26 @@
+{
+  "fa": {
+    "title": "چت تصویری و صوتی محلی",
+    "heading_0": "چت محلی امن",
+    "heading_1": "اتصال",
+    "heading_2": "گفتگو",
+    "button_1": "کپی",
+    "button_2": "اتصال",
+    "button_5": "قطع اتصال",
+    "button_6": "ارسال",
+    "label_0": "شناسه شما:",
+    "label_1": "شناسه طرف مقابل:"
+  },
+  "en": {
+    "title": "چت تصویری و صوتی محلی",
+    "heading_0": "چت محلی امن",
+    "heading_1": "Connection",
+    "heading_2": "گفتگو",
+    "button_1": "کپی",
+    "button_2": "Connection",
+    "button_5": "Disconnect",
+    "button_6": "ارسال",
+    "label_0": "Your ID:",
+    "label_1": "شناسه طرف مقابل:"
+  }
+}

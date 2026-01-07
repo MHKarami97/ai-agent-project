@@ -1,20 +1,20 @@
-﻿<!doctype html>
-<html lang="fa" dir="rtl">
+<!DOCTYPE html>
+
+<html dir="rtl" lang="fa">
 <head>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>تقسیم‌کننده هزینه گروهی</title>
-  <link rel="stylesheet" href="../Vazirmatn-font-face.css">
-  <link rel="stylesheet" href="assets/style.css">
-    <link rel="stylesheet" href="../assets/tool-wrapper.css">
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title data-i18n="title">تقسیم‌کننده هزینه گروهی</title>
+<link href="../Vazirmatn-font-face.css" rel="stylesheet"/>
+<link href="assets/style.css" rel="stylesheet"/>
+<link href="../assets/tool-wrapper.css" rel="stylesheet"/>
 </head>
 <body>
-  <div id="app" class="app-root"><div id="app-loading">درحال بارگذاری...</div></div>
-  <div id="app-error" role="alert"></div>
-
-  <script>
+<div class="app-root" id="app"><div id="app-loading">درحال بارگذاری...</div></div>
+<div id="app-error" role="alert"></div>
+<script>
     // Show runtime errors in the page (helpful when opening via file://)
     function showError(message){
       var el = document.getElementById('app-error');
@@ -24,8 +24,7 @@
     window.addEventListener('error', function(ev){ showError(ev.message || String(ev.error)); });
     window.addEventListener('unhandledrejection', function(ev){ showError('Promise rejection: ' + (ev.reason && ev.reason.message ? ev.reason.message : String(ev.reason))); });
   </script>
-
-  <script src="assets/app.js"></script>
-    <script src="../assets/tool-wrapper.js"></script>
+<script src="assets/app.js"></script>
+<script src="../assets/tool-wrapper.js"></script>
 </body>
 </html>

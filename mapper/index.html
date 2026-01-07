@@ -1,89 +1,80 @@
-﻿<!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<!DOCTYPE html>
+
+<html dir="rtl" lang="fa">
 <head>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تبدیل واحد</title>
-    <link rel="stylesheet" href="../Vazirmatn-font-face.css">
-    <link rel="stylesheet" href="assets/style.css">
-    <link rel="stylesheet" href="../assets/tool-wrapper.css">
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-i18n="title">تبدیل واحد</title>
+<link href="../Vazirmatn-font-face.css" rel="stylesheet"/>
+<link href="assets/style.css" rel="stylesheet"/>
+<link href="../assets/tool-wrapper.css" rel="stylesheet"/>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>تبدیل واحد</h1>
-            <p class="subtitle">تبدیل سریع و آسان واحدها</p>
-        </header>
-
-        <div class="converter-section">
-            <!-- دسته‌بندی واحدها -->
-            <div class="category-tabs">
-                <button class="tab-btn active" data-category="length">طول</button>
-                <button class="tab-btn" data-category="weight">وزن</button>
-                <button class="tab-btn" data-category="temperature">دما</button>
-                <button class="tab-btn" data-category="speed">سرعت</button>
-            </div>
-
-            <!-- فرم تبدیل -->
-            <div class="converter-form">
-                <div class="input-group">
-                    <label>از واحد:</label>
-                    <select id="fromUnit" class="unit-select">
-                        <!-- واحدها با جاوااسکریپت پر می‌شوند -->
-                    </select>
-                </div>
-
-                <div class="input-group">
-                    <label>مقدار:</label>
-                    <input type="number" id="inputValue" class="value-input" placeholder="عدد را وارد کنید" step="any">
-                </div>
-
-                <div class="swap-container">
-                    <button id="swapBtn" class="swap-btn">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M7 10l-4 4 4 4M3 14h11M17 6l4 4-4 4M21 10H10"/>
-                        </svg>
-                    </button>
-                </div>
-
-                <div class="input-group">
-                    <label>به واحد:</label>
-                    <select id="toUnit" class="unit-select">
-                        <!-- واحدها با جاوااسکریپت پر می‌شوند -->
-                    </select>
-                </div>
-
-                <div class="input-group">
-                    <label>نتیجه:</label>
-                    <input type="text" id="outputValue" class="value-input result-input" readonly placeholder="نتیجه">
-                </div>
-
-                <div class="action-buttons">
-                    <button id="convertBtn" class="btn btn-primary">تبدیل</button>
-                    <button id="saveBtn" class="btn btn-secondary">ذخیره در علاقه‌مندی‌ها</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- بخش علاقه‌مندی‌ها -->
-        <div class="favorites-section">
-            <div class="section-header">
-                <h2>علاقه‌مندی‌ها</h2>
-                <button id="clearAllBtn" class="btn-text">پاک کردن همه</button>
-            </div>
-            <div id="favoritesList" class="favorites-list">
-                <p class="empty-message">هیچ موردی در علاقه‌مندی‌ها وجود ندارد</p>
-            </div>
-        </div>
-    </div>
-
-    <footer>
-        <p>جعبه ابزار</p>
-    </footer>
-
-    <script src="assets/script.js"></script>
-    <script src="../assets/tool-wrapper.js"></script>
+<div class="container">
+<header>
+<h1 data-i18n="heading_0">تبدیل واحد</h1>
+<p class="subtitle" data-i18n="text_subtitle_0">تبدیل سریع و آسان واحدها</p>
+</header>
+<div class="converter-section">
+<!-- دسته‌بندی واحدها -->
+<div class="category-tabs">
+<button class="tab-btn active" data-category="length" data-i18n="button_0">طول</button>
+<button class="tab-btn" data-category="weight" data-i18n="button_1">وزن</button>
+<button class="tab-btn" data-category="temperature" data-i18n="button_2">دما</button>
+<button class="tab-btn" data-category="speed" data-i18n="button_3">سرعت</button>
+</div>
+<!-- فرم تبدیل -->
+<div class="converter-form">
+<div class="input-group">
+<label data-i18n="label_0">از واحد:</label>
+<select class="unit-select" id="fromUnit">
+<!-- واحدها با جاوااسکریپت پر می‌شوند -->
+</select>
+</div>
+<div class="input-group">
+<label data-i18n="label_1">مقدار:</label>
+<input class="value-input" id="inputValue" placeholder="عدد را وارد کنید" step="any" type="number"/>
+</div>
+<div class="swap-container">
+<button class="swap-btn" id="swapBtn">
+<svg fill="none" height="24" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="24">
+<path d="M7 10l-4 4 4 4M3 14h11M17 6l4 4-4 4M21 10H10"></path>
+</svg>
+</button>
+</div>
+<div class="input-group">
+<label data-i18n="label_2">به واحد:</label>
+<select class="unit-select" id="toUnit">
+<!-- واحدها با جاوااسکریپت پر می‌شوند -->
+</select>
+</div>
+<div class="input-group">
+<label data-i18n="label_3">نتیجه:</label>
+<input class="value-input result-input" id="outputValue" placeholder="نتیجه" readonly="" type="text"/>
+</div>
+<div class="action-buttons">
+<button class="btn btn-primary" data-i18n="button_5" id="convertBtn">تبدیل</button>
+<button class="btn btn-secondary" data-i18n="button_6" id="saveBtn">ذخیره در علاقه‌مندی‌ها</button>
+</div>
+</div>
+</div>
+<!-- بخش علاقه‌مندی‌ها -->
+<div class="favorites-section">
+<div class="section-header">
+<h2 data-i18n="heading_1">علاقه‌مندی‌ها</h2>
+<button class="btn-text" data-i18n="button_7" id="clearAllBtn">پاک کردن همه</button>
+</div>
+<div class="favorites-list" id="favoritesList">
+<p class="empty-message" data-i18n="text_empty_message_1">هیچ موردی در علاقه‌مندی‌ها وجود ندارد</p>
+</div>
+</div>
+</div>
+<footer>
+<p>جعبه ابزار</p>
+</footer>
+<script src="assets/script.js"></script>
+<script src="../assets/tool-wrapper.js"></script>
 </body>
 </html>

@@ -1,68 +1,64 @@
-﻿<!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<!DOCTYPE html>
+
+<html dir="rtl" lang="fa">
 <head>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>پیگیری زمان</title>
-  <link rel="stylesheet" href="../Vazirmatn-font-face.css">
-  <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="../assets/tool-wrapper.css">
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-i18n="title">پیگیری زمان</title>
+<link href="../Vazirmatn-font-face.css" rel="stylesheet"/>
+<link href="assets/css/styles.css" rel="stylesheet"/>
+<link href="../assets/tool-wrapper.css" rel="stylesheet"/>
 </head>
 <body>
-  <main class="app-shell">
-    <header class="app-header">
-      <div>
-        <p class="eyebrow">پیگیری عمیق روزانه</p>
-        <h1>مدیریت زمان با یک نگاه</h1>
-      </div>
-    </header>
-
-    <section class="panel new-task-panel">
-      <form id="task-form" class="task-form">
-        <div class="form-row">
-          <label for="task-title">عنوان کار</label>
-          <input type="text" id="task-title" name="title" placeholder="مثلاً برگزاری جلسه" required>
-        </div>
-        <div class="form-row">
-          <label for="task-category">دسته‌بندی</label>
-          <input type="text" id="task-category" name="category" placeholder="طراحی، توسعه، تحلیل">
-        </div>
-        <div class="form-actions">
-          <button type="submit" class="primary">ثبت سریع و شروع</button>
-        </div>
-      </form>
-    </section>
-
-    <section class="panel tracker-panel">
-      <header>
-        <div>
-          <h2>لیست کارها</h2>
-          <p class="helper">برای هر مورد زمان شروع، توقف، ویرایش یا حذف را انجام دهید.</p>
-        </div>
-        <span class="badge" aria-live="polite">رویدادهای جاری</span>
-      </header>
-      <div id="task-list" class="task-list" aria-live="polite">
-        <p class="empty-state">فعلاً کاری ثبت نشده است.</p>
-      </div>
-    </section>
-
-    <section class="panel report-panel">
-      <header>
-        <div>
-          <h2>گزارش روزانه</h2>
-          <p class="helper">خلاصه زمان‌های صرف‌شده برای هر روز ثبت‌شده.</p>
-        </div>
-      </header>
-      <div id="report-list" class="report-list">
-        <p class="empty-state">هیچ گزارشی در دسترس نیست.</p>
-      </div>
-    </section>
-  </main>
-
-  <script src="assets/js/app.js" defer></script>
-    <script src="../assets/tool-wrapper.js"></script>
+<main class="app-shell">
+<header class="app-header">
+<div>
+<p class="eyebrow" data-i18n="text_eyebrow_0">پیگیری عمیق روزانه</p>
+<h1 data-i18n="heading_0">مدیریت زمان با یک نگاه</h1>
+</div>
+</header>
+<section class="panel new-task-panel">
+<form class="task-form" id="task-form">
+<div class="form-row">
+<label data-i18n="label_0" for="task-title">عنوان کار</label>
+<input id="task-title" name="title" placeholder="مثلاً برگزاری جلسه" required="" type="text"/>
+</div>
+<div class="form-row">
+<label data-i18n="label_1" for="task-category">دسته‌بندی</label>
+<input id="task-category" name="category" placeholder="طراحی، توسعه، تحلیل" type="text"/>
+</div>
+<div class="form-actions">
+<button class="primary" data-i18n="button_0" type="submit">ثبت سریع و شروع</button>
+</div>
+</form>
+</section>
+<section class="panel tracker-panel">
+<header>
+<div>
+<h2 data-i18n="heading_1">لیست کارها</h2>
+<p class="helper" data-i18n="text_helper_1">برای هر مورد زمان شروع، توقف، ویرایش یا حذف را انجام دهید.</p>
+</div>
+<span aria-live="polite" class="badge" data-i18n="text_badge_2">رویدادهای جاری</span>
+</header>
+<div aria-live="polite" class="task-list" id="task-list">
+<p class="empty-state" data-i18n="text_empty_state_3">فعلاً کاری ثبت نشده است.</p>
+</div>
+</section>
+<section class="panel report-panel">
+<header>
+<div>
+<h2 data-i18n="heading_2">گزارش روزانه</h2>
+<p class="helper" data-i18n="text_helper_4">خلاصه زمان‌های صرف‌شده برای هر روز ثبت‌شده.</p>
+</div>
+</header>
+<div class="report-list" id="report-list">
+<p class="empty-state" data-i18n="text_empty_state_5">هیچ گزارشی در دسترس نیست.</p>
+</div>
+</section>
+</main>
+<script defer="" src="assets/js/app.js"></script>
+<script src="../assets/tool-wrapper.js"></script>
 </body>
 </html>
-

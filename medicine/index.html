@@ -1,77 +1,73 @@
-﻿<!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<!DOCTYPE html>
+
+<html dir="rtl" lang="fa">
 <head>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>مدیریت دارو</title>
-  <link rel="stylesheet" href="../Vazirmatn-font-face.css">
-  <link rel="stylesheet" href="assets/styles.css">
-    <link rel="stylesheet" href="../assets/tool-wrapper.css">
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title data-i18n="title">مدیریت دارو</title>
+<link href="../Vazirmatn-font-face.css" rel="stylesheet"/>
+<link href="assets/styles.css" rel="stylesheet"/>
+<link href="../assets/tool-wrapper.css" rel="stylesheet"/>
 </head>
 <body>
-  <div class="app-shell">
-    <header class="hero-card">
-      <div>
-        <p class="eyebrow">برنامه روزانه</p>
-        <h1>در زمان مناسب، داروی مناسب</h1>
-      </div>
-      <p class="hero-note">یادآوری‌ها، وضعیت دارو و گزارش مصرف در یک نگاه.</p>
-    </header>
-
-    <section class="grid two-col" aria-label="آمار مصرف">
-      <article class="summary-card">
-        <p class="label">کل داروهای ثبت‌شده</p>
-        <strong id="total-count">۰</strong>
-        <p class="subtext">برای مشاهده، اضافه کنید یا وضعیت را به‌روزرسانی نمایید.</p>
-      </article>
-      <article class="summary-card">
-        <p class="label">یادآورهای نزدیک</p>
-        <strong id="upcoming-count">۰</strong>
-        <p class="subtext">داروهایی که در ۳۰ دقیقه آینده موعد دارند.</p>
-      </article>
-    </section>
-
-    <section class="form-card" aria-label="ثبت دارو">
-      <h2>افزودن یادآور جدید</h2>
-      <form id="medicine-form">
-        <div class="form-row">
-          <label for="medicine-name">نام دارو</label>
-          <input id="medicine-name" name="name" type="text" required placeholder="مثلاً: متفورمین">
-        </div>
-        <div class="form-row">
-          <label for="medicine-dose">دوز / مقدار</label>
-          <input id="medicine-dose" name="dose" type="text" required placeholder="۱ قرص صبحانه">
-        </div>
-        <div class="form-row">
-          <label for="medicine-time">ساعت مصرف</label>
-          <input id="medicine-time" name="time" type="time" required>
-        </div>
-        <div class="form-row">
-          <label for="medicine-note">یادداشت</label>
-          <input id="medicine-note" name="note" type="text" placeholder="مثلاً: همراه غذا">
-        </div>
-        <button type="submit" class="primary-btn">ثبت یادآور</button>
-      </form>
-    </section>
-
-    <section class="list-card" aria-label="لیست داروها">
-      <header>
-        <h2>وضعیت داروها</h2>
-        <p id="list-empty">فعلاً هیچ یادآوری ثبت نشده است.</p>
-      </header>
-      <ul id="medicine-list"></ul>
-    </section>
-
-    <section class="alerts-card" aria-label="هشدار نزدیک">
-      <h2>هشدار ضروری</h2>
-      <p class="alerts-note">اگر مصرف دارویی در بازه زمان مشخص نشده، وضعیت آن را سریع ثبت کنید.</p>
-      <ul id="alert-list"></ul>
-    </section>
-  </div>
-  <script src="assets/scripts.js"></script>
-    <script src="../assets/tool-wrapper.js"></script>
+<div class="app-shell">
+<header class="hero-card">
+<div>
+<p class="eyebrow" data-i18n="text_eyebrow_0">برنامه روزانه</p>
+<h1 data-i18n="heading_0">در زمان مناسب، داروی مناسب</h1>
+</div>
+<p class="hero-note" data-i18n="text_hero_note_1">یادآوری‌ها، وضعیت دارو و گزارش مصرف در یک نگاه.</p>
+</header>
+<section aria-label="آمار مصرف" class="grid two-col">
+<article class="summary-card">
+<p class="label" data-i18n="text_label_2">کل داروهای ثبت‌شده</p>
+<strong id="total-count">۰</strong>
+<p class="subtext" data-i18n="text_subtext_3">برای مشاهده، اضافه کنید یا وضعیت را به‌روزرسانی نمایید.</p>
+</article>
+<article class="summary-card">
+<p class="label" data-i18n="text_label_4">یادآورهای نزدیک</p>
+<strong id="upcoming-count">۰</strong>
+<p class="subtext" data-i18n="text_subtext_5">داروهایی که در ۳۰ دقیقه آینده موعد دارند.</p>
+</article>
+</section>
+<section aria-label="ثبت دارو" class="form-card">
+<h2 data-i18n="heading_1">افزودن یادآور جدید</h2>
+<form id="medicine-form">
+<div class="form-row">
+<label data-i18n="label_0" for="medicine-name">نام دارو</label>
+<input id="medicine-name" name="name" placeholder="مثلاً: متفورمین" required="" type="text"/>
+</div>
+<div class="form-row">
+<label data-i18n="label_1" for="medicine-dose">دوز / مقدار</label>
+<input id="medicine-dose" name="dose" placeholder="۱ قرص صبحانه" required="" type="text"/>
+</div>
+<div class="form-row">
+<label data-i18n="label_2" for="medicine-time">ساعت مصرف</label>
+<input id="medicine-time" name="time" required="" type="time"/>
+</div>
+<div class="form-row">
+<label data-i18n="label_3" for="medicine-note">یادداشت</label>
+<input id="medicine-note" name="note" placeholder="مثلاً: همراه غذا" type="text"/>
+</div>
+<button class="primary-btn" data-i18n="button_0" type="submit">ثبت یادآور</button>
+</form>
+</section>
+<section aria-label="لیست داروها" class="list-card">
+<header>
+<h2 data-i18n="heading_2">وضعیت داروها</h2>
+<p id="list-empty">فعلاً هیچ یادآوری ثبت نشده است.</p>
+</header>
+<ul id="medicine-list"></ul>
+</section>
+<section aria-label="هشدار نزدیک" class="alerts-card">
+<h2 data-i18n="heading_3">هشدار ضروری</h2>
+<p class="alerts-note" data-i18n="text_alerts_note_6">اگر مصرف دارویی در بازه زمان مشخص نشده، وضعیت آن را سریع ثبت کنید.</p>
+<ul id="alert-list"></ul>
+</section>
+</div>
+<script src="assets/scripts.js"></script>
+<script src="../assets/tool-wrapper.js"></script>
 </body>
 </html>
-

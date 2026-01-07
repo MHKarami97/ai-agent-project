@@ -1,109 +1,103 @@
-﻿<!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<!DOCTYPE html>
+
+<html dir="rtl" lang="fa">
 <head>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ابزار شمارش و تحلیل متن</title>
-    <link rel="stylesheet" href="../Vazirmatn-font-face.css">
-    <link rel="stylesheet" href="assets/style.css">
-    <link rel="stylesheet" href="../assets/tool-wrapper.css">
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-i18n="title">ابزار شمارش و تحلیل متن</title>
+<link href="../Vazirmatn-font-face.css" rel="stylesheet"/>
+<link href="assets/style.css" rel="stylesheet"/>
+<link href="../assets/tool-wrapper.css" rel="stylesheet"/>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>ابزار شمارش و تحلیل متن</h1>
-            <p class="subtitle">متن خود را وارد کنید و آمار کامل آن را مشاهده کنید</p>
-        </header>
-
-        <main>
-            <div class="input-section">
-                <textarea id="textInput" placeholder="متن خود را اینجا وارد کنید..."></textarea>
-                <div class="action-buttons">
-                    <button id="clearBtn" class="btn btn-secondary">پاک کردن</button>
-                    <button id="saveBtn" class="btn btn-primary">ذخیره متن</button>
-                </div>
-            </div>
-
-            <div class="stats-section">
-                <h2>آمار متن</h2>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon">📝</div>
-                        <div class="stat-content">
-                            <div class="stat-value" id="charCount">0</div>
-                            <div class="stat-label">تعداد کاراکتر</div>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">📄</div>
-                        <div class="stat-content">
-                            <div class="stat-value" id="charCountNoSpace">0</div>
-                            <div class="stat-label">کاراکتر بدون فاصله</div>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">🔤</div>
-                        <div class="stat-content">
-                            <div class="stat-value" id="wordCount">0</div>
-                            <div class="stat-label">تعداد کلمات</div>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">📋</div>
-                        <div class="stat-content">
-                            <div class="stat-value" id="sentenceCount">0</div>
-                            <div class="stat-label">تعداد جملات</div>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">📖</div>
-                        <div class="stat-content">
-                            <div class="stat-value" id="paragraphCount">0</div>
-                            <div class="stat-label">تعداد پاراگراف</div>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">⏱️</div>
-                        <div class="stat-content">
-                            <div class="stat-value" id="readTime">0</div>
-                            <div class="stat-label">زمان مطالعه (دقیقه)</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="analysis-section">
-                <h2>تحلیل تکرار کلمات</h2>
-                <div class="analysis-controls">
-                    <label for="minOccurrence">حداقل تکرار:</label>
-                    <input type="number" id="minOccurrence" value="2" min="1" max="100">
-                    <button id="analyzeBtn" class="btn btn-primary">تحلیل</button>
-                </div>
-                <div id="wordFrequency" class="word-frequency">
-                    <p class="empty-message">متن خود را وارد کنید و دکمه تحلیل را بزنید</p>
-                </div>
-            </div>
-
-            <div class="history-section">
-                <div class="history-header">
-                    <h2>متن‌های ذخیره شده</h2>
-                    <button id="clearHistoryBtn" class="btn btn-secondary btn-small">پاک کردن همه</button>
-                </div>
-                <div id="historyList" class="history-list">
-                    <p class="empty-message">هنوز متنی ذخیره نشده است</p>
-                </div>
-            </div>
-        </main>
-
-        <footer>
-            <p>جعبه ابزار</p>
-        </footer>
-    </div>
-
-    <script src="assets/script.js"></script>
-    <script src="../assets/tool-wrapper.js"></script>
+<div class="container">
+<header>
+<h1 data-i18n="heading_0">ابزار شمارش و تحلیل متن</h1>
+<p class="subtitle" data-i18n="text_subtitle_0">متن خود را وارد کنید و آمار کامل آن را مشاهده کنید</p>
+</header>
+<main>
+<div class="input-section">
+<textarea id="textInput" placeholder="متن خود را اینجا وارد کنید..."></textarea>
+<div class="action-buttons">
+<button class="btn btn-secondary" data-i18n="button_0" id="clearBtn">پاک کردن</button>
+<button class="btn btn-primary" data-i18n="button_1" id="saveBtn">ذخیره متن</button>
+</div>
+</div>
+<div class="stats-section">
+<h2 data-i18n="heading_1">آمار متن</h2>
+<div class="stats-grid">
+<div class="stat-card">
+<div class="stat-icon">📝</div>
+<div class="stat-content">
+<div class="stat-value" id="charCount">0</div>
+<div class="stat-label">تعداد کاراکتر</div>
+</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon">📄</div>
+<div class="stat-content">
+<div class="stat-value" id="charCountNoSpace">0</div>
+<div class="stat-label">کاراکتر بدون فاصله</div>
+</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon">🔤</div>
+<div class="stat-content">
+<div class="stat-value" id="wordCount">0</div>
+<div class="stat-label">تعداد کلمات</div>
+</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon">📋</div>
+<div class="stat-content">
+<div class="stat-value" id="sentenceCount">0</div>
+<div class="stat-label">تعداد جملات</div>
+</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon">📖</div>
+<div class="stat-content">
+<div class="stat-value" id="paragraphCount">0</div>
+<div class="stat-label">تعداد پاراگراف</div>
+</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon">⏱️</div>
+<div class="stat-content">
+<div class="stat-value" id="readTime">0</div>
+<div class="stat-label">زمان مطالعه (دقیقه)</div>
+</div>
+</div>
+</div>
+</div>
+<div class="analysis-section">
+<h2 data-i18n="heading_2">تحلیل تکرار کلمات</h2>
+<div class="analysis-controls">
+<label data-i18n="label_0" for="minOccurrence">حداقل تکرار:</label>
+<input id="minOccurrence" max="100" min="1" type="number" value="2"/>
+<button class="btn btn-primary" data-i18n="button_2" id="analyzeBtn">تحلیل</button>
+</div>
+<div class="word-frequency" id="wordFrequency">
+<p class="empty-message" data-i18n="text_empty_message_1">متن خود را وارد کنید و دکمه تحلیل را بزنید</p>
+</div>
+</div>
+<div class="history-section">
+<div class="history-header">
+<h2 data-i18n="heading_3">متن‌های ذخیره شده</h2>
+<button class="btn btn-secondary btn-small" data-i18n="button_3" id="clearHistoryBtn">پاک کردن همه</button>
+</div>
+<div class="history-list" id="historyList">
+<p class="empty-message" data-i18n="text_empty_message_2">هنوز متنی ذخیره نشده است</p>
+</div>
+</div>
+</main>
+<footer>
+<p>جعبه ابزار</p>
+</footer>
+</div>
+<script src="assets/script.js"></script>
+<script src="../assets/tool-wrapper.js"></script>
 </body>
 </html>
-

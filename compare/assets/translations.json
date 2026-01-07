@@ -1,0 +1,38 @@
+{
+  "fa": {
+    "title": "مقایسه‌گر متن",
+    "heading_0": "مقایسه‌گر متن",
+    "heading_1": "متن اصلی",
+    "heading_2": "متن جدید",
+    "heading_3": "نتیجه مقایسه",
+    "heading_4": "متن اصلی",
+    "heading_5": "متن جدید",
+    "button_0": "پاک کردن",
+    "button_1": "جابه‌جایی",
+    "button_2": "مقایسه",
+    "text_subtitle_0": "تغییرات بین دو متن را به صورت زنده مشاهده کنید",
+    "text_line_count_1": "0 خط",
+    "text_line_count_2": "0 خط",
+    "text_legend_item_3": "افزوده شده",
+    "text_legend_item_5": "حذف شده",
+    "text_legend_item_7": "تغییر یافته"
+  },
+  "en": {
+    "title": "Text Comparator",
+    "heading_0": "Text Comparator",
+    "heading_1": "Original Text",
+    "heading_2": "New Text",
+    "heading_3": "نتیجه مقایسه",
+    "heading_4": "Original Text",
+    "heading_5": "New Text",
+    "button_0": "پاک کردن",
+    "button_1": "جابه‌جایی",
+    "button_2": "مقایسه",
+    "text_subtitle_0": "تغییرات بین دو متن را به صورت زنده مشاهده کنید",
+    "text_line_count_1": "0 lines",
+    "text_line_count_2": "0 lines",
+    "text_legend_item_3": "Added",
+    "text_legend_item_5": "حذف شده",
+    "text_legend_item_7": "تغییر یافته"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "fa": {
+    "title": "ویرایشگر مارک‌داون RTL",
+    "heading_0": "ویرایشگر (Markdown)",
+    "heading_1": "پیش‌نمایش زنده",
+    "button_0": "حالت تیره",
+    "button_1": "سند تازه",
+    "button_2": "نمونهٔ مارک‌داون",
+    "button_3": "ذخیره فوری",
+    "button_4": "خروجی PDF",
+    "button_5": "خروجی Word",
+    "text_title_0": "ویرایشگر مارک‌داون",
+    "text_subtitle_1": "پیش‌نمایش زنده + ذخیره خودکار + خروجی PDF/Word",
+    "text_hint_2": "از کلیدهای Ctrl/Cmd+S برای ذخیره دستی استفاده کنید.",
+    "text_hint_3": "خروجی تمیز و امن با DOMPurify"
+  },
+  "en": {
+    "title": "ویرایشگر مارک‌داون RTL",
+    "heading_0": "ویرایشگر (Markdown)",
+    "heading_1": "پیش‌نمایش زنده",
+    "button_0": "حالت تیره",
+    "button_1": "سند تازه",
+    "button_2": "نمونهٔ مارک‌داون",
+    "button_3": "ذخیره فوری",
+    "button_4": "خروجی PDF",
+    "button_5": "خروجی Word",
+    "text_title_0": "ویرایشگر مارک‌داون",
+    "text_subtitle_1": "پیش‌نمایش زنده + ذخیره خودکار + خروجی PDF/Word",
+    "text_hint_2": "Use Ctrl/Cmd+S keys for manual save.",
+    "text_hint_3": "خروجی تمیز و امن با DOMPurify"
+  }
+}

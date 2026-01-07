@@ -1,74 +1,69 @@
-﻿<!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<!DOCTYPE html>
+
+<html dir="rtl" lang="fa">
 <head>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ژنراتور پالت رنگ هماهنگ</title>
-    <link rel="stylesheet" href="../Vazirmatn-font-face.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="../assets/tool-wrapper.css">
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title data-i18n="title">ژنراتور پالت رنگ هماهنگ</title>
+<link href="../Vazirmatn-font-face.css" rel="stylesheet"/>
+<link href="assets/css/styles.css" rel="stylesheet"/>
+<link href="../assets/tool-wrapper.css" rel="stylesheet"/>
 </head>
 <body>
-    <div class="page-shell">
-        <header class="hero">
-            <div>
-                <p class="eyebrow">خلق پالت برای وب‌سایت‌های شما</p>
-                <h1>ژنراتور رنگ و پالت</h1>
-                <div class="hero-actions">
-                    <button type="button" id="randomizeBtn">تولید فوری</button>
-                    <button type="button" id="copyCssBtn">کپی CSS پالت</button>
-                </div>
-            </div>
-            <div class="hero-badge">
-                <p>بدون سرور، فقط مرورگر</p>
-            </div>
-        </header>
-
-        <main>
-            <section class="controls">
-                <h2>تنظیمات پالت</h2>
-                <div class="control-row">
-                    <label for="colorPicker">رنگ پایه</label>
-                    <div class="color-input">
-                        <input type="color" id="colorPicker" value="#1F7A8C">
-                        <span id="colorCode">#1F7A8C</span>
-                    </div>
-                </div>
-                <div class="control-row">
-                    <label for="countRange">تعداد رنگ‌ها (<span id="countIndicator">5</span>)</label>
-                    <input type="range" id="countRange" min="3" max="6" value="5">
-                </div>
-                <div class="control-row">
-                    <label for="paletteName">نام پالت (اختیاری)</label>
-                    <div class="input-with-button">
-                        <input type="text" id="paletteName" placeholder="مثلاً پالت شب‌مهتاب" maxlength="30">
-                        <button type="button" id="savePaletteBtn">ذخیره</button>
-                    </div>
-                </div>
-                <p class="control-hint">هر پالت با مرورگر شما ذخیره می‌شود و می‌توانید بارها بازیابی‌اش کنید.</p>
-            </section>
-
-            <section class="palette" aria-live="polite">
-                <h2>پالت فعلی</h2>
-                <div class="palette-grid" id="paletteDisplay"></div>
-            </section>
-
-            <section class="saved-palettes">
-                <div class="section-header">
-                    <h2>پالت‌های ذخیره‌شده</h2>
-                    <p>برای بارگذاری، یکی را انتخاب کنید.</p>
-                </div>
-                <div id="savedPalettes" class="saved-grid"></div>
-            </section>
-        </main>
-    </div>
-
-    <div id="toast" class="toast" role="status" aria-live="assertive"></div>
-
-    <script src="assets/js/app.js" defer></script>
-    <script src="../assets/tool-wrapper.js"></script>
+<div class="page-shell">
+<header class="hero">
+<div>
+<p class="eyebrow" data-i18n="text_eyebrow_0">خلق پالت برای وب‌سایت‌های شما</p>
+<h1 data-i18n="heading_0">ژنراتور رنگ و پالت</h1>
+<div class="hero-actions">
+<button data-i18n="button_0" id="randomizeBtn" type="button">تولید فوری</button>
+<button data-i18n="button_1" id="copyCssBtn" type="button">کپی CSS پالت</button>
+</div>
+</div>
+<div class="hero-badge">
+<p>بدون سرور، فقط مرورگر</p>
+</div>
+</header>
+<main>
+<section class="controls">
+<h2 data-i18n="heading_1">تنظیمات پالت</h2>
+<div class="control-row">
+<label data-i18n="label_0" for="colorPicker">رنگ پایه</label>
+<div class="color-input">
+<input id="colorPicker" type="color" value="#1F7A8C"/>
+<span id="colorCode">#1F7A8C</span>
+</div>
+</div>
+<div class="control-row">
+<label data-i18n="label_1" for="countRange">تعداد رنگ‌ها (<span id="countIndicator">5</span>)</label>
+<input id="countRange" max="6" min="3" type="range" value="5"/>
+</div>
+<div class="control-row">
+<label data-i18n="label_2" for="paletteName">نام پالت (اختیاری)</label>
+<div class="input-with-button">
+<input id="paletteName" maxlength="30" placeholder="مثلاً پالت شب‌مهتاب" type="text"/>
+<button data-i18n="button_2" id="savePaletteBtn" type="button">ذخیره</button>
+</div>
+</div>
+<p class="control-hint" data-i18n="text_control_hint_1">هر پالت با مرورگر شما ذخیره می‌شود و می‌توانید بارها بازیابی‌اش کنید.</p>
+</section>
+<section aria-live="polite" class="palette">
+<h2 data-i18n="heading_2">پالت فعلی</h2>
+<div class="palette-grid" id="paletteDisplay"></div>
+</section>
+<section class="saved-palettes">
+<div class="section-header">
+<h2 data-i18n="heading_3">پالت‌های ذخیره‌شده</h2>
+<p>برای بارگذاری، یکی را انتخاب کنید.</p>
+</div>
+<div class="saved-grid" id="savedPalettes"></div>
+</section>
+</main>
+</div>
+<div aria-live="assertive" class="toast" id="toast" role="status"></div>
+<script defer="" src="assets/js/app.js"></script>
+<script src="../assets/tool-wrapper.js"></script>
 </body>
 </html>
-

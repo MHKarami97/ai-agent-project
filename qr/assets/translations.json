@@ -1,0 +1,42 @@
+{
+  "fa": {
+    "title": "ساختن و خواندن QR",
+    "heading_0": "سازنده و خواننده QR",
+    "heading_1": "ساخت کد QR",
+    "heading_2": "خواندن کد QR",
+    "heading_3": "خروجی",
+    "button_0": "ساخت QR",
+    "button_1": "دانلود PNG",
+    "button_2": "کپی متن",
+    "button_3": "شروع اسکن دوربین",
+    "button_4": "توقف",
+    "button_5": "باز کردن لینک",
+    "button_6": "کپی متن",
+    "label_0": "متن یا لینک",
+    "label_1": "رنگ QR",
+    "label_2": "رنگ پس‌زمینه",
+    "label_3": "اندازه (پیکسل)200240320400",
+    "label_4": "آپلود تصویر QR",
+    "text_hero__eyebrow_0": "ساده، سریع، بدون بک‌اند"
+  },
+  "en": {
+    "title": "ساختن و خواندن QR",
+    "heading_0": "سازنده و خواننده QR",
+    "heading_1": "ساخت کد QR",
+    "heading_2": "خواندن کد QR",
+    "heading_3": "خروجی",
+    "button_0": "ساخت QR",
+    "button_1": "دانلود PNG",
+    "button_2": "کپی متن",
+    "button_3": "شروع اسکن دوربین",
+    "button_4": "توقف",
+    "button_5": "Open Link",
+    "button_6": "کپی متن",
+    "label_0": "متن یا لینک",
+    "label_1": "رنگ QR",
+    "label_2": "رنگ پس‌زمینه",
+    "label_3": "Size (pixels)200240320400",
+    "label_4": "Upload QR Image",
+    "text_hero__eyebrow_0": "ساده، سریع، بدون بک‌اند"
+  }
+}
