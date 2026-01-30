@@ -15,7 +15,7 @@ html, body, #root {
 }
 
 body {
-    font-family: "Vazirmtn", system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    font-family: "Vazirmatn", system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     color: var(--text);
     margin: 0;
@@ -23,7 +23,7 @@ body {
 }
 
 input, button {
-    font-family: "Vazirmtn", system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    font-family: "Vazirmatn", system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
 
 .container {

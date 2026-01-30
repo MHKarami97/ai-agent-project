@@ -1,5 +1,5 @@
 ﻿:root {
-  font-family: 'Vazirmtn', 'Segoe UI', Tahoma, sans-serif;
+  font-family: Vazirmatn, 'Segoe UI', Tahoma, sans-serif;
   color: #131313;
   background-color: #f4f4f4;
 }
@@ -75,7 +75,7 @@ label {
 input,
 textarea,
 button {
-  font-family: 'Vazirmtn', 'Segoe UI', Tahoma, sans-serif;
+  font-family: Vazirmatn, 'Segoe UI', Tahoma, sans-serif;
 }
 
 input,

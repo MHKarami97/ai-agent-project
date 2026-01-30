@@ -1,5 +1,5 @@
 ﻿:root {
-    font-family: 'Vazirmtn', 'Tahoma', sans-serif;
+    font-family: Vazirmatn, 'Tahoma', sans-serif;
     color-scheme: light;
     background-color: #ffffff;
     color: #1a202c;
@@ -21,7 +21,7 @@ body {
     min-height: 100vh;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     direction: rtl;
-    font-family: 'Vazirmtn', 'Tahoma', sans-serif;
+    font-family: Vazirmatn, 'Tahoma', sans-serif;
 }
 
 .page-shell {

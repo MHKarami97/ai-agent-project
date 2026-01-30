@@ -2,7 +2,7 @@
   color-scheme: light;
   background-color: #333333;
   color: #333333;
-  font-family: 'Vazirmtn', system-ui, sans-serif;
+  font-family: Vazirmatn, system-ui, sans-serif;
 }
 
 * {
@@ -16,7 +16,7 @@ body {
   display: flex;
   justify-content: center;
   padding: 2rem 0;
-  font-family: 'Vazirmtn', system-ui, sans-serif;
+  font-family: Vazirmatn, system-ui, sans-serif;
 }
 
 .app-shell {
