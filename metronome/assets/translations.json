@@ -33,10 +33,10 @@
     "text_play_text_1": "شروع"
   },
   "en": {
-    "title": "مترونوم و تمرین موسیقی",
-    "heading_0": "🎵 مترونوم و تمرین موسیقی",
-    "heading_1": "⏱️ تایمر تمرین",
-    "heading_2": "📊 تاریخچه تمرین",
+    "title": "Metronome and Music Practice",
+    "heading_0": "🎵 Metronome and Music Practice",
+    "heading_1": "⏱️ Practice Timer",
+    "heading_2": "📊 Practice History",
     "button_0": "-",
     "button_1": "+",
     "button_2": "60",
@@ -50,19 +50,19 @@
     "button_10": "4/4",
     "button_11": "5/4",
     "button_12": "6/8",
-    "button_13": "▶شروع",
+    "button_13": "▶ Start",
     "button_14": "5 minutes",
     "button_15": "10 minutes",
     "button_16": "15 minutes",
     "button_17": "20 minutes",
     "button_18": "30 minutes",
-    "button_19": "تنظیم",
-    "button_20": "شروع تایمر",
-    "button_21": "توقف",
+    "button_19": "Set",
+    "button_20": "Start Timer",
+    "button_21": "Stop",
     "button_22": "Reset",
-    "button_23": "پاک کردن تاریخچه",
-    "label_0": "تعداد ضربات در هر میزان:",
-    "label_1": "تأکید روی ضربه اول",
-    "text_play_text_1": "شروع"
+    "button_23": "Clear History",
+    "label_0": "Beats per measure:",
+    "label_1": "Accent first beat",
+    "text_play_text_1": "Start"
   }
 }

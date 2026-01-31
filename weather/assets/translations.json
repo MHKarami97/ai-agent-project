@@ -9,12 +9,12 @@
     "text_detail_value_4": "-- km/h"
   },
   "en": {
-    "title": "وضعیت آب و هوا",
+    "title": "Weather Status",
     "heading_0": "--",
-    "heading_1": "نام شهر",
-    "button_0": "جستجو",
-    "text_detail_label_1": "رطوبت",
-    "text_detail_label_3": "سرعت باد",
+    "heading_1": "City Name",
+    "button_0": "Search",
+    "text_detail_label_1": "Humidity",
+    "text_detail_label_3": "Wind Speed",
     "text_detail_value_4": "-- km/h"
   }
 }

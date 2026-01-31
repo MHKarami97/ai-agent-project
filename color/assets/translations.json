@@ -15,18 +15,18 @@
     "text_control_hint_1": "هر پالت با مرورگر شما ذخیره می‌شود و می‌توانید بارها بازیابی‌اش کنید."
   },
   "en": {
-    "title": "ژنراتور پالت رنگ هماهنگ",
-    "heading_0": "ژنراتور رنگ و پالت",
-    "heading_1": "تنظیمات پالت",
-    "heading_2": "پالت فعلی",
-    "heading_3": "پالت‌های ذخیره‌شده",
-    "button_0": "تولید فوری",
-    "button_1": "کپی CSS پالت",
-    "button_2": "ذخیره",
-    "label_0": "رنگ پایه",
-    "label_1": "تعداد رنگ‌ها (5)",
-    "label_2": "نام پالت (اختیاری)",
-    "text_eyebrow_0": "خلق پالت برای وب‌سایت‌های شما",
-    "text_control_hint_1": "هر پالت با مرورگر شما ذخیره می‌شود و می‌توانید بارها بازیابی‌اش کنید."
+    "title": "Harmonious Color Palette Generator",
+    "heading_0": "Color and Palette Generator",
+    "heading_1": "Palette Settings",
+    "heading_2": "Current Palette",
+    "heading_3": "Saved Palettes",
+    "button_0": "Quick Generate",
+    "button_1": "Copy Palette CSS",
+    "button_2": "Save",
+    "label_0": "Base Color",
+    "label_1": "Number of Colors (5)",
+    "label_2": "Palette Name (optional)",
+    "text_eyebrow_0": "Create palettes for your websites",
+    "text_control_hint_1": "Each palette is saved with your browser and you can retrieve it multiple times."
   }
 }

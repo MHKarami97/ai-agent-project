@@ -17,20 +17,20 @@
     "text_label_10": "تست HTTPS:"
   },
   "en": {
-    "title": "بررسی فیلترینگ سایت",
-    "heading_0": "🔍 بررسی فیلترینگ و دسترسی سایت",
-    "heading_2": "جزئیات بیشتر",
-    "heading_3": "سایت‌های ذخیره شده",
-    "heading_4": "تاریخچه آزمایش‌ها",
-    "button_0": "بررسی",
+    "title": "Website Filtering Check",
+    "heading_0": "🔍 Website Filtering and Accessibility Check",
+    "heading_2": "More Details",
+    "heading_3": "Saved Websites",
+    "heading_4": "Test History",
+    "button_0": "Check",
     "button_1": "Add to Saved List",
-    "button_2": "پاک کردن همه",
-    "button_3": "پاک کردن تاریخچه",
-    "text_subtitle_0": "تست DNS و تشخیص نوع مسدودسازی سایت‌ها",
-    "text_label_2": "وضعیت دسترسی:",
-    "text_label_4": "نوع مسدودسازی:",
-    "text_label_6": "تست DNS:",
-    "text_label_8": "تست HTTP:",
-    "text_label_10": "تست HTTPS:"
+    "button_2": "Clear All",
+    "button_3": "Clear History",
+    "text_subtitle_0": "DNS test and website blocking type detection",
+    "text_label_2": "Access Status:",
+    "text_label_4": "Blocking Type:",
+    "text_label_6": "DNS Test:",
+    "text_label_8": "HTTP Test:",
+    "text_label_10": "HTTPS Test:"
   }
 }

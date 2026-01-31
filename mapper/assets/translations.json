@@ -20,19 +20,19 @@
   "en": {
     "title": "Unit Conversion",
     "heading_0": "Unit Conversion",
-    "heading_1": "علاقه‌مندی‌ها",
-    "button_0": "طول",
-    "button_1": "وزن",
-    "button_2": "دما",
-    "button_3": "سرعت",
-    "button_5": "تبدیل",
-    "button_6": "ذخیره در علاقه‌مندی‌ها",
-    "button_7": "پاک کردن همه",
+    "heading_1": "Favorites",
+    "button_0": "Length",
+    "button_1": "Weight",
+    "button_2": "Temperature",
+    "button_3": "Speed",
+    "button_5": "Convert",
+    "button_6": "Save to Favorites",
+    "button_7": "Clear All",
     "label_0": "From unit:",
     "label_1": "Value:",
-    "label_2": "به واحد:",
-    "label_3": "نتیجه:",
-    "text_subtitle_0": "تبدیل سریع و آسان واحدها",
-    "text_empty_message_1": "هیچ موردی در علاقه‌مندی‌ها وجود ندارد"
+    "label_2": "To unit:",
+    "label_3": "Result:",
+    "text_subtitle_0": "Quick and easy unit conversion",
+    "text_empty_message_1": "No items in favorites"
   }
 }

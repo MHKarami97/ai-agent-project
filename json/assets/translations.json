@@ -18,21 +18,21 @@
     "text_panel__eyebrow_5": "درخت JSON"
   },
   "en": {
-    "title": "فرمت Json",
-    "heading_0": "فرمت‌دهی، اعتبارسنجی و نمایش درختی JSON در مرورگر",
-    "heading_1": "متن یا فایل JSON خود را وارد کنید",
-    "heading_2": "ساختار را از نزدیک ببینید",
-    "button_0": "فرمت کردن",
-    "button_1": "Validation",
-    "button_2": "پاک کردن",
-    "button_3": "آبجکت\n              ساده",
+    "title": "Json Formatter",
+    "heading_0": "Format, validate, and display JSON tree view in browser",
+    "heading_1": "Enter your JSON text or file",
+    "heading_2": "View structure up close",
+    "button_0": "Format",
+    "button_1": "Validate",
+    "button_2": "Clear",
+    "button_3": "Simple Object",
     "button_4": "Array",
-    "button_5": "چند\n              لایه",
-    "button_6": "نمایش/پنهان ساختار",
+    "button_5": "Multi-layer",
+    "button_6": "Show/Hide Structure",
     "text_hero__eyebrow_0": "JSON Formatter and Validator",
-    "text_hero__lead_1": "همه چیز بدون بک‌اند، فقط با مرورگر شما انجام می‌شود؛ متن را وارد کنید، فرمت\n          کنید، درخت را ببینید و نتیجه را در حافظه مرورگر نگه دارید.",
-    "text_panel__eyebrow_2": "ورودی JSON",
+    "text_hero__lead_1": "Everything is done without backend, only with your browser; enter text, format it, view the tree, and keep the result in browser memory.",
+    "text_panel__eyebrow_2": "JSON Input",
     "text_panel__side_note_3": "Your data stays in the same browser.",
-    "text_panel__eyebrow_5": "درخت JSON"
+    "text_panel__eyebrow_5": "JSON Tree"
   }
 }

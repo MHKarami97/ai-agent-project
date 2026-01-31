@@ -9,12 +9,12 @@
     "button_3": "ارسال سوال"
   },
   "en": {
-    "title": "سیستم پرسش و پاسخ",
-    "heading_0": "💬 سیستم پرسش و پاسخ",
-    "heading_1": "سوال جدید بپرسید",
-    "button_0": "ثبت نام کاربری",
-    "button_1": "📥 JSON Output",
-    "button_2": "📤 ورودی JSON",
+    "title": "Question and Answer System",
+    "heading_0": "💬 Question and Answer System",
+    "heading_1": "Ask a New Question",
+    "button_0": "User Registration",
+    "button_1": "📥 JSON Export",
+    "button_2": "📤 JSON Import",
     "button_3": "Send Question"
   }
 }

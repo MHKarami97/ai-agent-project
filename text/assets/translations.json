@@ -13,12 +13,12 @@
   "en": {
     "title": "Persian Lorem Ipsum Generator",
     "heading_0": "Persian Lorem Ipsum Generator",
-    "heading_1": "متن تولیدشده",
-    "button_0": "تولید جدید",
-    "button_1": "کپی متن",
-    "label_0": "تعداد پاراگراف",
-    "label_1": "جملات در هر پاراگراف۴",
-    "text_eyebrow_0": "متن تستی فوری",
-    "text_lead_1": "چند خط یا پاراگراف از متن تولیدشده برای چیدمان رابط کاربری، بدون نیاز به سرور یا تنظیمات پیچیده."
+    "heading_1": "Generated Text",
+    "button_0": "Generate New",
+    "button_1": "Copy Text",
+    "label_0": "Number of Paragraphs",
+    "label_1": "Sentences Per Paragraph",
+    "text_eyebrow_0": "Quick Test Text",
+    "text_lead_1": "Generate several lines or paragraphs of text for UI layout, without needing a server or complex configurations."
   }
 }

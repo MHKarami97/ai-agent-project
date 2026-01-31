@@ -22,17 +22,17 @@
     "heading_0": "Text Comparator",
     "heading_1": "Original Text",
     "heading_2": "New Text",
-    "heading_3": "نتیجه مقایسه",
+    "heading_3": "Comparison Result",
     "heading_4": "Original Text",
     "heading_5": "New Text",
-    "button_0": "پاک کردن",
-    "button_1": "جابه‌جایی",
-    "button_2": "مقایسه",
-    "text_subtitle_0": "تغییرات بین دو متن را به صورت زنده مشاهده کنید",
+    "button_0": "Clear",
+    "button_1": "Swap",
+    "button_2": "Compare",
+    "text_subtitle_0": "View changes between two texts in real-time",
     "text_line_count_1": "0 lines",
     "text_line_count_2": "0 lines",
     "text_legend_item_3": "Added",
-    "text_legend_item_5": "حذف شده",
-    "text_legend_item_7": "تغییر یافته"
+    "text_legend_item_5": "Removed",
+    "text_legend_item_7": "Modified"
   }
 }

@@ -18,17 +18,17 @@
   "en": {
     "title": "Code Formatter and Compressor",
     "heading_0": "Code Formatter and Compressor",
-    "heading_1": "ورودی",
-    "heading_2": "خروجی",
-    "heading_3": "تنظیمات",
+    "heading_1": "Input",
+    "heading_2": "Output",
+    "heading_3": "Settings",
     "button_0": "HTML",
     "button_1": "CSS",
     "button_2": "JavaScript",
-    "button_3": "فرمت‌دهی",
-    "button_4": "فشرده‌سازی",
-    "label_0": "حذف کامنت‌ها",
-    "label_1": "حذف فضای خالی اضافی",
-    "label_2": "تعداد فاصله تورفتگی",
+    "button_3": "Format",
+    "button_4": "Compress",
+    "label_0": "Remove Comments",
+    "label_1": "Remove Extra Whitespace",
+    "label_2": "Indentation Spaces",
     "text_subtitle_0": "Tool for formatting and compressing HTML, CSS, and JavaScript code"
   }
 }

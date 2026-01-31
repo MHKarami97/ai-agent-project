@@ -18,15 +18,15 @@
     "title": "Text Counting and Analysis Tool",
     "heading_0": "Text Counting and Analysis Tool",
     "heading_1": "Text Statistics",
-    "heading_2": "تحلیل تکرار کلمات",
-    "heading_3": "متن‌های ذخیره شده",
-    "button_0": "پاک کردن",
-    "button_1": "ذخیره متن",
-    "button_2": "تحلیل",
-    "button_3": "پاک کردن همه",
-    "label_0": "حداقل تکرار:",
-    "text_subtitle_0": "متن خود را وارد کنید و آمار کامل آن را مشاهده کنید",
-    "text_empty_message_1": "متن خود را وارد کنید و دکمه تحلیل را بزنید",
-    "text_empty_message_2": "هنوز متنی ذخیره نشده است"
+    "heading_2": "Word Frequency Analysis",
+    "heading_3": "Saved Texts",
+    "button_0": "Clear",
+    "button_1": "Save Text",
+    "button_2": "Analyze",
+    "button_3": "Clear All",
+    "label_0": "Minimum Frequency:",
+    "text_subtitle_0": "Enter your text and view complete statistics",
+    "text_empty_message_1": "Enter your text and click the analyze button",
+    "text_empty_message_2": "No texts saved yet"
   }
 }

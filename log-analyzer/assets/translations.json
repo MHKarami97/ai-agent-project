@@ -20,23 +20,23 @@
     "text_upload_hint_1": "فرمت‌های پشتیبانی شده: TXT, JSON"
   },
   "en": {
-    "title": "تحلیلگر لاگ",
-    "heading_0": "📊 تحلیلگر لاگ",
+    "title": "Log Analyzer",
+    "heading_0": "📊 Log Analyzer",
     "heading_1": "Overall Statistics",
-    "heading_2": "محتوای لاگ",
-    "heading_3": "تحلیل‌های ذخیره شده",
-    "button_0": "پاک کردن",
+    "heading_2": "Log Content",
+    "heading_3": "Saved Analyses",
+    "button_0": "Clear",
     "button_1": "Actions",
-    "button_2": "📥 JSON Output",
-    "button_3": "💾 ذخیره تحلیل",
-    "button_4": "📂 بارگذاری تحلیل",
+    "button_2": "📥 JSON Export",
+    "button_3": "💾 Save Analysis",
+    "button_4": "📂 Load Analysis",
     "button_5": "📋",
     "button_6": "↔️",
-    "label_0": "جستجو:",
+    "label_0": "Search:",
     "label_1": "Regex Pattern:",
-    "label_2": "فیلتر سطح:",
-    "label_3": "گروه‌بندی بر اساس:",
+    "label_2": "Level Filter:",
+    "label_3": "Group By:",
     "text_subtitle_0": "Upload and Analyze Log Files",
-    "text_upload_hint_1": "فرمت‌های پشتیبانی شده: TXT, JSON"
+    "text_upload_hint_1": "Supported formats: TXT, JSON"
   }
 }

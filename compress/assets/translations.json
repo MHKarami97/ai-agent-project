@@ -11,14 +11,14 @@
     "label_3": "فرمت خروجی"
   },
   "en": {
-    "title": "فشرده‌ساز تصاویر",
+    "title": "Image Compressor",
     "button_0": "Reset",
-    "button_1": "حذف همه",
-    "button_2": "فشرده‌سازی",
-    "button_3": "دانلود ZIP",
+    "button_1": "Remove All",
+    "button_2": "Compress",
+    "button_3": "Download ZIP",
     "label_0": "Select Files",
-    "label_1": "کیفیت JPEG/WebP (%):80",
-    "label_2": "حداکثر عرض/ارتفاع (px؛ 0 = بدون تغییر)",
-    "label_3": "فرمت خروجی"
+    "label_1": "JPEG/WebP Quality (%):80",
+    "label_2": "Max Width/Height (px; 0 = no change)",
+    "label_3": "Output Format"
   }
 }

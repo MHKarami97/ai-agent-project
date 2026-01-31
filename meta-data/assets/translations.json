@@ -10,12 +10,12 @@
     "text_meta_placeholder_0": "ابتدا تصویر را بارگذاری کنید تا اطلاعات آن نمایش داده شود."
   },
   "en": {
-    "title": "پاکسازی متادیتای تصویر",
-    "heading_0": "پاکسازی متادیتای تصاویر",
+    "title": "Image Metadata Cleaner",
+    "heading_0": "Image Metadata Cleaner",
     "heading_1": "Upload Image",
-    "heading_2": "متادیتای شناسایی‌شده",
-    "heading_3": "چرا متادیتا مهم است؟",
-    "button_0": "حذف متادیتا و ساخت نسخه جدید",
+    "heading_2": "Detected Metadata",
+    "heading_3": "Why is metadata important?",
+    "button_0": "Remove metadata and create new version",
     "label_0": "Select Image File",
     "text_meta_placeholder_0": "Upload an image first to display its information."
   }

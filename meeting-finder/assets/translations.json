@@ -19,18 +19,18 @@
   "en": {
     "title": "Find Meeting Time",
     "heading_0": "Find Meeting Time",
-    "heading_1": "شرکت‌کنندگان",
+    "heading_1": "Participants",
     "heading_2": "Time slots for:",
-    "heading_3": "زمان‌های مشترک پیدا شده",
+    "heading_3": "Common Times Found",
     "button_0": "Add Participant",
-    "button_1": "بازگشت",
+    "button_1": "Back",
     "button_2": "Add Time Range",
-    "button_3": "یافتن زمان‌های مشترک",
-    "label_0": "نام شرکت‌کننده:",
-    "label_1": "تاریخ شروع:",
-    "label_2": "ساعت شروع:",
-    "label_3": "تاریخ پایان:",
-    "label_4": "ساعت پایان:",
+    "button_3": "Find Common Times",
+    "label_0": "Participant Name:",
+    "label_1": "Start Date:",
+    "label_2": "Start Time:",
+    "label_3": "End Date:",
+    "label_4": "End Time:",
     "text_subtitle_0": "Enter your free time slots to find the best meeting time"
   }
 }

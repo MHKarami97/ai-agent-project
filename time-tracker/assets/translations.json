@@ -15,18 +15,18 @@
     "text_empty_state_5": "هیچ گزارشی در دسترس نیست."
   },
   "en": {
-    "title": "پیگیری زمان",
-    "heading_0": "مدیریت زمان با یک نگاه",
-    "heading_1": "لیست کارها",
-    "heading_2": "گزارش روزانه",
-    "button_0": "ثبت سریع و شروع",
-    "label_0": "عنوان کار",
+    "title": "Time Tracker",
+    "heading_0": "Time Management at a Glance",
+    "heading_1": "Task List",
+    "heading_2": "Daily Report",
+    "button_0": "Quick Log and Start",
+    "label_0": "Task Title",
     "label_1": "Category",
-    "text_eyebrow_0": "پیگیری عمیق روزانه",
-    "text_helper_1": "برای هر مورد زمان شروع، توقف، ویرایش یا حذف را انجام دهید.",
-    "text_badge_2": "رویدادهای جاری",
-    "text_empty_state_3": "فعلاً کاری ثبت نشده است.",
-    "text_helper_4": "خلاصه زمان‌های صرف‌شده برای هر روز ثبت‌شده.",
-    "text_empty_state_5": "هیچ گزارشی در دسترس نیست."
+    "text_eyebrow_0": "Deep Daily Tracking",
+    "text_helper_1": "Start, stop, edit, or delete time for each item.",
+    "text_badge_2": "Current Events",
+    "text_empty_state_3": "No tasks logged yet.",
+    "text_helper_4": "Summary of time spent for each logged day.",
+    "text_empty_state_5": "No reports available."
   }
 }

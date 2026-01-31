@@ -14,13 +14,13 @@
   "en": {
     "title": "Warranty Management",
     "heading_0": "Warranty Management",
-    "heading_1": "ضمانت‌نامه‌ها",
-    "button_0": "ثبت ضمانت",
-    "button_1": "پاک کردن فرم",
-    "label_0": "کالا",
-    "label_1": "تاریخ خرید",
-    "label_2": "مدت گارانتی (ماه)",
-    "text_eyebrow_0": "مروری سریع",
-    "text_lede_1": "در یک جا کالا، تاریخ خرید و مدت گارانتی را ثبت کنید تا نزدیک پایان، به شما یادآوری شود."
+    "heading_1": "Warranties",
+    "button_0": "Register Warranty",
+    "button_1": "Clear Form",
+    "label_0": "Product",
+    "label_1": "Purchase Date",
+    "label_2": "Warranty Period (months)",
+    "text_eyebrow_0": "Quick Overview",
+    "text_lede_1": "Register product, purchase date, and warranty period in one place to receive reminders when expiration approaches."
   }
 }

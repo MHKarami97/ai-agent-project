@@ -16,13 +16,13 @@
     "title": "Currency Converter Calculator",
     "heading_0": "Currency Converter Calculator",
     "heading_1": "Conversion History",
-    "heading_2": "نرخ‌های محبوب",
+    "heading_2": "Popular Rates",
     "button_1": "Convert",
-    "button_2": "پاک کردن همه",
+    "button_2": "Clear All",
     "label_0": "Value:",
     "label_1": "From:",
-    "label_2": "به:",
-    "text_subtitle_0": "تبدیل ارزهای معمولی و دیجیتال با آخرین قیمت‌ها",
-    "text_empty_history_1": "هنوز تبدیلی انجام نشده است"
+    "label_2": "To:",
+    "text_subtitle_0": "Convert fiat and digital currencies with the latest prices",
+    "text_empty_history_1": "No conversions performed yet"
   }
 }

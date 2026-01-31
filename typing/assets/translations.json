@@ -14,13 +14,13 @@
   "en": {
     "title": "Typing Practice",
     "heading_0": "Typing Practice",
-    "heading_1": "نمودار پیشرفت",
-    "heading_2": "تاریخچه تمرین‌ها",
+    "heading_1": "Progress Chart",
+    "heading_2": "Practice History",
     "button_0": "Persian",
     "button_1": "English",
-    "button_2": "شروع مجدد",
-    "button_3": "مشاهده تاریخچه",
-    "button_4": "بستن",
+    "button_2": "Restart",
+    "button_3": "View History",
+    "button_4": "Close",
     "label_0": "Select Text:"
   }
 }

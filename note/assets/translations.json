@@ -13,16 +13,16 @@
     "text_board_hint_3": "برای حرکت: نگه دارید و بکشید. از دکمه‌های ویرایش/حذف برای مدیریت استفاده کنید."
   },
   "en": {
-    "title": "دفتر هوشمند یادداشت‌ها",
-    "heading_0": "یادداشت‌های خود را به سبک درگ و دراپ سازمان‌دهی کنید",
-    "button_0": "ذخیره یادداشت",
-    "button_1": "لغو و پاک‌سازی",
-    "button_2": "پاک‌سازی همه",
-    "label_0": "عنوان یادداشت",
-    "label_1": "محتوای Markdown",
-    "text_eyebrow_0": "دفتر یادداشت آفلاین",
+    "title": "Smart Notebook",
+    "heading_0": "Organize your notes with drag and drop style",
+    "button_0": "Save Note",
+    "button_1": "Cancel and Clear",
+    "button_2": "Clear All",
+    "label_0": "Note Title",
+    "label_1": "Markdown Content",
+    "text_eyebrow_0": "Offline Notebook",
     "text_supporting_1": "No server, just browser; save, move, and rewrite text and Markdown.",
-    "text_preview_label_2": "پیش‌نمایش Markdown",
-    "text_board_hint_3": "برای حرکت: نگه دارید و بکشید. از دکمه‌های ویرایش/حذف برای مدیریت استفاده کنید."
+    "text_preview_label_2": "Markdown Preview",
+    "text_board_hint_3": "To move: hold and drag. Use edit/delete buttons for management."
   }
 }

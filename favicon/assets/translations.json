@@ -18,21 +18,21 @@
     "text_subtitle_0": "تصویر خود را آپلود کنید و آیکون‌های مورد نیاز را دریافت کنید"
   },
   "en": {
-    "title": "سازنده آیکون",
-    "heading_0": "🎨 سازنده آیکون",
-    "heading_1": "تصویر خود را اینجا رها کنید",
-    "heading_2": "تنظیمات",
+    "title": "Icon Generator",
+    "heading_0": "🎨 Icon Generator",
+    "heading_1": "Drop your image here",
+    "heading_2": "Settings",
     "heading_3": "Generated Icons",
-    "heading_4": "تاریخچه",
+    "heading_4": "History",
     "button_0": "Select Image",
-    "button_1": "تغییر تصویر",
-    "button_2": "تولید آیکون‌ها",
-    "button_3": "دانلود همه",
+    "button_1": "Change Image",
+    "button_2": "Generate Icons",
+    "button_3": "Download All",
     "button_4": "Restart",
-    "button_5": "پاک کردن تاریخچه",
-    "label_0": "رنگ پس‌زمینه:",
-    "label_1": "شفاف",
-    "label_2": "فاصله از حاشیه (%):",
-    "text_subtitle_0": "تصویر خود را آپلود کنید و آیکون‌های مورد نیاز را دریافت کنید"
+    "button_5": "Clear History",
+    "label_0": "Background Color:",
+    "label_1": "Transparent",
+    "label_2": "Margin (%):",
+    "text_subtitle_0": "Upload your image and get the icons you need"
   }
 }
