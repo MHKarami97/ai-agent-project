@@ -475,17 +475,6 @@ class UIManager {
     }
 
     initializeEventListeners() {
-        // Theme toggle
-        document.getElementById('themeToggle').addEventListener('click', () => {
-            this.themeManager.toggleTheme();
-        });
-
-        // Language toggle
-        document.getElementById('langToggle').addEventListener('click', () => {
-            this.languageManager.toggleLanguage();
-            this.renderCurrentView();
-        });
-
         // Navigation
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {

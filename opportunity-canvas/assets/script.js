@@ -6,10 +6,12 @@ class ThemeManager {
     }
 
     applyTheme() {
+        return
         document.body.setAttribute('data-theme', this.currentTheme);
     }
 
     toggleTheme() {
+        return
         this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
         localStorage.setItem('theme', this.currentTheme);
         this.applyTheme();
@@ -608,14 +610,6 @@ window.addEventListener('languageChanged', (e) => {
                 if (boardId) {
                     this.switchBoard(boardId);
                 }
-            });
-
-            document.getElementById('themeToggle').addEventListener('click', () => {
-                this.toggleTheme();
-            });
-
-            document.getElementById('langToggle').addEventListener('click', () => {
-                this.toggleLanguage();
             });
 
             document.querySelectorAll('.add-item-btn').forEach(btn => {

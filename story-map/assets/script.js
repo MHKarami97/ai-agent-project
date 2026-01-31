@@ -86,7 +86,7 @@ class I18n {
     }
 }
 
-const i18n = new I18n();
+//const i18n = new I18n();
 
 
 
@@ -261,6 +261,7 @@ var StoryMapApp = (function() {
     }
 
     function updateLanguage() {
+        return
         var html = document.documentElement;
         html.setAttribute('lang', State.currentLanguage);
         html.setAttribute('dir', State.currentLanguage === 'fa' ? 'rtl' : 'ltr');
@@ -292,6 +293,7 @@ var StoryMapApp = (function() {
     }
 
     function updateTheme() {
+        return
         document.documentElement.setAttribute('data-theme', State.currentTheme);
         Elements.themeToggle.querySelector('.theme-icon').textContent = State.currentTheme === 'dark' ? '☀️' : '🌙';
         localStorage.setItem('theme', State.currentTheme);
@@ -1193,8 +1195,8 @@ var StoryMapApp = (function() {
     }
 
     function bindEvents() {
-        Elements.themeToggle.addEventListener('click', toggleTheme);
-        Elements.langToggle.addEventListener('click', toggleLanguage);
+        //Elements.themeToggle.addEventListener('click', toggleTheme);
+        //Elements.langToggle.addEventListener('click', toggleLanguage);
         Elements.newBoardBtn.addEventListener('click', showCreateBoardModal);
         Elements.exportBtn.addEventListener('click', exportBoard);
         Elements.importBtn.addEventListener('click', importBoard);

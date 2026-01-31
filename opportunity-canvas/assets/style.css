@@ -91,6 +91,10 @@ header {
     gap: var(--spacing-lg);
 }
 
+#canvasContainer {
+	margin-top: 70px;
+}
+
 .app-title {
     font-size: 1.5rem;
     font-weight: 700;

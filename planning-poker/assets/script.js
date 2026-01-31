@@ -224,8 +224,8 @@ var App = (function() {
     }
 
     function attachEventListeners() {
-        document.getElementById('languageToggle').addEventListener('click', toggleLanguage);
-        document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+        //document.getElementById('languageToggle').addEventListener('click', toggleLanguage);
+        //document.getElementById('themeToggle').addEventListener('click', toggleTheme);
         document.getElementById('createRoomBtn').addEventListener('click', showCreateRoom);
         document.getElementById('joinRoomBtn').addEventListener('click', showJoinRoom);
         document.getElementById('cancelCreate').addEventListener('click', showHome);

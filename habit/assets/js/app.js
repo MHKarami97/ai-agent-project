@@ -89,22 +89,6 @@ class I18n {
 const i18n = new I18n();
 
 
-
-// Listen to tool-wrapper theme changes
-window.addEventListener('themeChanged', (e) => {
-    themeManager.currentTheme = e.detail;
-    themeManager.applyTheme();
-});
-
-// Listen to tool-wrapper language changes
-window.addEventListener('languageChanged', (e) => {
-    const newLang = e.detail;
-    localStorage.setItem('lang', newLang);
-    // Reload page to apply language changes
-    location.reload();
-});
-
-
 const STORAGE_KEY = "habit_tracker_entries";
 
 const defaultChartData = {
